@@ -74,7 +74,7 @@ const login = AsyncHandler(async (req, res) => {
   if (!authenticate) {
     throw new ApiError(
       ApiResponse(
-        { credentials: { email, password } },
+        { credentials: { username, password } },
         0,
         StatusCodes.UNAUTHORIZED,
         "Invalid credentials provided."
@@ -106,16 +106,6 @@ const getCurrentUser = AsyncHandler(async (req, res) => {
     .status(StatusCodes.OK)
     .json(ApiResponse("Current user data.", { user: responseData }));
 });
-
-/**
- * @desc generate JWT
- */
-const generateToken = (id) => {
-  const options = {
-    expiresIn: "1d",
-  };
-  return jwt.sign({ id }, process.env.JWT_SECRET, options);
-};
 
 module.exports = {
   loginGoogle,
