@@ -20,4 +20,12 @@ router.post(
   ExamController.createExam
 );
 
+router.get(
+  "/get-exam-detail/:id",
+  AuthMiddleware,
+  ExamRoutesValidations.detailExamValidation,
+  HandleBadRequest,
+  ExamController.getExamById
+);
+
 module.exports = router;

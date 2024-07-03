@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 
 const createExamValidation = [
   body("title").notEmpty().withMessage("Title is required.").trim(),
@@ -53,4 +53,8 @@ const createExamValidation = [
     }),
 ];
 
-module.exports = { createExamValidation };
+const detailExamValidation = [
+  param("id").isInt({ min: 0 }).withMessage("Id must be a positive integer."),
+];
+
+module.exports = { createExamValidation, detailExamValidation };

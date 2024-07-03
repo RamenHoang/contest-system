@@ -1,14 +1,19 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../config/db");
 const ExamBanking = require("./ExamBanking");
 
-const QuestionBanking = sequelize.define(
-  "QuestionBanking",
+class QuestionBanking extends Model {}
+
+QuestionBanking.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    idExamBanking: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     title: {
       type: DataTypes.STRING,
@@ -19,19 +24,18 @@ const QuestionBanking = sequelize.define(
       allowNull: true,
     },
     type: {
-      type: DataTypes.ENUM("MC", "ESSAY"), // Multiple choice = MC or Essay = ESSAY
+      type: DataTypes.ENUM("MC", "ESSAY"),
       allowNull: false,
-    },
-    isDeleted: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
     },
   },
   {
+    sequelize,
+    modelName: "QuestionBanking",
     timestamps: true,
   }
 );
 
+// Define associations
 QuestionBanking.belongsTo(ExamBanking, {
   foreignKey: "idExamBanking",
   onDelete: "CASCADE",

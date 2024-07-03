@@ -1,14 +1,20 @@
-const { DataTypes } = require("sequelize");
+// models/AnswerBanking.js
+const { DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../config/db");
 const QuestionBanking = require("./QuestionBanking");
 
-const AnswerBanking = sequelize.define(
-  "AnswerBanking",
+class AnswerBanking extends Model {}
+
+AnswerBanking.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    idQuestionBanking: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     answer: {
       type: DataTypes.STRING,
@@ -18,16 +24,15 @@ const AnswerBanking = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    isDeleted: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
   },
   {
+    sequelize,
+    modelName: "AnswerBanking",
     timestamps: true,
   }
 );
 
+// Define associations
 AnswerBanking.belongsTo(QuestionBanking, {
   foreignKey: "idQuestionBanking",
   onDelete: "CASCADE",

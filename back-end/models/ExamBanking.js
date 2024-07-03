@@ -1,8 +1,11 @@
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("../config/db");
+// Example: exam.model.js
 
-const ExamBanking = sequelize.define(
-  "ExamBanking",
+const { DataTypes, Model } = require("sequelize");
+const { sequelize } = require("../config/db"); // Assuming your Sequelize instance is exported from db.js
+
+class ExamBanking extends Model {}
+
+ExamBanking.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -17,9 +20,6 @@ const ExamBanking = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
-      type: DataTypes.STRING,
-    },
     total_mc_questions: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -28,12 +28,11 @@ const ExamBanking = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    isDeleted: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
+    // Other attributes
   },
   {
+    sequelize,
+    modelName: "ExamBanking",
     timestamps: true,
   }
 );

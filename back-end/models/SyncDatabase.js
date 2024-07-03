@@ -8,7 +8,15 @@ const SyncDatabase = async () => {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
 
-    await sequelize.sync({ force: true });
+    ExamBanking.hasMany(QuestionBanking, { foreignKey: "idExamBanking" });
+    QuestionBanking.belongsTo(ExamBanking, { foreignKey: "idExamBanking" });
+
+    QuestionBanking.hasMany(AnswerBanking, { foreignKey: "idQuestionBanking" });
+    AnswerBanking.belongsTo(QuestionBanking, {
+      foreignKey: "idQuestionBanking",
+    });
+
+    await sequelize.sync({ alter: true });
     console.log("Database synchronized");
   } catch (error) {
     console.error("Error synchronizing database", error);
