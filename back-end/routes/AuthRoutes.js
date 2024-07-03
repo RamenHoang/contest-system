@@ -5,6 +5,8 @@ const AuthController = require("../controllers/AuthController");
 const HandleBadRequest = require("../middlewares/HandleBadRequestMiddleware");
 const AuthRoutesValidations = require("./validators/AuthRoutes.validators");
 
+router.post("/login-google", HandleBadRequest, AuthController.login);
+
 router.post(
   "/login",
   AuthRoutesValidations.loginValidation,

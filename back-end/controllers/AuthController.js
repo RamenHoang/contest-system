@@ -1,57 +1,62 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const axios = require("axios");
 
 const AsyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
 
+const Jwt = require("../config/jwt");
 const User = require("../models/User");
 const ApiError = require("./error/ApiError");
 const ApiResponse = require("./response/ApiResponse");
 
-/**
- * @desc Register new user
- * @route GET /api/users/
- * @access public
- */
-const register = AsyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
-
-  // is user exists
-  const userExists = await User.findOne({ email });
-
-  if (userExists) {
+const loginGoogle = AsyncHandler(async (req, res) => {
+  const { token } = req.body;
+  //auth o2 google
+  if (!token) {
     throw new ApiError(
-      "User with provided Email address already exists",
-      StatusCodes.CONFLICT
+      ApiResponse(false, 0, StatusCodes.BAD_REQUEST, "Invalid token.")
     );
   }
 
-  // Hash password
-  const salt = await bcrypt.genSalt();
-  const hashedPassword = await bcrypt.hash(password, salt);
+  const userGoogle = await axios.get(
+    "https://www.googleapis.com/oauth2/v3/userinfo",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
-  // create user
-  const user = await User.create({
-    username,
-    email,
-    password: hashedPassword,
+  const { email, name, picture } = userGoogle.data;
+  let userExist = await User.findOne({
+    email: email,
+    isDeleted: false,
   });
 
-  if (!user) {
-    throw new ApiError(
-      "Internal Server Error! Server failed creating new user."
-    );
+  if (!userExist) {
+    userExist = await User.create({
+      email: email,
+      username: name,
+      avatar: picture,
+      isDeleted: false,
+    });
   }
 
-  res
-    .status(StatusCodes.CREATED)
-    .json(
-      ApiResponse(
-        "User registered successfully.",
-        { user },
-        StatusCodes.CREATED
-      )
-    );
+  const accessToken = Jwt.generateAccessToken(userExist);
+  const refreshToken = Jwt.generateRefreshToken(userExist);
+
+  userExist.refreshToken = refreshToken;
+  await userExist.save();
+
+  const responseData = {
+    id: userExist.id,
+    email: userExist.email,
+    username: userExist.username,
+    accessToken: accessToken,
+  };
+
+  res.status(StatusCodes.OK).json(ApiResponse(responseData));
 });
 
 /**
@@ -78,17 +83,15 @@ const login = AsyncHandler(async (req, res) => {
   }
 
   const responseData = {
-    user: {
-      _id: user._id,
-      username: user.fullName,
-      email: user.email,
-      token: generateToken(user._id),
-    },
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    accessToken: Jwt.generateAccessToken(user),
+    refreshToken: Jwt.generateRefreshToken(user),
+    role: user.role,
   };
 
-  res
-    .status(StatusCodes.OK)
-    .json(ApiResponse("User logged in successfully.", responseData));
+  res.status(StatusCodes.OK).json(ApiResponse(responseData));
 });
 
 /**
@@ -115,7 +118,7 @@ const generateToken = (id) => {
 };
 
 module.exports = {
-  register,
+  loginGoogle,
   login,
   getCurrentUser,
 };

@@ -1,45 +1,33 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
 
-const User = sequelize.define(
-  "User",
+const Exam = sequelize.define(
+  "Exam",
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    avatar: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    email: {
+    description: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-      },
     },
-    role: {
-      type: DataTypes.ENUM("user", "admin"),
-      defaultValue: "user",
+    total_mc_questions: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    total_essay_questions: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     isDeleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
-    },
-    refreshToken: {
-      type: DataTypes.STRING,
     },
   },
   {
@@ -47,4 +35,4 @@ const User = sequelize.define(
   }
 );
 
-module.exports = User;
+module.exports = Exam;

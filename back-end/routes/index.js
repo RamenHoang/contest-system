@@ -14,6 +14,8 @@ Development guide:-
 // importing all routes
 const AuthRoutes = require("./AuthRoutes");
 
+// assign prefix - to routes
+router.use("/auth", AuthRoutes);
 router.use(
   "/",
   AsyncHandler(async (req, res) => {
@@ -22,8 +24,5 @@ router.use(
     );
   })
 );
-
-// assign prefix - to routes
-router.use("auth", AuthRoutes);
 
 module.exports = router;

@@ -47,7 +47,11 @@ const HTTP_PORT = process.env.HTTP_PORT || 80;
 server application configurations
 ==============================*/
 sequelize;
-SyncDatabase();
+console.log(process.env.IS_SYNC);
+if (process.env.IS_SYNC == "true") {
+  SyncDatabase();
+}
+
 const app = express();
 app.use(logger(ENVIRONMENT === "development" ? "dev" : "common")); // log everything in console
 app.use(logger("combined", ErrorLogger)); // only log 4XX and 5XX in file
@@ -92,7 +96,14 @@ create https (production) server instance
 /*==============================
 start server listen
 ==============================*/
-httpServer.listen(HTTP_PORT, () => console.log("http server started!"));
+httpServer.listen(HTTP_PORT, () => {
+  console.log("http server started!");
+  console.log(
+    "Listening on %s:%s",
+    httpServer.address().address,
+    httpServer.address().port
+  );
+});
 // httpsServer.listen(HTTPS_PORT, SERVER_DOMAIN, async () => {
 //   if (process.env.ENVIRONMENT === "development")
 //     console.log(

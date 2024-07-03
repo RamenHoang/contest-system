@@ -6,9 +6,9 @@ const ApiResponse = (
 ) => {
   return {
     message,
-    data,
     statusCode,
     totalRecord,
+    data,
   };
 };
 
