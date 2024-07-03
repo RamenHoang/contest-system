@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const path = require("path");
 const rfs = require("rotating-file-stream"); // version 2.x
 

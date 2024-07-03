@@ -1,13 +1,17 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
 
-const Exam = sequelize.define(
-  "Exam",
+const ExamBanking = sequelize.define(
+  "ExamBanking",
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    idUser: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     title: {
       type: DataTypes.STRING,
@@ -15,7 +19,6 @@ const Exam = sequelize.define(
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     total_mc_questions: {
       type: DataTypes.INTEGER,
@@ -35,4 +38,4 @@ const Exam = sequelize.define(
   }
 );
 
-module.exports = Exam;
+module.exports = ExamBanking;

@@ -54,6 +54,7 @@ const loginGoogle = AsyncHandler(async (req, res) => {
     email: userExist.email,
     username: userExist.username,
     accessToken: accessToken,
+    avatar: userExist.avatar,
   };
 
   res.status(StatusCodes.OK).json(ApiResponse(responseData));
@@ -68,7 +69,9 @@ const login = AsyncHandler(async (req, res) => {
   const { username, password } = req.body;
 
   // find user from database
-  const user = await User.findOne({ username });
+  const user = await User.findOne({
+    where: { username: username, isDeleted: false },
+  });
   const authenticate = user && (await bcrypt.compare(password, user.password));
 
   if (!authenticate) {

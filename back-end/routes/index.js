@@ -4,18 +4,13 @@ const router = express.Router();
 const ApiResponse = require("../controllers/response/ApiResponse");
 const { StatusCodes } = require("http-status-codes");
 
-/*==============================
-Development guide:-
-  - Create separate .js file for each endpoints and import these files here (e.g. AdminRoutes.js)
-  - Wrap the controller with AsyncHandler, it will deal with try {} catch(e) {} wrapping of async program.
-
-==============================*/
-
 // importing all routes
 const AuthRoutes = require("./AuthRoutes");
+const ExamRoutes = require("./ExamRoutes");
 
 // assign prefix - to routes
 router.use("/auth", AuthRoutes);
+router.use("/exam", ExamRoutes);
 router.use(
   "/",
   AsyncHandler(async (req, res) => {

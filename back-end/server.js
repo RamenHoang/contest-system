@@ -1,11 +1,10 @@
-/*==============================
-core packages
-==============================*/
+/* eslint-disable no-undef */
 const fs = require("fs");
 const path = require("path");
 const dotenv = require("dotenv");
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 dotenv.config();
 
 /*==============================
@@ -27,12 +26,13 @@ const http = require("http");
 include middlewares, custom middlewares, Routes and Database connection
 ==============================*/
 const Routes = require("./routes");
-const { DBConnect, sequelize } = require("./config/db");
+const { sequelize } = require("./config/db");
 const SyncDatabase = require("./models/SyncDatabase");
 const constants = require("./config/constants");
 const HandleNotFound = require("./middlewares/HandleNotFoundMiddleware");
 const HandleApiError = require("./middlewares/ApiErrorMiddleware");
 const ErrorLogger = require("./config/logger");
+const { body } = require("express-validator");
 // const HttpsRequestOnly = require("./middlewares/HttpsRequestOnly"); // for production use
 
 /*==============================
@@ -53,15 +53,16 @@ if (process.env.IS_SYNC == "true") {
 }
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger(ENVIRONMENT === "development" ? "dev" : "common")); // log everything in console
 app.use(logger("combined", ErrorLogger)); // only log 4XX and 5XX in file
 app.use(helmet());
 app.use(xss());
 app.use(rateLimiter);
-app.use(cors(constants.corsOptions));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 app.use(cookieParser());
+
 // app.use(HttpsRequestOnly); // for production use
 
 /*==============================
