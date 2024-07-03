@@ -1,6 +1,6 @@
+/* eslint-disable no-undef */
 const jwt = require("jsonwebtoken");
 const AsyncHandler = require("express-async-handler");
-const AuthError = require("../errors/AuthError");
 const ApiResponse = require("../controllers/response/ApiResponse");
 
 const Auth = AsyncHandler(async (request, response, next) => {
