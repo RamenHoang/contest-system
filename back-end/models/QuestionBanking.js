@@ -16,7 +16,7 @@ QuestionBanking.init(
       allowNull: false,
     },
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       allowNull: false,
     },
     lengthLimit: {

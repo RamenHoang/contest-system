@@ -14,10 +14,9 @@ AnswerBanking.init(
     },
     idQuestionBanking: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     answer: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       allowNull: false,
     },
     isCorrect: {

@@ -17,7 +17,7 @@ ExamBanking.init(
       allowNull: false,
     },
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       allowNull: false,
     },
     total_mc_questions: {

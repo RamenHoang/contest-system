@@ -1,46 +1,79 @@
 const { StatusCodes } = require("http-status-codes");
+const { Op } = require("sequelize");
+const fs = require("fs");
 
 const ExamBanking = require("../models/ExamBanking");
 const QuestionBanking = require("../models/QuestionBanking");
 const AnswerBanking = require("../models/AnswerBanking");
 const ApiError = require("../controllers/error/ApiError");
 const ApiResponse = require("../controllers/response/ApiResponse");
-const { Op } = require("sequelize");
+const { sequelize } = require("../config/db");
 
 const createExam = async (req, res) => {
+  const transaction = await sequelize.transaction(); // Start a transaction
+
   try {
     const { title, totalMCQuestion, totalEssayQuestion, questions } = req.body;
 
     // Create exam
-    const exam = await ExamBanking.create({
-      idUser: req.user.id,
-      title,
-      total_mc_questions: totalMCQuestion,
-      total_essay_questions: totalEssayQuestion,
-    });
+    const exam = await ExamBanking.create(
+      {
+        idUser: req.user.id,
+        title,
+        total_mc_questions: totalMCQuestion,
+        total_essay_questions: totalEssayQuestion,
+      },
+      { transaction }
+    );
 
-    // Create questions and answers
-    for (const question of questions) {
-      const { title, lengthLimit, type, answers } = question;
-      // Create question
-      const questionBanking = await QuestionBanking.create({
+    const questionBankingData = []; //save question data to db
+    const answerBankingData = []; //save answer data to db
+    const answerBanking = [];
+
+    // Prepare data for bulk create of questions
+    questions.forEach((question) => {
+      const { title, lengthLimit = null, type, answers } = question;
+      questionBankingData.push({
         idExamBanking: exam.id,
         title,
         lengthLimit,
         type,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
 
-      // Create answers
-      for (const answer of answers) {
+      // Prepare data for bulk create of answers
+      const answerTemp = [];
+      answers.forEach((answer) => {
         const { answerText, isCorrect } = answer;
-
-        await AnswerBanking.create({
-          idQuestionBanking: questionBanking.id,
+        answerTemp.push({
+          idQuestionBanking: null, // Placeholder for the actual ID during creation
           answer: answerText,
           isCorrect,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         });
-      }
-    }
+      });
+      answerBanking.push(answerTemp);
+    });
+
+    // Bulk create questions
+    const createdQuestions = await QuestionBanking.bulkCreate(
+      questionBankingData,
+      { transaction }
+    );
+
+    // Assign question IDs to answers and bulk create answers
+    createdQuestions.forEach((question, index) => {
+      answerBanking[index].map((answer) => {
+        answer.idQuestionBanking = question.id;
+        answerBankingData.push(answer);
+      });
+    });
+    await AnswerBanking.bulkCreate(answerBankingData, { transaction });
+
+    // Commit the transaction if all operations are successful
+    await transaction.commit();
 
     res
       .status(StatusCodes.CREATED)
@@ -49,6 +82,8 @@ const createExam = async (req, res) => {
       );
   } catch (error) {
     console.error("Error:", error);
+    // Rollback the transaction if there's any error
+    await transaction.rollback();
     throw new ApiError(
       ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
     );
@@ -148,8 +183,48 @@ const getExamById = async (req, res) => {
   }
 };
 
+const importExamFromDocx = async (req, res) => {
+  try {
+    const content = fs.readFileSync(req.file.path, "utf-8");
+
+    const questions = content.match(/<h3>(.*?)<\/h3>([\s\S]*?)(?=<h3>|$)/g);
+    const examData = [];
+
+    if (questions) {
+      questions.forEach((questionHtml) => {
+        const questionMatch = questionHtml.match(/<h3>(.*?)<\/h3>/);
+        const title = questionMatch ? questionMatch[1] : "";
+
+        const answers = [];
+        const pTagRegex = /<p(.*?)>(.*?)<\/p>/g;
+        let match;
+
+        while ((match = pTagRegex.exec(questionHtml)) !== null) {
+          const styleAttribute = match[1];
+          const answerText = match[2].trim();
+          const isCorrect = /font-weight:\s?bold/.test(styleAttribute);
+
+          answers.push({ answerText, isCorrect });
+        }
+
+        examData.push({ title, type: "MC", answers });
+      });
+    }
+
+    // Remove the file after reading
+    fs.unlink(req.file.path, () => {});
+
+    res.status(StatusCodes.OK).json(ApiResponse(examData, examData.length));
+  } catch (error) {
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
+    );
+  }
+};
+
 module.exports = {
   getExamsByCurrentUser,
   createExam,
   getExamById,
+  importExamFromDocx,
 };

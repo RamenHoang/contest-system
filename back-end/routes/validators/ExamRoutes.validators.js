@@ -23,11 +23,6 @@ const createExamValidation = [
             `Question at index ${index} must have a valid title.`
           );
         }
-        if (typeof question.lengthLimit !== "number") {
-          throw new Error(
-            `Question at index ${index} must have a valid lengthLimit.`
-          );
-        }
         if (!["MC", "ESSAY"].includes(question.type)) {
           throw new Error(`Question at index ${index} must have a valid type.`);
         }
