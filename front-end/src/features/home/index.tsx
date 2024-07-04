@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { lazy } from 'react';
+import ImportExam from '~/features/quiz/pages/import-exam';
 
 const HomePage = lazy(() => import('./pages/home-page'));
 const ContestPage = lazy(() => import('./pages/manage-contest-page'));
@@ -18,6 +19,7 @@ const HomeRoutes = () => {
       <Route path='/dashboard/quiz' element={<ExamPage />} />
       <Route path='/dashboard/quiz/create' element={<CreateExam />} />
       <Route path='/dashboard/quiz/edit/:id' element={<EditExam />} />
+      <Route path='/dashboard/quiz/import' element={<ImportExam />} />
       <Route path='*' element={<Navigate to='/not-found' />} />
     </Routes>
   );
