@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const { Op } = require("sequelize");
 const fs = require("fs");
+const mammoth = require("mammoth");
 
 const ExamBanking = require("../models/ExamBanking");
 const QuestionBanking = require("../models/QuestionBanking");
@@ -78,7 +79,12 @@ const createExam = async (req, res) => {
     res
       .status(StatusCodes.CREATED)
       .json(
-        ApiResponse(true, 1, StatusCodes.CREATED, "Exam created successfully.")
+        ApiResponse(
+          exam.id,
+          1,
+          StatusCodes.CREATED,
+          "Exam created successfully."
+        )
       );
   } catch (error) {
     console.error("Error:", error);
@@ -185,10 +191,27 @@ const getExamById = async (req, res) => {
 
 const importExamFromDocx = async (req, res) => {
   try {
-    const content = fs.readFileSync(req.file.path, "utf-8");
+    //get extension of file
+    const fileExtension = req.file.originalname.split(".").pop();
+    let content = "";
+    let isCorrectRegex = /font-weight:\s?bold/;
+
+    if (fileExtension === "docx") {
+      const result = await mammoth.convertToHtml({ path: req.file.path });
+      content = result.value;
+      isCorrectRegex = /<strong>(.*?)<\/strong>/g;
+    } else if (fileExtension === "doc") {
+      content = fs.readFileSync(req.file.path, "utf-8");
+    } else {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.BAD_REQUEST, "Invalid file format.")
+      );
+    }
+    console.log(content);
 
     const questions = content.match(/<h3>(.*?)<\/h3>([\s\S]*?)(?=<h3>|$)/g);
     const examData = [];
+    const pTagRegex = /<p(.*?)>(.*?)<\/p>/g;
 
     if (questions) {
       questions.forEach((questionHtml) => {
@@ -196,17 +219,22 @@ const importExamFromDocx = async (req, res) => {
         const title = questionMatch ? questionMatch[1] : "";
 
         const answers = [];
-        const pTagRegex = /<p(.*?)>(.*?)<\/p>/g;
         let match;
 
         while ((match = pTagRegex.exec(questionHtml)) !== null) {
-          const styleAttribute = match[1];
-          const answerText = match[2].trim();
-          const isCorrect = /font-weight:\s?bold/.test(styleAttribute);
+          const [, styleAttribute, text] = match;
 
-          answers.push({ answerText, isCorrect });
+          //when file docx
+          if (fileExtension === "docx") {
+            let isCorrect = isCorrectRegex.test(text);
+            let answerText = text.replace(/<strong>|<\/strong>/g, "");
+            answers.push({ answerText, isCorrect });
+          } else if (fileExtension === "doc") {
+            let answerText = text.trim();
+            let isCorrect = isCorrectRegex.test(styleAttribute);
+            answers.push({ answerText, isCorrect });
+          }
         }
-
         examData.push({ title, type: "MC", answers });
       });
     }
