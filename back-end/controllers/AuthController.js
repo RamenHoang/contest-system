@@ -29,10 +29,12 @@ const loginGoogle = AsyncHandler(async (req, res) => {
   );
 
   const { email, name, picture } = userGoogle.data;
+  //check if user exist by email
   let userExist = await User.findOne({
-    email: email,
-    isDeleted: false,
+    where: { email: email, isDeleted: false },
   });
+
+  console.log(userExist);
 
   if (!userExist) {
     userExist = await User.create({
