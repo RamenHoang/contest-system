@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input, Radio } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { useExam } from '~/features/quiz/hooks/use-exam';
@@ -11,6 +11,10 @@ const EditExam = () => {
 
   const questions = exam?.data?.questions || [];
   const [openQuestions, setOpenQuestions] = useState(Array(questions.length).fill(false));
+
+  useEffect(() => {
+    setOpenQuestions(Array(questions.length).fill(false));
+  }, [questions.length]);
 
   const toggleQuestionVisibility = (index: number) => {
     setOpenQuestions((prev) => prev.map((isOpen, i) => (i === index ? !isOpen : isOpen)));
