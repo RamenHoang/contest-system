@@ -170,7 +170,15 @@ const getExamById = async (req, res) => {
 
         return {
           ...question.toJSON(),
-          answers: answers.map((answer) => answer.toJSON()),
+          answers: answers.map((answer) => {
+            const data = answer.toJSON();
+            return {
+              id: data.id,
+              answerText: data.answer,
+              isCorrect: data.isCorrect,
+              createdAt: data.createdAt,
+            };
+          }),
         };
       })
     );
