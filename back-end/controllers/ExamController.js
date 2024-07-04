@@ -126,7 +126,15 @@ const getExamsByCurrentUser = async (req, res) => {
     });
     console.log(exams);
 
-    res.status(StatusCodes.OK).json(ApiResponse(exams, exams.length));
+    const resData = exams.map((item) => ({
+      id: item.id,
+      title: item.title,
+      totalMCQuestion: item.total_mc_questions,
+      totalEssayQuestion: item.total_essay_questions,
+      createdAt: item.createdAt,
+    }));
+
+    res.status(StatusCodes.OK).json(ApiResponse(resData, exams.length));
   } catch (error) {
     console.log("Error:" + error);
     throw new ApiError(
@@ -145,6 +153,16 @@ const getExamById = async (req, res) => {
         id: idParams,
       },
     });
+
+    const resData = {
+      id: exam.id,
+      idUser: exam.idUser,
+      title: exam.title,
+      totalMCQuestion: exam.total_mc_questions,
+      totalEssayQuestion: exam.total_essay_questions,
+      createdAt: exam.createdAt,
+      updatedAt: exam.updatedAt,
+    };
 
     if (!exam) {
       throw new ApiError(
@@ -184,7 +202,7 @@ const getExamById = async (req, res) => {
     );
 
     const responseData = {
-      ...exam.toJSON(),
+      ...resData,
       questions: questionsWithAnswers,
     };
 
