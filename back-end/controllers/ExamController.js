@@ -191,9 +191,18 @@ const getExamById = async (req, res) => {
 
 const importExamFromDocx = async (req, res) => {
   try {
+    const acceptedExtensions = ["doc", "docx"];
     //get extension of file
     const fileExtension = req.file.originalname.split(".").pop();
+    //check if file extension is valid
+    if (!acceptedExtensions.includes(fileExtension)) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.BAD_REQUEST, "Invalid file format.")
+      );
+    }
+
     let content = "";
+    const pTagRegex = /<p(.*?)>(.*?)<\/p>/g;
     let isCorrectRegex = /font-weight:\s?bold/;
 
     if (fileExtension === "docx") {
@@ -202,16 +211,10 @@ const importExamFromDocx = async (req, res) => {
       isCorrectRegex = /<strong>(.*?)<\/strong>/g;
     } else if (fileExtension === "doc") {
       content = fs.readFileSync(req.file.path, "utf-8");
-    } else {
-      throw new ApiError(
-        ApiResponse(false, 0, StatusCodes.BAD_REQUEST, "Invalid file format.")
-      );
     }
-    console.log(content);
 
     const questions = content.match(/<h3>(.*?)<\/h3>([\s\S]*?)(?=<h3>|$)/g);
     const examData = [];
-    const pTagRegex = /<p(.*?)>(.*?)<\/p>/g;
 
     if (questions) {
       questions.forEach((questionHtml) => {
@@ -226,7 +229,7 @@ const importExamFromDocx = async (req, res) => {
 
           //when file docx
           if (fileExtension === "docx") {
-            let isCorrect = isCorrectRegex.test(text);
+            let isCorrect = new RegExp(isCorrectRegex).test(text);
             let answerText = text.replace(/<strong>|<\/strong>/g, "");
             answers.push({ answerText, isCorrect });
           } else if (fileExtension === "doc") {
