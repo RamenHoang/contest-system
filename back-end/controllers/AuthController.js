@@ -89,12 +89,17 @@ const login = AsyncHandler(async (req, res) => {
     );
   }
 
+  const refreshToken = Jwt.generateRefreshToken(user);
+  user.refreshToken = refreshToken;
+
+  await user.save();
+
   const responseData = {
     id: user.id,
     username: user.username,
     email: user.email,
     accessToken: Jwt.generateAccessToken(user),
-    refreshToken: Jwt.generateRefreshToken(user),
+    refreshToken: refreshToken,
     avatar: user.avatar,
     role: user.role,
   };
