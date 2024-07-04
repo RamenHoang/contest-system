@@ -56,7 +56,9 @@ const loginGoogle = AsyncHandler(async (req, res) => {
     email: userExist.email,
     username: userExist.username,
     accessToken: accessToken,
+    refreshToken: refreshToken,
     avatar: userExist.avatar,
+    role: userExist.role,
   };
 
   res.status(StatusCodes.OK).json(ApiResponse(responseData));
@@ -93,11 +95,35 @@ const login = AsyncHandler(async (req, res) => {
     email: user.email,
     accessToken: Jwt.generateAccessToken(user),
     refreshToken: Jwt.generateRefreshToken(user),
+    avatar: user.avatar,
     role: user.role,
   };
 
   res.status(StatusCodes.OK).json(ApiResponse(responseData));
 });
+
+const logout = async (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.BAD_REQUEST, "Invalid token.")
+    );
+  }
+
+  const user = await User.findOne({ where: { refreshToken: refreshToken } });
+
+  if (!user) {
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.UNAUTHORIZED, "Invalid token.")
+    );
+  }
+
+  user.refreshToken = null;
+  await user.save();
+
+  res.status(StatusCodes.OK).json(ApiResponse(true));
+};
 
 /**
  * @desc get currently authenticated user (login)
@@ -115,5 +141,6 @@ const getCurrentUser = AsyncHandler(async (req, res) => {
 module.exports = {
   loginGoogle,
   login,
+  logout,
   getCurrentUser,
 };
