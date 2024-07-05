@@ -35,7 +35,9 @@ const EditExam = () => {
             >
               <div className='w-full'>
                 <div>
-                  <span>Câu {qIndex + 1}: </span>
+                  <span>
+                    Câu {qIndex + 1}: {!openQuestions[qIndex] && question?.title}
+                  </span>
                 </div>
               </div>
               <div className='flex items-center gap-4'>

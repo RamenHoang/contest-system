@@ -82,7 +82,9 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
         >
           <div className='w-full'>
             <div>
-              <span>Câu {questionNumber}: </span>
+              <span>
+                Câu {questionNumber}: {!showAnswerInput && title}
+              </span>
             </div>
           </div>
           {/* Icons */}

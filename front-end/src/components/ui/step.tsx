@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, message, Steps } from 'antd';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
 import StepTwo from '~/features/home/components/step-two';
 import StepThree from '~/features/home/components/step-three';
 import StepFour from '~/features/home/components/step-four';
@@ -34,7 +34,17 @@ const steps = [
 
 const AntStep: React.FC = () => {
   const [current, setCurrent] = useState(0);
-  const navigate = useNavigate(); // Use the useNavigate hook
+  const navigate = useNavigate();
+  const location = useLocation(); // Use the useLocation hook
+
+  useEffect(() => {
+    // Parse the step from the URL query parameters
+    const searchParams = new URLSearchParams(location.search);
+    const step = parseInt(searchParams.get('step') || '1', 10) - 1; // Convert step to zero-based index
+    if (step >= 0 && step < steps.length) {
+      setCurrent(step);
+    }
+  }, [location]);
 
   const next = () => {
     setCurrent(current + 1);

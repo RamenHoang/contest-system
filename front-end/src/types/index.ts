@@ -40,3 +40,12 @@ export interface IAnswer {
   answerText: string;
   isCorrect: boolean;
 }
+
+export interface ICompetition {
+  name: string;
+  rules: string;
+  timeStart: string;
+  timeEnd: string;
+  infoRequire: string;
+  bannerUrl: string;
+}

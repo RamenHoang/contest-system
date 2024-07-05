@@ -53,11 +53,11 @@
 
 .ant-picker.ant-picker-outlined.css-dev-only-do-not-override-f7vrd6 {
   width: 282px;
-} 
+}
 
 .ant-modal-title {
-  font-size: 24px !important;
-  margin-bottom: 36px !important;
+  font-size: 18px !important;
+  margin-bottom: 28px !important;
   color: #585858 !important;
 }
 
@@ -67,4 +67,8 @@
 
 .ant-col.ant-form-item-label > label {
   font-size: 13px !important;
+}
+
+.ant-row {
+  row-gap: 16px;
 }
