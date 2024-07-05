@@ -1,22 +1,11 @@
 const express = require("express");
-const multer = require("multer");
 const router = express.Router();
 
 const ExamController = require("../controllers/ExamController");
 const ExamRoutesValidations = require("./validators/ExamRoutes.validators");
 const HandleBadRequest = require("../middlewares/HandleBadRequestMiddleware");
 const AuthMiddleware = require("../middlewares/AuthMiddleware");
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
+const upload = require("../config/multer.config");
 
 router.get(
   "/get-exams-by-current-user",

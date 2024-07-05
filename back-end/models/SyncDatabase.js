@@ -3,6 +3,11 @@ const User = require("./User");
 const ExamBanking = require("./ExamBanking");
 const QuestionBanking = require("./QuestionBanking");
 const AnswerBanking = require("./AnswerBanking");
+const Competitions = require("./Competitions");
+const ExamsOfCompetition = require("./ExamsOfCompetition");
+const Organizer = require("./Organizer");
+const Unit = require("./Unit");
+
 const SyncDatabase = async () => {
   try {
     await sequelize.authenticate();
