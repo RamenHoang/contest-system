@@ -15,7 +15,7 @@ Unit.init(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    idCompetition: {
+    competitionId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {

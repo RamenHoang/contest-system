@@ -11,85 +11,142 @@ const ApiResponse = require("../controllers/response/ApiResponse");
 const { sequelize } = require("../config/db");
 
 const createExam = async (req, res) => {
-  const transaction = await sequelize.transaction(); // Start a transaction
-
   try {
-    const { title, totalMCQuestion, totalEssayQuestion, questions } = req.body;
-
+    const { title, totalMCQuestion, totalEssayQuestion } = req.body;
     // Create exam
-    const exam = await ExamBanking.create(
+    const exam = await ExamBanking.create({
+      idUser: req.user.id,
+      title,
+      total_mc_questions: totalMCQuestion,
+      total_essay_questions: totalEssayQuestion,
+    });
+
+    await exam.save();
+
+    res
+      .status(StatusCodes.CREATED)
+      .json(ApiResponse(exam.id, 1, StatusCodes.CREATED, "Exam created."));
+  } catch (error) {
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
+    );
+  }
+};
+
+const updateExam = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, totalMCQuestion, totalEssayQuestion } = req.body;
+    // Find exam by ID
+    const exam = await ExamBanking.findByPk(id);
+
+    if (!exam) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Exam not found.")
+      );
+    }
+
+    // Update exam
+    await ExamBanking.update(
       {
-        idUser: req.user.id,
         title,
         total_mc_questions: totalMCQuestion,
         total_essay_questions: totalEssayQuestion,
       },
-      { transaction }
+      { where: { id } }
     );
-
-    const questionBankingData = []; //save question data to db
-    const answerBankingData = []; //save answer data to db
-    const answerBanking = [];
-
-    // Prepare data for bulk create of questions
-    questions.forEach((question) => {
-      const { title, lengthLimit = null, type, answers } = question;
-      questionBankingData.push({
-        idExamBanking: exam.id,
-        title,
-        lengthLimit,
-        type,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-
-      // Prepare data for bulk create of answers
-      const answerTemp = [];
-      answers.forEach((answer) => {
-        const { answerText, isCorrect } = answer;
-        answerTemp.push({
-          idQuestionBanking: null, // Placeholder for the actual ID during creation
-          answer: answerText,
-          isCorrect,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        });
-      });
-      answerBanking.push(answerTemp);
-    });
-
-    // Bulk create questions
-    const createdQuestions = await QuestionBanking.bulkCreate(
-      questionBankingData,
-      { transaction }
-    );
-
-    // Assign question IDs to answers and bulk create answers
-    createdQuestions.forEach((question, index) => {
-      answerBanking[index].map((answer) => {
-        answer.idQuestionBanking = question.id;
-        answerBankingData.push(answer);
-      });
-    });
-    await AnswerBanking.bulkCreate(answerBankingData, { transaction });
-
-    // Commit the transaction if all operations are successful
-    await transaction.commit();
 
     res
-      .status(StatusCodes.CREATED)
-      .json(
-        ApiResponse(
-          exam.id,
-          1,
-          StatusCodes.CREATED,
-          "Exam created successfully."
-        )
-      );
+      .status(StatusCodes.OK)
+      .json(ApiResponse(id, 1, StatusCodes.OK, "Exam updated."));
   } catch (error) {
-    console.error("Error:", error);
-    // Rollback the transaction if there's any error
-    await transaction.rollback();
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
+    );
+  }
+};
+
+const updateQuestions = async (req, res) => {
+  const transaction = await sequelize.transaction(); // Start a transaction
+  try {
+    const { examId } = req.params;
+    const { questions } = req.body;
+
+    // Find exam by ID
+    const exam = await ExamBanking.findOne({
+      where: { id: examId },
+      transaction,
+    });
+
+    if (!exam) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Exam not found.")
+      );
+    }
+
+    // Process questions
+    for (const question of questions) {
+      const { id, title, lengthLimit = null, type, answers } = question;
+
+      let questionBanking;
+      if (id) {
+        // Update existing question
+        await QuestionBanking.update(
+          { title, lengthLimit, type },
+          { where: { id }, transaction }
+        );
+        questionBanking = { id }; // Reference for updating answers
+      } else {
+        // Create new question
+        questionBanking = await QuestionBanking.create(
+          { idExamBanking: examId, title, lengthLimit, type },
+          { transaction }
+        );
+      }
+
+      // Process answers
+      for (const answer of answers) {
+        const { id: answerId, answerText, isCorrect } = answer;
+
+        if (answerId) {
+          // Update existing answer
+          await AnswerBanking.update(
+            { answer: answerText, isCorrect },
+            { where: { id: answerId }, transaction }
+          );
+        } else {
+          // Create new answer
+          await AnswerBanking.create(
+            {
+              idQuestionBanking: questionBanking.id,
+              answer: answerText,
+              isCorrect,
+            },
+            { transaction }
+          );
+        }
+      }
+    }
+
+    //calc total mc questions, total essay questions
+    const totalMCQuestions = questions.filter(
+      (question) => question.type === "MC"
+    );
+    const totalEssayQuestions = questions.filter(
+      (question) => question.type === "ESSAY"
+    );
+
+    exam.total_mc_questions = totalMCQuestions.length;
+    exam.total_essay_questions = totalEssayQuestions.length;
+
+    await exam.save({ transaction });
+    await transaction.commit();
+
+    return res.status(StatusCodes.OK).json(ApiResponse(true, 0));
+  } catch (error) {
+    await transaction.rollback(); // Rollback the transaction in case of error
+    console.error("Error updating questions:", error);
+
     throw new ApiError(
       ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
     );
@@ -124,7 +181,6 @@ const getExamsByCurrentUser = async (req, res) => {
       offset: (pageIndexInt - 1) * pageSizeInt,
       order: [["createdAt", "DESC"]],
     });
-    console.log(exams);
 
     const resData = exams.map((item) => ({
       id: item.id,
@@ -281,7 +337,9 @@ const importExamFromDocx = async (req, res) => {
 
 module.exports = {
   getExamsByCurrentUser,
+  updateQuestions,
   createExam,
+  updateExam,
   getExamById,
   importExamFromDocx,
 };

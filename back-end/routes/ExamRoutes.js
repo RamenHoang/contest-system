@@ -21,6 +21,20 @@ router.post(
   ExamController.createExam
 );
 
+router.put(
+  "/update-exam",
+  AuthMiddleware,
+  ExamRoutesValidations.createExamValidation,
+  HandleBadRequest,
+  ExamController.updateExam
+);
+
+router.post(
+  "/create-or-update-questions/:examId",
+  AuthMiddleware,
+  ExamController.updateQuestions
+);
+
 router.get(
   "/get-exam-detail/:id",
   AuthMiddleware,

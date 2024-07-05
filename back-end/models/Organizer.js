@@ -25,7 +25,7 @@ Organizer.init(
     email: {
       type: DataTypes.STRING(100),
     },
-    idCompetition: {
+    competitionId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -44,3 +44,5 @@ Organizer.init(
     timestamps: true,
   }
 );
+
+module.exports = Organizer;

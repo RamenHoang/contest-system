@@ -5,6 +5,8 @@ const Competitions = require("../models/Competitions");
 const ApiError = require("../controllers/error/ApiError");
 const ApiResponse = require("../controllers/response/ApiResponse");
 const ExamsOfCompetition = require("../models/ExamsOfCompetition");
+const Unit = require("../models/Unit");
+const Organizer = require("../models/Organizer");
 
 const uploadImage = async (req, res) => {
   const filePath = req.file.path;
@@ -146,10 +148,165 @@ const chooseExamForCompetition = async (req, res) => {
   }
 };
 
+const addUnitsForCompetitions = async (req, res) => {
+  const { id } = req.params;
+  const { subUnits, unitGroupName } = req.body;
+
+  const competition = await Competitions.findByPk(id);
+  if (!competition) {
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Competition not found")
+    );
+  }
+
+  competition.unitGroupName = unitGroupName;
+
+  const unitsCompetition = [];
+
+  for (const subUnit of subUnits) {
+    const unit = {
+      competitionId: id,
+      name: subUnit,
+    };
+    unitsCompetition.push(unit);
+  }
+
+  await competition.save();
+  await Unit.bulkCreate(unitsCompetition);
+
+  res.status(StatusCodes.OK).json(ApiResponse(true, 1));
+};
+
+const getUnitsOfCompetition = async (req, res) => {
+  const { id } = req.params;
+
+  const units = await Unit.findAll({
+    where: {
+      competitionId: id,
+    },
+    attributes: ["id", "name"],
+  });
+
+  res.status(StatusCodes.OK).json(ApiResponse(units, units.length));
+};
+
+const updateSubUnit = async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+
+  const unit = await Unit.findByPk(id);
+  if (!unit) {
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Unit not found")
+    );
+  }
+
+  unit.name = name;
+  await unit.save();
+
+  res.status(StatusCodes.OK).json(ApiResponse(true, 1));
+};
+
+const deleteSubUnit = async (req, res) => {
+  const { id } = req.params;
+
+  const unit = await Unit.findByPk(id);
+  if (!unit) {
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Unit not found")
+    );
+  }
+  //remove unit from database
+  var res = await unit.destroy();
+
+  res.status(StatusCodes.OK).json(ApiResponse(true, 1));
+};
+
+const infoOrganizer = async (req, res) => {
+  try {
+    const { competitionId } = req.params;
+    const { id, name, address, email, phone } = req.body;
+
+    const competition = await Competitions.findByPk(competitionId);
+    if (!competition) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Competition not found")
+      );
+    }
+
+    if (id) {
+      const organizer = await Organizer.findByPk(id);
+      if (!organizer) {
+        throw new ApiError(
+          ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Organizer not found")
+        );
+      }
+
+      organizer.name = name;
+      organizer.address = address;
+      organizer.email = email;
+      organizer.phone = phone;
+
+      await organizer.save();
+    } else {
+      await Organizer.create({
+        name,
+        address,
+        email,
+        phone,
+        competitionId,
+      });
+    }
+
+    res.status(StatusCodes.OK).json(ApiResponse(true, 1));
+  } catch (error) {
+    console.log(error.message);
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
+    );
+  }
+};
+
+const getOrganizerByCompetition = async (req, res) => {
+  const { competitionId } = req.params;
+
+  const organizer = await Organizer.findOne({
+    where: {
+      competitionId,
+    },
+    attributes: ["id", "name", "address", "email", "phone"],
+  });
+
+  res.status(StatusCodes.OK).json(ApiResponse(organizer, 1));
+};
+
+const publishCompetition = async (req, res) => {
+  const { id } = req.params;
+
+  const competition = await Competitions.findByPk(id);
+  if (!competition) {
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Competition not found")
+    );
+  }
+
+  competition.isPublic = !competition.isPublic;
+  await competition.save();
+
+  res.status(StatusCodes.OK).json(ApiResponse(true, 1));
+};
+
 module.exports = {
   createCompetition,
   listInfoRequired,
   chooseExamForCompetition,
   uploadImage,
   getListCompetition,
+  addUnitsForCompetitions,
+  getUnitsOfCompetition,
+  updateSubUnit,
+  deleteSubUnit,
+  infoOrganizer,
+  getOrganizerByCompetition,
+  publishCompetition,
 };

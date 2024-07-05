@@ -25,6 +25,16 @@ const createCompetitionValidation = [
   }),
 ];
 
+const infoOrganizerValidation = [
+  body("name").notEmpty().withMessage("Không được để trống tên!"),
+  body("phone")
+    .notEmpty()
+    .withMessage("Không được để trống số điện thoại!")
+    .isMobilePhone("vi-VN")
+    .withMessage("Số điện thoại không hợp lệ!"),
+];
+
 module.exports = {
   createCompetitionValidation,
+  infoOrganizerValidation,
 };

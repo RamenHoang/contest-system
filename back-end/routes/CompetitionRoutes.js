@@ -33,4 +33,54 @@ router.post(
 
 router.get("/list-competition", CompetitionController.getListCompetition);
 
+//#region Step 3
+router.post(
+  "/add-units/:id",
+  AuthMiddleware,
+  CompetitionController.addUnitsForCompetitions
+);
+
+router.get(
+  "/get-units/:id",
+  AuthMiddleware,
+  CompetitionController.getUnitsOfCompetition
+);
+
+router.put(
+  "/update-unit/:id",
+  AuthMiddleware,
+  CompetitionController.updateSubUnit
+);
+
+router.delete(
+  "/delete-unit/:id",
+  AuthMiddleware,
+  CompetitionController.deleteSubUnit
+);
+//#endregion
+
+//#region Step 4
+router.get(
+  "/get-info-organizer/:competitionId",
+  AuthMiddleware,
+  CompetitionController.getOrganizerByCompetition
+);
+
+router.post(
+  "/info-organizer/:competitionId",
+  AuthMiddleware,
+  CompetitionRoutesValidations.infoOrganizerValidation,
+  HandleBadRequest,
+  CompetitionController.infoOrganizer
+);
+//#endregion
+
+//#region step 5
+router.get(
+  "/publish-competition/:id",
+  AuthMiddleware,
+  CompetitionController.publishCompetition
+);
+//#endregion
+
 module.exports = router;
