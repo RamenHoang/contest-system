@@ -1,4 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
+const { Op } = require("sequelize");
 
 const Competitions = require("../models/Competitions");
 const ApiError = require("../controllers/error/ApiError");
@@ -30,7 +31,7 @@ const getListCompetition = async (req, res) => {
     };
 
     // Calculate offset
-    const offset = (pageIndex - 1) * pageSize;
+    const offset = (+pageIndex - 1) * +pageSize;
 
     // Find competitions with pagination
     const { count, rows: competitions } = await Competitions.findAndCountAll({
@@ -43,8 +44,8 @@ const getListCompetition = async (req, res) => {
         "unitGroupName",
         "timeEnd",
       ],
-      order: [["timeStart", "DESC"]],
-      limit: pageSize,
+      order: [["timeStart", "ASC"]],
+      limit: +pageSize,
       offset: offset,
     });
 
