@@ -1,32 +1,63 @@
 import { useEffect, useState } from 'react';
-import { Input, Radio } from 'antd';
+import { Input, message, Radio } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import { useExam } from '~/features/quiz/hooks/use-exam';
 import { ChevronDown, ChevronUp, X } from 'lucide-react';
 import { IAnswer, IQuestion } from '~/types';
+import { ExamApi } from '~/api/exam-api';
+import { Link } from 'react-router-dom';
 
-const EditExam = () => {
-  const { data: exam } = useExam();
-  console.log(exam?.data);
-
-  const questions = exam?.data?.questions || [];
-  const [openQuestions, setOpenQuestions] = useState(Array(questions?.length).fill(false));
+const ImportExam = () => {
+  const [importedData, setImportedData] = useState([]);
+  const [openQuestions, setOpenQuestions] = useState(Array(importedData?.length).fill(false));
 
   useEffect(() => {
-    setOpenQuestions(Array(questions?.length).fill(false));
-  }, [questions?.length]);
+    setOpenQuestions(Array(importedData?.length).fill(false));
+  }, [importedData?.length]);
 
   const toggleQuestionVisibility = (index: number) => {
     setOpenQuestions((prev) => prev.map((isOpen, i) => (i === index ? !isOpen : isOpen)));
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      try {
+        const res = await ExamApi.importExam(file);
+        if (res?.statusCode === 200) {
+          message.success('File uploaded successfully');
+          setImportedData(res?.data);
+        }
+        console.log(res?.data);
+      } catch (error) {
+        message.error('Failed to upload file');
+        console.error('File upload error:', error);
+      }
+    }
   };
 
   return (
     <div className='max-w-5xl mx-auto my-10'>
       <div className='flex items-center gap-2 bg-blue-100 rounded-md p-4 mb-4'>
         <span className='font-normal min-w-fit bg-blue-500 text-white px-4 py-2 rounded-md'>Tên đề thi</span>
-        <Input size='large' value={exam?.data.title} placeholder='Nhập tên bài thi' />
+        <Input size='large' value={'de thi thpt'} placeholder='Nhập tên bài thi' />
       </div>
-      {questions.map((question: IQuestion, qIndex: number) => (
+      <div className='grid grid-cols-12 items-center w-full mx-auto border border-gray-300 border-dashed rounded-xl bg-gray-100 mb-5'>
+        <label className='col-span-9 p-6 cursor-pointer'>
+          <div className='flex justify-center items-center gap-2'>
+            <img src='https://cdn-icons-png.flaticon.com/512/10260/10260324.png' alt='' className='w-16' />
+            <div className='text-center'> Kéo thả file docx để nhập đề nhanh tại đây </div>
+            <input type='file' className='hidden' accept='.docx' onChange={handleFileChange} />
+          </div>
+        </label>
+        <Link to='/upload/doc/de-thi-mau-myaloha.docx' className='col-span-3 p-6 border-l-gray-400 border-dashed'>
+          <div className='flex justify-center items-center gap-2'>
+            <img src='/image/dashboard/ic_download.svg' alt='' />
+            <div className='text-center'>Tải file mẫu</div>
+          </div>
+        </Link>
+      </div>
+      {importedData.map((question: IQuestion, qIndex: number) => (
         <div key={qIndex} className='mb-4'>
           <div className='border border-gray-300 rounded-lg mb-4 font-lexend'>
             <div
@@ -35,7 +66,7 @@ const EditExam = () => {
             >
               <div className='w-full'>
                 <div>
-                  <span>Câu {qIndex + 1}: </span>
+                  <span>{!openQuestions[qIndex] ? question.title : 'Câu ' + (qIndex + 1)}</span>
                 </div>
               </div>
               <div className='flex items-center gap-4'>
@@ -72,4 +103,4 @@ const EditExam = () => {
   );
 };
 
-export default EditExam;
+export default ImportExam;

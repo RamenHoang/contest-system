@@ -42,10 +42,17 @@ const SignIn = () => {
   const onFinish: FormType['onFinish'] = async (value) => {
     try {
       setIsSubmitting(true);
-      
-      console.log(value);
+      dispatch(loginStart());
+      const res = await AuthApi.loginAdmin(value.username, value.password);
+      if (res?.statusCode === 200) {
+        dispatch(loginSuccess(res?.data));
+        message.success('Đăng nhập thành công');
+        navigate('/');
+        setIsSubmitting(false);
+      }
     } catch (error) {
       console.log(error);
+      dispatch(loginFailed());
     } finally {
       setIsSubmitting(false);
     }
