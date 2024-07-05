@@ -10,6 +10,54 @@ const uploadImage = async (req, res) => {
   res.status(StatusCodes.OK).json(ApiResponse(filePath, 1));
 };
 
+const getListCompetition = async (req, res) => {
+  try {
+    const { pageIndex = 1, pageSize = 50, keyword = "" } = req.query;
+    const currentTime = new Date();
+
+    // Construct the where clause
+    let whereClause = {
+      timeStart: {
+        [Op.lte]: currentTime,
+      },
+      timeEnd: {
+        [Op.gte]: currentTime,
+      },
+      name: {
+        [Op.like]: `%${keyword}%`,
+      },
+      isPublic: true,
+    };
+
+    // Calculate offset
+    const offset = (pageIndex - 1) * pageSize;
+
+    // Find competitions with pagination
+    const { count, rows: competitions } = await Competitions.findAndCountAll({
+      where: whereClause,
+      attributes: [
+        "id",
+        "bannerUrl",
+        "name",
+        "timeStart",
+        "unitGroupName",
+        "timeEnd",
+      ],
+      order: [["timeStart", "DESC"]],
+      limit: pageSize,
+      offset: offset,
+    });
+
+    // Respond with paginated data
+    return res.status(StatusCodes.OK).json(ApiResponse(competitions, count));
+  } catch (error) {
+    console.error("Error fetching competitions:", error);
+    throw new ApiError(
+      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
+    );
+  }
+};
+
 const createCompetition = async (req, res) => {
   try {
     const {
@@ -102,4 +150,5 @@ module.exports = {
   listInfoRequired,
   chooseExamForCompetition,
   uploadImage,
+  getListCompetition,
 };

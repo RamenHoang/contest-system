@@ -31,4 +31,6 @@ router.post(
   CompetitionController.chooseExamForCompetition
 );
 
+router.get("/list-competition", CompetitionController.getListCompetition);
+
 module.exports = router;
