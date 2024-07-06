@@ -19,8 +19,7 @@ const SyncDatabase = async () => {
     QuestionBanking.belongsTo(ExamBanking, { foreignKey: "idExamBanking" });
 
     QuestionBanking.hasMany(AnswerBanking, { foreignKey: "idQuestionBanking" });
-    Unit.associate({ Participant });
-    Participant.associate({ Unit });
+
     AnswerBanking.belongsTo(QuestionBanking, {
       foreignKey: "idQuestionBanking",
     });
