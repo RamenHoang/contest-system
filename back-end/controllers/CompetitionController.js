@@ -826,101 +826,114 @@ const getResultParticipant = async (
   toDate,
   pageIndex = 1,
   pageSize = 50,
-  keyword = ""
+  keyword = "",
+  next
 ) => {
-  const whereClause = {
-    idCompetition: id,
-    fullName: {
-      [Op.like]: `%${keyword}%`,
-    },
-    createdAt: {
-      [Op.gte]: fromDate,
-      [Op.lte]: toDate,
-    },
-  };
-
-  const offset = (+pageIndex - 1) * +pageSize;
-
-  const { count, rows: participant } = await Participant.findAndCountAll({
-    where: whereClause,
-    attributes: [
-      "id",
-      "fullName",
-      "createdAt",
-      "totalCorrectAnswers",
-      "correctAnswersRate",
-      "startTime",
-      "finishTime",
-    ],
-    order: [["createdAt", "DESC"]],
-    limit: +pageSize,
-    offset: offset,
-  });
-
-  const resData = participant.map((item) => {
-    const timeDistance = moment(item.finishTime).diff(moment(item.startTime));
-    const duration = moment.duration(timeDistance);
-    return {
-      id: item.id,
-      fullName: item.fullName,
-      totalCorrectAnswers: item.totalCorrectAnswers,
-      correctAnswersRate: item.correctAnswersRate,
-      duration: `${duration.minutes()}:${duration.seconds()}`,
-      createdAt: item.createdAt,
-    };
-  });
-
-  return {
-    data: resData,
-    count,
-  };
-};
-
-const getStatisticUnitOfCompetition = async (id) => {
-  //group participant by unit and count
-  const data = await Participant.findAll({
-    where: {
+  try {
+    const whereClause = {
       idCompetition: id,
-    },
-    attributes: ["idSubUnit", [sequelize.fn("COUNT", "id"), "total"]],
-    group: ["idSubUnit"],
-    //get name of unit
-    include: [
-      {
-        model: Unit,
-        attributes: ["name"],
+      fullName: {
+        [Op.like]: `%${keyword}%`,
       },
-    ],
-  });
-
-  const resData = data.map((item) => {
-    return {
-      unitName: item.Unit.name,
-      total: item.get("total"),
+      createdAt: {
+        [Op.gte]: fromDate,
+        [Op.lte]: toDate,
+      },
     };
-  });
 
-  return resData;
+    const offset = (+pageIndex - 1) * +pageSize;
+
+    const { count, rows: participant } = await Participant.findAndCountAll({
+      where: whereClause,
+      attributes: [
+        "id",
+        "fullName",
+        "createdAt",
+        "totalCorrectAnswers",
+        "correctAnswersRate",
+        "startTime",
+        "finishTime",
+      ],
+      order: [["createdAt", "DESC"]],
+      limit: +pageSize,
+      offset: offset,
+    });
+
+    const resData = participant.map((item) => {
+      const timeDistance = moment(item.finishTime).diff(moment(item.startTime));
+      const duration = moment.duration(timeDistance);
+      return {
+        id: item.id,
+        fullName: item.fullName,
+        totalCorrectAnswers: item.totalCorrectAnswers,
+        correctAnswersRate: item.correctAnswersRate,
+        duration: `${duration.minutes()}:${duration.seconds()}`,
+        createdAt: item.createdAt,
+      };
+    });
+
+    return {
+      data: resData,
+      count,
+    };
+  } catch (error) {
+    next(error);
+  }
 };
 
-const getParticipantHightestScore = async (id) => {
-  const data = await Participant.findOne({
-    where: {
-      idCompetition: id,
-    },
-    attributes: [
-      "id",
-      "fullName",
-      "createdAt",
-      "totalCorrectAnswers",
-      "correctAnswersRate",
-      "startTime",
-      "finishTime",
-    ],
-    order: [["correctAnswersRate", "DESC"]],
-  });
+const getStatisticUnitOfCompetition = async (id, error) => {
+  try {
+    //group participant by unit and count
+    const data = await Participant.findAll({
+      where: {
+        idCompetition: id,
+      },
+      attributes: ["idSubUnit", [sequelize.fn("COUNT", "id"), "total"]],
+      group: ["idSubUnit"],
+      //get name of unit
+      include: [
+        {
+          model: Unit,
+          attributes: ["name"],
+        },
+      ],
+    });
 
-  return data;
+    const resData = data.map((item) => {
+      return {
+        unitName: item.Unit.name,
+        total: item.get("total"),
+      };
+    });
+
+    return resData;
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getParticipantHightestScore = async (id, error) => {
+  try {
+    const data = await Participant.findOne({
+      where: {
+        idCompetition: id,
+      },
+      attributes: [
+        "id",
+        "fullName",
+        "createdAt",
+        "totalCorrectAnswers",
+        "correctAnswersRate",
+        "startTime",
+        "finishTime",
+      ],
+      order: [["correctAnswersRate", "DESC"]],
+    });
+
+    return data;
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {
