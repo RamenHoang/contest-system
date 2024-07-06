@@ -22,7 +22,7 @@ router.post(
 );
 
 router.put(
-  "/update-exam",
+  "/update-exam/:id",
   AuthMiddleware,
   ExamRoutesValidations.createExamValidation,
   HandleBadRequest,
