@@ -10,7 +10,7 @@ const ApiError = require("../controllers/error/ApiError");
 const ApiResponse = require("../controllers/response/ApiResponse");
 const { sequelize } = require("../config/db");
 
-const createExam = async (req, res) => {
+const createExam = async (req, res, next) => {
   try {
     const { title, totalMCQuestion, totalEssayQuestion } = req.body;
     // Create exam
@@ -27,13 +27,11 @@ const createExam = async (req, res) => {
       .status(StatusCodes.CREATED)
       .json(ApiResponse(exam.id, 1, StatusCodes.CREATED, "Exam created."));
   } catch (error) {
-    throw new ApiError(
-      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
-    );
+    next(error);
   }
 };
 
-const updateExam = async (req, res) => {
+const updateExam = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { title, totalMCQuestion, totalEssayQuestion } = req.body;
@@ -60,13 +58,11 @@ const updateExam = async (req, res) => {
       .status(StatusCodes.OK)
       .json(ApiResponse(id, 1, StatusCodes.OK, "Exam updated."));
   } catch (error) {
-    throw new ApiError(
-      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
-    );
+    next(error);
   }
 };
 
-const updateQuestions = async (req, res) => {
+const updateQuestions = async (req, res, next) => {
   const transaction = await sequelize.transaction(); // Start a transaction
   try {
     const { examId } = req.params;
@@ -147,13 +143,11 @@ const updateQuestions = async (req, res) => {
     await transaction.rollback(); // Rollback the transaction in case of error
     console.error("Error updating questions:", error);
 
-    throw new ApiError(
-      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
-    );
+    next(error);
   }
 };
 
-const getExamsByCurrentUser = async (req, res) => {
+const getExamsByCurrentUser = async (req, res, next) => {
   try {
     const { pageIndex = 1, pageSize = 50, keyword } = req.query;
     const pageIndexInt = parseInt(pageIndex, 10);
@@ -193,13 +187,11 @@ const getExamsByCurrentUser = async (req, res) => {
     res.status(StatusCodes.OK).json(ApiResponse(resData, exams.length));
   } catch (error) {
     console.log("Error:" + error);
-    throw new ApiError(
-      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
-    );
+    next(error);
   }
 };
 
-const getExamById = async (req, res) => {
+const getExamById = async (req, res, next) => {
   try {
     const { id } = req.params;
     //find exam by id
@@ -265,13 +257,11 @@ const getExamById = async (req, res) => {
     res.status(StatusCodes.OK).json(ApiResponse(responseData));
   } catch (error) {
     console.log("Error:" + error);
-    throw new ApiError(
-      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
-    );
+    next(error);
   }
 };
 
-const importExamFromDocx = async (req, res) => {
+const importExamFromDocx = async (req, res, next) => {
   try {
     const acceptedExtensions = ["doc", "docx"];
     //get extension of file
@@ -329,9 +319,7 @@ const importExamFromDocx = async (req, res) => {
 
     res.status(StatusCodes.OK).json(ApiResponse(examData, examData.length));
   } catch (error) {
-    throw new ApiError(
-      ApiResponse(false, 0, StatusCodes.INTERNAL_SERVER_ERROR, error.message)
-    );
+    next(error);
   }
 };
 
