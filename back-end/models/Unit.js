@@ -35,4 +35,7 @@ Unit.init(
   }
 );
 
+Unit.associate = (models) => {
+  Unit.hasMany(models.Participant, { foreignKey: "idSubUnit" });
+};
 module.exports = Unit;

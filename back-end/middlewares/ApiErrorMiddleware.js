@@ -6,8 +6,10 @@ const ApiErrorMiddleware = (e, req, res, next) => {
   const statusCode = e.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
   const message = e.message || "Internal Server Error";
   const errorObject = e.data || null;
-  if (e instanceof Error) {
+  if (e instanceof ApiError) {
     console.error("💕:" + e);
+  } else {
+    console.error("An unknown error occurred:" + e);
   }
 
   return res

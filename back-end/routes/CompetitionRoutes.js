@@ -17,6 +17,17 @@ router.post(
   CompetitionController.createCompetition
 );
 
+router.get(
+  "/get-competitions-by-user",
+  AuthMiddleware,
+  CompetitionController.getCompetitionsByUser
+);
+
+router.get(
+  "/get-competition-by-id/:id",
+  CompetitionController.getCompetitionById
+);
+
 router.post(
   "/upload-image",
   upload.single("file"),
@@ -25,10 +36,22 @@ router.post(
   CompetitionController.uploadImage
 );
 
+router.get(
+  "/get-info-step2/:id",
+  AuthMiddleware,
+  CompetitionController.getExamsOfCompetition
+);
+
 router.post(
   "/set-up-exam/:id",
   AuthMiddleware,
   CompetitionController.chooseExamForCompetition
+);
+
+router.delete(
+  "/delete-exam-of-competition/:id",
+  AuthMiddleware,
+  CompetitionController.deleteExamForCompetition
 );
 
 router.get("/list-competition", CompetitionController.getListCompetition);
@@ -82,5 +105,28 @@ router.get(
   CompetitionController.publishCompetition
 );
 //#endregion
+
+//#region  Làm bài thi
+router.get(
+  "/start-competition/:id",
+  CompetitionController.getAllQuestionOfCompetition
+);
+
+router.post("/submit-answer/:id", CompetitionController.saveResultCompetition);
+
+//#endregion
+
+router.get(
+  "/statistic-participant/:id",
+  AuthMiddleware,
+  CompetitionController.statisticParticipant
+);
+
+//export excel
+router.get(
+  "/export-excel/:id",
+  AuthMiddleware,
+  CompetitionController.exportExcel
+);
 
 module.exports = router;

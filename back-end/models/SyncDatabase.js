@@ -7,6 +7,8 @@ const Competitions = require("./Competitions");
 const ExamsOfCompetition = require("./ExamsOfCompetition");
 const Organizer = require("./Organizer");
 const Unit = require("./Unit");
+const Participant = require("./Participant");
+const UserAnswers = require("./UserAnswers");
 
 const SyncDatabase = async () => {
   try {
@@ -17,6 +19,8 @@ const SyncDatabase = async () => {
     QuestionBanking.belongsTo(ExamBanking, { foreignKey: "idExamBanking" });
 
     QuestionBanking.hasMany(AnswerBanking, { foreignKey: "idQuestionBanking" });
+    Unit.associate({ Participant });
+    Participant.associate({ Unit });
     AnswerBanking.belongsTo(QuestionBanking, {
       foreignKey: "idQuestionBanking",
     });
