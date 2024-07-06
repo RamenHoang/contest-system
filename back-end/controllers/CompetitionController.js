@@ -217,8 +217,7 @@ const deleteSubUnit = async (req, res) => {
     );
   }
   //remove unit from database
-  var res = await unit.destroy();
-
+  await unit.destroy();
   res.status(StatusCodes.OK).json(ApiResponse(true, 1));
 };
 
