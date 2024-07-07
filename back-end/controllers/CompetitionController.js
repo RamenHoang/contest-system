@@ -2,6 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 const { Op } = require("sequelize");
 const moment = require("moment");
 const ExcelJS = require("exceljs");
+const { Request, Response } = require("express");
 
 const Competitions = require("../models/Competitions");
 const ApiError = require("../controllers/error/ApiError");
@@ -524,7 +525,7 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
         isPublic: true,
         isDeleted: false,
       },
-      attributes: ["isMix"],
+      attributes: ["isMix", "testDuration"],
     });
 
     if (!competition) {
@@ -576,6 +577,7 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
 
     const resData = {
       isMix: competition.isMix,
+      testDuration: competition.testDuration ?? 0,
       questions: questionBankings.map((question) => {
         const answer = answers.filter(
           (item) => item.idQuestionBanking === question.id
