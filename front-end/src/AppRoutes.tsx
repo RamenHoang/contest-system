@@ -10,6 +10,7 @@ import AuthRedirect from '~/components/layout/auth-redirect';
 
 const AuthRoutes = lazy(() => import('./features/auth'));
 const HomeRoutes = lazy(() => import('./features/home'));
+const CompetitionRoutes = lazy(() => import('./features/competition'));
 
 export const AppRoutes = () => {
   return (
@@ -23,6 +24,7 @@ export const AppRoutes = () => {
       >
         <Route path='/*' element={<HomeRoutes />} />
       </Route>
+      <Route path='/competition/*' element={<CompetitionRoutes />} />
       <Route element={<AuthLayout />}>
         <Route
           path='/auth/*'

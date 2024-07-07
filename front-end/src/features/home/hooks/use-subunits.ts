@@ -1,21 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { ExamApi } from '~/api/exam-api';
 import { queryClient } from '~/api/query-client';
+import { UnitApi } from '~/api/unit-api';
 
-export const useExams = () => {
+export const useSubUnits = () => {
+  const { id } = useParams();
+
   return useQuery({
-    queryKey: ['exams'],
-    queryFn: () => ExamApi.getExams()
+    queryKey: ['sub-units', id],
+    queryFn: () => UnitApi.getListSubUnit(id as string)
   });
 };
 
-export const useInvalidateExams = () => {
+export const useInvalidateSubUnits = () => {
   const { id } = useParams();
   return () => {
     return queryClient.invalidateQueries({
       type: 'all',
-      queryKey: ['exams', id]
+      queryKey: ['sub-units', id]
     });
   };
 };

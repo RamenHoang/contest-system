@@ -1,9 +1,14 @@
 import { Input } from 'antd';
 import { SearchIcon } from 'lucide-react';
 import { CardContest, CardItem } from '~/features/home/components';
-import { contests } from '~/utils/data';
+import { useCompetitions } from '~/features/home/hooks/use-competitions';
+import { ICompetition } from '~/types';
 
 const HomePage = () => {
+  const { data: competitions } = useCompetitions();
+
+  console.log(competitions);
+
   return (
     <div className='max-w-screen-lg mx-auto p-4 min-h-screen'>
       <div className='hidden sm:block'>
@@ -28,9 +33,7 @@ const HomePage = () => {
       <div className='mt-5'>
         <div className='text-[#707070] uppercase text-xl leading-7 font-base mb-4'>Đang diễn ra</div>
         <div className='relative w-full'>
-          {contests.map((contest) => (
-            <CardContest key={contest.id} contest={contest} />
-          ))}
+          {competitions?.data?.map((c: ICompetition, index: number) => <CardContest key={index} competition={c} />)}
         </div>
       </div>
     </div>

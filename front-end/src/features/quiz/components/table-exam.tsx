@@ -96,8 +96,7 @@ export const TableExam = () => {
       onRow={(exam) => ({
         className: 'cursor-pointer',
         onClick: () => {
-          console.log(`/dashboard/quiz/edit/${exam?.id}`);
-          navigate(`/dashboard/quiz/edit/${exam?.id}`);
+          navigate(`/dashboard/quiz/${exam?.id}/edit`);
         }
       })}
       rowKey='code'

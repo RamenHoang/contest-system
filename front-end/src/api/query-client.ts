@@ -5,7 +5,7 @@ export const queryClient = new QueryClient({
     queries: {
       gcTime: 60000,
       staleTime: 40000,
-      refetchOnMount: false,
+      refetchOnMount: 'always',
       placeholderData: keepPreviousData
     }
   }

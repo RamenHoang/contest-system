@@ -2,8 +2,8 @@ import {
   Button,
   Checkbox,
   Col,
-  ColorPicker,
-  ColorPickerProps,
+  // ColorPicker,
+  // ColorPickerProps,
   DatePicker,
   Form,
   GetProp,
@@ -29,7 +29,7 @@ const normFile = (e) => {
   return e?.fileList;
 };
 
-type Color = GetProp<ColorPickerProps, 'value'>;
+// type Color = GetProp<ColorPickerProps, 'value'>;
 
 export const FormContest = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ export const FormContest = () => {
 
   const [selectedValues, setSelectedValues] = useState('');
   const [bannerUrl, setBannerUrl] = useState('');
-  const [themeColor, setThemeColor] = useState<Color>('#ffa616');
+  // const [themeColor, setThemeColor] = useState<Color>('#ffa616');
 
   const user = useInfo();
 
@@ -58,12 +58,10 @@ export const FormContest = () => {
   };
 
   const onChange: GetProp<typeof Checkbox.Group, 'onChange'> = (checkedValues) => {
-    console.log('checked = ', checkedValues.join());
     setSelectedValues(checkedValues.join());
   };
 
   const { data: listInfoRequired } = useGetInfoRequired();
-  console.log(listInfoRequired);
 
   // @ts-expect-error info
   const handleUploadChange = (info) => {
@@ -78,14 +76,16 @@ export const FormContest = () => {
       timeStart: format(new Date(data.timeStart), 'yyyy-MM-dd HH:mm:ss'),
       timeEnd: format(new Date(data.timeEnd), 'yyyy-MM-dd HH:mm:ss'),
       bannerUrl,
-      infoRequire: selectedValues,
-      themeColor
+      infoRequire: selectedValues
+      // themeColor
     };
-    console.log(finalData);
 
     createCompetition(finalData, {
-      onSuccess: () => {
-        navigate('/dashboard/contest/create?step=2');
+      onSuccess: (response) => {
+        // Assuming response.data contains the ID you want to use in the URL
+        const contestId = response?.data;
+        console.log(contestId);
+        navigate(`/dashboard/contest/${contestId}/create?step=2`);
       }
     });
   };
@@ -131,9 +131,13 @@ export const FormContest = () => {
         >
           <DatePicker placeholder='Chọn ngày kết thúc' />
         </Form.Item>
-        <Form.Item label='Màu chủ đề'>
-          <ColorPicker value={themeColor} onChange={setThemeColor} />;
-        </Form.Item>
+        {/* <Form.Item label='Màu chủ đề'>
+          <ColorPicker
+            value={themeColor}
+            onChange={setThemeColor}
+            showText={(color) => <span className='text-gray-500'>{color.toHexString()}</span>}
+          />
+        </Form.Item> */}
         <Form.Item label='Mật khẩu'>
           <Input placeholder='Mật khẩu..' disabled />
         </Form.Item>

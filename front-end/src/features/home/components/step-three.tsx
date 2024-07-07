@@ -1,48 +1,49 @@
-import { Form, Input } from 'antd';
-
-type FieldType = {
-  orgName?: string;
-  address?: string;
-  email?: string;
-  phoneNumber?: string;
-};
+import { Button, Input, Modal } from 'antd';
+import { useState } from 'react';
+import { TableSubUnit } from '~/features/home/components/table-subunit';
+import { useCreateSubUnit } from '~/features/home/hooks/use-create-subunit';
 
 const StepThree = () => {
-  const [form] = Form.useForm<FieldType>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [subUnitName, setSubUnitName] = useState('');
+
+  const { mutate: createSubUnit } = useCreateSubUnit();
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    if (subUnitName) {
+      createSubUnit({ unitGroupName: 'Đơn vị mới', subUnits: [subUnitName] });
+      setIsModalOpen(false);
+      setSubUnitName('');
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
-      <div className='text-[#757575] uppercase text-[23px] leading-[29px] font-semibold mb-4'>
-        Thông tin Ban tổ chức
+      <div className='relative shadow-md sm:rounded-lg px-2 pb-4 mt-4'>
+        <div className='flex items-center justify-end py-2'>
+          <Button type='primary' onClick={showModal}>
+            Thêm đơn vị
+          </Button>
+        </div>
+        <TableSubUnit />
       </div>
-      <div className='w-full'>
-        <Form form={form} layout='vertical'>
-          <div className='grid grid-cols-2 gap-3'>
-            <Form.Item
-              label='Tên'
-              name='orgName'
-              rules={[{ required: true, message: 'Vui lòng nhập tên đơn ban tổ chức!' }]}
-            >
-              <Input placeholder='Vui lòng nhập tên đơn ban tổ chức' size='large' />
-            </Form.Item>
-            <Form.Item label='Địa chỉ' name='address'>
-              <Input size='large' placeholder='Vui lòng nhập địa chỉ' />
-            </Form.Item>
-          </div>
-          <div className='grid grid-cols-2 gap-3'>
-            <Form.Item label='Email' name='email'>
-              <Input size='large' placeholder='example@gmail.com' />
-            </Form.Item>
-            <Form.Item<FieldType>
-              label='Số điện thoại'
-              name='phoneNumber'
-              rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}
-            >
-              <Input placeholder='Vui lòng nhập số điện thoại' size='large' />
-            </Form.Item>
-          </div>
-        </Form>
-      </div>
+      <Modal title='Thêm nhóm đơn vị con' open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Input
+          size='large'
+          value={subUnitName}
+          onChange={(e) => setSubUnitName(e.target.value)}
+          placeholder='Nhập tên đơn vị'
+          onPressEnter={handleOk}
+        />
+      </Modal>
     </>
   );
 };

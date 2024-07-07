@@ -6,20 +6,21 @@ const { TextArea } = Input;
 
 type Props = {
   questionNumber: number;
-  onAddQuestion: (questionData: IQuestion) => void;
+  onAddQuestion: (questionData: Partial<IQuestion>, isUpdate: boolean) => void;
   question?: IQuestion;
 };
 
 export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props) => {
   const [title, setTitle] = useState('');
   const [showAnswerInput, setShowAnswerInput] = useState(false);
-  const [answers, setAnswers] = useState<{ text: string; checked: boolean }[]>(
-    question?.answers?.map((a) => ({ text: a.answerText, checked: a.isCorrect })) || []
+  const [answers, setAnswers] = useState<{ id?: number; text: string; checked: boolean }[]>(
+    question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect })) || []
   );
+
   useEffect(() => {
     if (question) {
       setTitle(question?.title);
-      setAnswers(question?.answers?.map((a) => ({ text: a.answerText, checked: a.isCorrect })) || []);
+      setAnswers(question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect })) || []);
     }
   }, [question]);
 
@@ -30,8 +31,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
   const handleToggleAnswerInput = () => setShowAnswerInput(!showAnswerInput);
 
   const addAnswer = () => {
-    const newAnswers = answers.map((answer) => ({ ...answer, checked: false }));
-    setAnswers([...newAnswers, { text: '', checked: false }]);
+    setAnswers([...answers, { text: '', checked: false }]);
   };
 
   const updateAnswerText = (index: number, text: string) => {
@@ -53,25 +53,28 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
     setAnswers(newAnswers);
   };
 
-  const eachQuestionData: IQuestion = {
+  const eachQuestionData: Partial<IQuestion> = {
+    id: question?.id,
     title,
     type: 'MC',
     answers: answers.map((a) => ({
+      id: a.id,
       answerText: a.text,
       isCorrect: a.checked
     }))
   };
 
   const addQuestion = () => {
-    // Call the passed callback function with the question data
-    onAddQuestion(eachQuestionData);
-    // Reset state if necessary to allow for new question creation
-    setTitle('');
-    setAnswers([{ text: '', checked: false }]);
-    setShowAnswerInput(false);
+    const isUpdate = Boolean(question?.answers?.length ?? 0 > 0);
+    console.log(isUpdate);
+    onAddQuestion(eachQuestionData, isUpdate);
+    if (!isUpdate) {
+      // Reset state if necessary to allow for new question creation
+      setTitle('');
+      setAnswers([{ text: '', checked: false }]);
+      setShowAnswerInput(false);
+    }
   };
-
-  console.log(eachQuestionData);
 
   return (
     <div className='mb-4'>
@@ -144,7 +147,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
         )}
       </div>
       <Button type='default' onClick={addQuestion}>
-        Add Question to Exam
+        {question ? 'Update Question' : 'Add Question to Exam'}
       </Button>
     </div>
   );

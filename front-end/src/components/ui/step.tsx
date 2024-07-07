@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocati
 import StepTwo from '~/features/home/components/step-two';
 import StepThree from '~/features/home/components/step-three';
 import StepFour from '~/features/home/components/step-four';
+import StepFive from '~/features/home/components/step-five';
 
 const steps = [
   {
@@ -23,12 +24,16 @@ const steps = [
     content: <StepTwo />
   },
   {
-    title: 'Trang thông tin',
+    title: 'Chọn đơn vị',
     content: <StepThree />
   },
   {
-    title: 'Xuất bản',
+    title: 'Trang thông tin',
     content: <StepFour />
+  },
+  {
+    title: 'Xuất bản',
+    content: <StepFive />
   }
 ];
 

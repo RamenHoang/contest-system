@@ -1,14 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
 import { message } from 'antd';
+import { useParams } from 'react-router-dom';
 import { ExamApi } from '~/api/exam-api';
 import { IExam } from '~/types';
 
-export const useCreateExam = () => {
+export const useUpdateExam = () => {
+  const { id } = useParams();
+
   return useMutation({
-    mutationFn: async (examData: Partial<IExam>) => ExamApi.createExam(examData),
+    mutationFn: (exam: Partial<IExam>) => ExamApi.updateExam(exam, id as string),
 
     onSuccess: () => {
-      message.success('Create exam successfully');
+      message.success('Cập nhật đề thi thành công');
     },
 
     onError: (err) => {

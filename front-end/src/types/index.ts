@@ -42,10 +42,95 @@ export interface IAnswer {
 }
 
 export interface ICompetition {
+  id?: number;
   name: string;
   rules: string;
   timeStart: string;
   timeEnd: string;
-  infoRequire: string;
+  unitGroupName: string;
   bannerUrl: string;
+}
+
+export interface ISetupCompetition {
+  testDuration: number;
+  testAttempts: number;
+  examIds: number[];
+}
+
+export interface IListCompetition extends ICompetition {
+  id: number;
+  unitGroupName: string;
+}
+
+export interface ICreateSubUnits {
+  unitGroupName: string;
+  subUnits: string[];
+}
+
+export interface ISubUnit {
+  id: number;
+  name: string;
+}
+
+export interface IOrganizer {
+  id?: number;
+  name: string;
+  address: string;
+  email: string;
+  phone: string;
+}
+
+export interface IStartCompetition {
+  isMix: boolean | null;
+  testDuration: number;
+  questions: IQuestion[];
+}
+
+export interface IStartRequired {
+  bannerUrl: string;
+  name: string;
+  rules: string;
+  password: string;
+  themeColor: string;
+  timeStart: string;
+  timeEnd: string;
+  testAttempts: number;
+  participant: number;
+  infoRequire: number[];
+}
+
+export interface IParticipant {
+  startTime: string;
+  finishTime: string;
+  fullName?: string;
+  email?: string;
+  birthday?: string;
+  phone?: string;
+  CCCD?: string;
+  job?: string;
+  sex?: string;
+  other?: string;
+}
+
+export interface IResult {
+  questionId: number;
+  chosenAnswerId: number;
+  typeQuestion: 'MC' | 'ESSAY';
+  answerText?: string;
+}
+
+export interface ISubmitAnswer {
+  participant: IParticipant;
+  results: IResult[];
+}
+
+export interface IFieldRequired {
+  fullName: string;
+  email: string;
+  birthday: string;
+  phone: string;
+  CCCD: string;
+  job: string;
+  sex: string;
+  other: string;
 }

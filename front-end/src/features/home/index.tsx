@@ -8,17 +8,16 @@ const CreateContest = lazy(() => import('./pages/create-contest'));
 
 const ExamPage = lazy(() => import('../quiz/pages/manage-exam-page'));
 const CreateExam = lazy(() => import('../quiz/pages/create-exam'));
-const EditExam = lazy(() => import('../quiz/pages/edit-exam'));
 
 const HomeRoutes = () => {
   return (
     <Routes>
-      <Route index path='/' element={<HomePage />} />
+      <Route path='/' element={<HomePage />} />
       <Route path='/dashboard/contest' element={<ContestPage />} />
       <Route path='/dashboard/contest/create' element={<CreateContest />} />
+      <Route path='/dashboard/contest/:id/create' element={<CreateContest />} />
       <Route path='/dashboard/quiz' element={<ExamPage />} />
-      <Route path='/dashboard/quiz/create' element={<CreateExam />} />
-      <Route path='/dashboard/quiz/edit/:id' element={<EditExam />} />
+      <Route path='/dashboard/quiz/:id/edit' element={<CreateExam />} />
       <Route path='/dashboard/quiz/import' element={<ImportExam />} />
       <Route path='*' element={<Navigate to='/not-found' />} />
     </Routes>

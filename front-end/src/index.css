@@ -56,10 +56,14 @@
 }
 
 .ant-modal-title {
-  font-size: 18px !important;
-  margin-bottom: 28px !important;
+  font-size: 24px !important;
+  margin-bottom: 20px !important;
   color: #585858 !important;
 }
+
+/* .ant-modal-body {
+  font-size: 18px !important;
+} */
 
 .ant-modal-footer {
   margin-top: 30px !important;
@@ -69,6 +73,6 @@
   font-size: 13px !important;
 }
 
-.ant-row {
+/* .ant-row {
   row-gap: 16px;
-}
+} */

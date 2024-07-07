@@ -1,8 +1,8 @@
 import axiosClient from '~/api/axios-client';
-import { IExam } from '~/types';
+import { IExam, IQuestion } from '~/types';
 
 export const ExamApi = {
-  async createExam(examData: IExam) {
+  async createExam(examData: Partial<IExam>) {
     try {
       const { data } = await axiosClient.post('/exam/create-exam', examData);
       return data;
@@ -29,6 +29,15 @@ export const ExamApi = {
     }
   },
 
+  async updateExam(examData: Partial<IExam>, id: string) {
+    try {
+      const { data } = await axiosClient.put(`/exam/update-exam/${id}`, examData);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   async importExam(file: File) {
     try {
       const formData = new FormData();
@@ -43,6 +52,15 @@ export const ExamApi = {
     } catch (error) {
       console.error('Failed to upload file:', error);
       throw error;
+    }
+  },
+
+  async createOrUpdateQuestion(data: { questions: Partial<IQuestion[]> }, id: string) {
+    try {
+      const { data: res } = await axiosClient.post(`/exam/create-or-update-questions/${id}`, data);
+      return res;
+    } catch (error) {
+      console.log(error);
     }
   }
 };

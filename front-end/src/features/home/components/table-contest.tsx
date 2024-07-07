@@ -3,8 +3,8 @@ import { ColumnsType } from 'antd/es/table';
 import { format } from 'date-fns';
 import { Eye, PencilIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { IContest } from '~/types';
-import { contests } from '~/utils/data';
+import { useCompetitions } from '~/features/home/hooks/use-competitions';
+import { IListCompetition } from '~/types';
 
 const statusToTagName: Record<string, string> = {
   'Đang diễn ra': 'success',
@@ -14,9 +14,11 @@ const statusToTagName: Record<string, string> = {
 export const TableContest = () => {
   const navigate = useNavigate();
 
-  const columns: ColumnsType<Partial<IContest>> = [
+  const { data: competitions, isPending: isLoading } = useCompetitions();
+
+  const columns: ColumnsType<Partial<IListCompetition>> = [
     {
-      title: 'STT',
+      title: 'No.',
       dataIndex: 'stt',
       key: 'stt',
       align: 'center',
@@ -25,34 +27,47 @@ export const TableContest = () => {
     },
     {
       title: 'Tên cuộc thi',
-      dataIndex: 'title',
-      key: 'title',
+      dataIndex: 'name',
+      key: 'name',
       width: 250,
       ellipsis: { showTitle: true }
     },
     {
       title: 'Thời gian diễn ra',
-      dataIndex: 'startDate',
-      key: 'startDate',
+      dataIndex: 'timeStart',
+      key: 'timeStart',
       width: 200,
       ellipsis: { showTitle: true },
       render: (value, record) => (
         <Tag color='warning' className='!text-gray-500 font-medium py-0.5 px-2 rounded-full'>
           {format(new Date(value), 'dd/MM/yyyy') ?? '-'} &mdash;{' '}
-          {record?.endDate ? format(new Date(record.endDate), 'dd/MM/yyyy') : '-'}
+          {record?.timeEnd ? format(new Date(record.timeEnd), 'dd/MM/yyyy') : '-'}
         </Tag>
       )
     },
     {
       title: 'Trạng thái',
-      key: 'status',
-      dataIndex: 'status',
+      key: 'timeEnd',
+      dataIndex: 'timeEnd',
       width: 130,
-      render: (value) => {
-        const tagName = statusToTagName[value || 'Đang diễn ra'];
+      render: (_, record) => {
+        const now = new Date();
+        const timeStart = new Date(record?.timeStart as string);
+        const timeEnd = new Date(record?.timeEnd as string);
+
+        let statusText;
+        if (now >= timeStart && now <= timeEnd) {
+          statusText = 'Đang diễn ra'; // Ongoing
+        } else if (now > timeEnd) {
+          statusText = 'Kết thúc'; // Ended
+        } else {
+          statusText = 'Chưa bắt đầu'; // Not started
+        }
+
+        const tagName = statusToTagName[statusText];
         return (
           <Tag className='text-[13px] font-normal rounded-full' color={tagName}>
-            {value}
+            {statusText}
           </Tag>
         );
       }
@@ -86,8 +101,7 @@ export const TableContest = () => {
               className='inline-flex items-center justify-center'
               icon={<PencilIcon className='h-4 w-4' />}
               onClick={() => {
-                console.log(value.id);
-                navigate(`/${value.id}/edit`);
+                navigate(`/${value?.id}/edit`);
               }}
             />
           </Tooltip>
@@ -105,6 +119,21 @@ export const TableContest = () => {
     }
   ];
 
-  // @ts-expect-error aaa
-  return <Table className='font-light' rowKey='code' dataSource={contests} columns={columns} scroll={{ x: 870 }} />;
+  return (
+    <Table
+      loading={isLoading}
+      className='font-light'
+      // onRow={(contest) => ({
+      //   className: 'cursor-pointer',
+      //   onClick: () => {
+      //     console.log(`/dashboard/contest/edit/${contest?.id}`);
+      //     navigate(`/dashboard/contest/edit/${contest?.id}`);
+      //   }
+      // })}
+      rowKey='code'
+      dataSource={competitions?.data}
+      columns={columns}
+      scroll={{ x: 870 }}
+    />
+  );
 };
