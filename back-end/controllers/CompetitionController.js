@@ -2,7 +2,6 @@ const { StatusCodes } = require("http-status-codes");
 const { Op } = require("sequelize");
 const moment = require("moment");
 const ExcelJS = require("exceljs");
-const { Request, Response } = require("express");
 
 const Competitions = require("../models/Competitions");
 const ApiError = require("../controllers/error/ApiError");
@@ -605,13 +604,13 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
 
 const saveResultCompetition = async (req, res, next) => {
   const { id } = req.params;
-  const { d, results } = req.body;
+  const { participant, results } = req.body;
 
   try {
-    // save d
-    const newd = await d.create({
+    // save
+    const newParticipant = await Participant.create({
       idCompetition: id,
-      ...d,
+      ...participant,
     });
 
     const examBankings = await ExamsOfCompetition.findAll({
@@ -648,7 +647,7 @@ const saveResultCompetition = async (req, res, next) => {
           questionId,
           chosenOption,
           typeQuestion,
-          d: newd.id,
+          participantId: newParticipant.id,
           answerText,
           isCorrect,
         });
@@ -666,21 +665,21 @@ const saveResultCompetition = async (req, res, next) => {
           chosenOption: chosenAnswerId,
           correctOption: correctAnswer.id,
           typeQuestion: typeQuestion,
-          d: newd.id,
+          participantId: newParticipant.id,
           isCorrect: correctAnswer.id === chosenAnswerId,
         });
       }
     }
 
     correctAnswersRate = (totalCorrectAnswers / questionBankings.length) * 100;
-    newd.totalCorrectAnswers = totalCorrectAnswers;
-    newd.correctAnswersRate = correctAnswersRate;
+    newParticipant.totalCorrectAnswers = totalCorrectAnswers;
+    newParticipant.correctAnswersRate = correctAnswersRate;
 
-    await newd.save();
+    await newParticipant.save();
     await UserAnswers.bulkCreate(userAnswers);
 
     const resData = {
-      userName: newd.fullName,
+      userName: newParticipant.fullName,
       totalCorrectAnswers,
       correctAnswersRate,
     };
