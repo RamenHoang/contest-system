@@ -17,6 +17,12 @@ const CreateContest = () => {
         return <FormContest />;
       case '2':
         return <FormSetup />;
+      case '3':
+        return null;
+      case '4':
+        return null;
+      case '5':
+        return null;
       default:
         return <FormContest />;
     }

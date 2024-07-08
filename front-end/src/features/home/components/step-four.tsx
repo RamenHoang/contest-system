@@ -1,18 +1,57 @@
 import { Button, Form, Input } from 'antd';
+import { isEmpty } from 'lodash';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCreateOrganizer } from '~/features/home/hooks/use-create-organizer';
+import { useOrganizer } from '~/features/home/hooks/use-organizer';
 import { IOrganizer } from '~/types';
 
 const StepFour = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const { id } = useParams();
+
   const [form] = Form.useForm<IOrganizer>();
 
+  const { data: organizerData } = useOrganizer();
   const { mutate: createOrganizer } = useCreateOrganizer();
 
+  const organizer: IOrganizer = organizerData?.data;
+
+  const idOrganizer = organizer?.id;
+
+  useEffect(() => {
+    if (!organizer || isEmpty(organizer)) {
+      return;
+    }
+
+    const { address, email, name, phone } = organizer;
+
+    form.setFieldsValue({
+      name,
+      address,
+      email,
+      phone
+    });
+  }, [organizer, form]);
+
   const onFinish = (values: IOrganizer) => {
-    createOrganizer(values, {
-      // onSuccess: () => {
-      //   navigate('/')
-      // }
+    let finalData: IOrganizer;
+    if (idOrganizer) {
+      finalData = {
+        ...values,
+        id: idOrganizer
+      };
+    } else {
+      finalData = {
+        ...values
+      };
+    }
+
+    createOrganizer(finalData, {
+      onSuccess: () => {
+        navigate(`/dashboard/contest/${id}/edit?step=5`);
+      }
     });
   };
 
@@ -49,7 +88,7 @@ const StepFour = () => {
           </div>
           <div className='mt-5 mb-2 flex justify-end gap-3'>
             <Button size='middle' htmlType='submit' type='primary'>
-              Tiếp tục
+              Xác nhận
             </Button>
           </div>
         </Form>

@@ -30,6 +30,7 @@ export const FormSetup = () => {
 
     const finalData = {
       ...data,
+      id: parseInt(id as string),
       testDuration: Number(data.testDuration),
       testAttempts: Number(data.testAttempts),
       isMix: data.isMix === 'null' ? null : data.isMix,
@@ -41,7 +42,7 @@ export const FormSetup = () => {
     // @ts-expect-error null
     setUpCompetition(finalData, {
       onSuccess: () => {
-        navigate('/dashboard/contest');
+        navigate(`/dashboard/contest/${id}/edit?step=3`);
       }
     });
   };
