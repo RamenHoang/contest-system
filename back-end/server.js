@@ -68,6 +68,10 @@ app.use(cookieParser());
 /*==============================
 routes, not found and custom api error handler
 ==============================*/
+app.get("/:name", (req, res) => {
+  return res.sendFile(path.join(__dirname, "public", req.params.name));
+});
+
 app.use("/api/v1", Routes); // routes and prefix
 app.use(HandleNotFound); // endpoint not found response
 app.use(HandleApiError); // Custom API Error handler
