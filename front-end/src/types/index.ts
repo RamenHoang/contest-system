@@ -139,3 +139,12 @@ export interface IFieldRequired {
   sex: string;
   other: string;
 }
+
+export interface IStatistic {
+  id: number;
+  fullName: string;
+  totalCorrectAnswers: number;
+  correctAnswersRate: number;
+  duration: string;
+  createdAt: string;
+}

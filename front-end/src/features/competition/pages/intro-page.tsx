@@ -6,7 +6,10 @@ import { Footer } from '~/features/competition/components/footer';
 import { Header } from '~/features/competition/components/header';
 import AntModal from '~/features/competition/components/modal';
 import { useCompetition } from '~/features/competition/hooks/use-competition';
-import { IStartRequired } from '~/types';
+import { IStartRequired, IStatistic } from '~/types';
+import RankingList from '~/features/competition/components/ranking';
+import { useStatistics } from '~/features/competition/hooks/use-statistic';
+
 
 type IResult = {
   userName: string;
@@ -25,7 +28,9 @@ const IntroPage = () => {
   });
 
   const { data: competitionData } = useCompetition();
+  const { data: statisticsData } = useStatistics();
   const competition: IStartRequired = competitionData?.data;
+  const statistics: IStatistic[] = statisticsData?.data;
   const timeEnd = competition?.timeEnd;
 
   const popoverContent = (
@@ -33,6 +38,7 @@ const IntroPage = () => {
       <p>{competition?.rules}</p>
     </div>
   );
+
   // Function to calculate the remaining time
   const calculateTimeLeft = () => {
     const difference = +new Date(timeEnd) - +new Date();
@@ -83,12 +89,12 @@ const IntroPage = () => {
   }, [results]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
-    return () => clearTimeout(timer);
-  });
+    return () => clearInterval(timer);
+  }, [timeEnd]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -169,20 +175,8 @@ const IntroPage = () => {
                   <div className='text-2xl lg:text-4xl text-green-700 font-bold grow mb-2 md:mb-0'>BẢNG XẾP HẠNG</div>
                 </div>
                 <div>
-                  <div className='min-h-[550px]'>
-                    <div className='grid-cols-12 rounded-xl py-6 px-6 mt-4 first:bg-[#ffe8ac] bg-[#F8F5F5] shadow-md grid'>
-                      <div className='col-span-6 flex items-center gap-4'>
-                        <div className='shrink-0 relative w-8 h-8 flex items-center justify-center font-semibold text-base bg-yellow-300 after:border-t-yellow-300 after:block after:absolute after:left-0 after:w-auto after:border-solid after:border-transparent after:mt-9 after:h-0 after:border-t-4 after:border-l-[16px] after:border-r-[16px]'>
-                          1
-                        </div>
-                        <span className='hidden md:inline-block'>184 lượt đăng ký</span>
-                      </div>
-                      <div className='col-span-6 flex items-center'>
-                        <span data-v-tippy=''>
-                          <div className=''>Sư đoàn 9</div>
-                        </span>
-                      </div>
-                    </div>
+                  <div className='max-h-[550px] overflow-auto shadow-sm'>
+                    <RankingList listRanking={statistics} />
                   </div>
                 </div>
               </div>
