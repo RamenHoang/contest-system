@@ -1,21 +1,90 @@
-import { useState } from 'react';
+import { Modal } from 'antd';
+import { useEffect, useState } from 'react';
+import { isEmpty } from 'lodash';
+
 import { Footer } from '~/features/competition/components/footer';
 import { Header } from '~/features/competition/components/header';
 import AntModal from '~/features/competition/components/modal';
 import { useCompetition } from '~/features/competition/hooks/use-competition';
 
+type IResult = {
+  userName: string;
+  totalCorrectAnswers: number;
+  correctAnswersRate: number;
+};
+
 const IntroPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // const navigate = useNavigate();
-  // const { id, slug } = useParams(); // Assuming `slug` is the name of the parameter for "lich-su-304"
+  const [results, setResults] = useState<IResult | null>(null);
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
 
   const { data: competition } = useCompetition();
+  const timeEnd = competition?.data?.timeEnd;
+
+  // Function to calculate the remaining time
+  const calculateTimeLeft = () => {
+    const difference = +new Date(timeEnd) - +new Date();
+    let timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    }
+    return timeLeft;
+  };
+
+  // Function to show the results modal
+  const showResultsModal = () => {
+    if (results) {
+      Modal.info({
+        title: `${results.userName} đã hoàn thành bài thi`,
+        content: (
+          <div>
+            <p>Số câu đúng: {results.totalCorrectAnswers}</p>
+            <p>Tỉ lệ trả lời đúng: {results.correctAnswersRate}%</p>
+          </div>
+        ),
+        onOk() {
+          // Clear results from local storage after displaying the modal
+          localStorage.removeItem('quizResult');
+          setResults(null);
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    const savedResults = JSON.parse(localStorage.getItem('quizResult') ?? '{}');
+    if (!isEmpty(savedResults)) {
+      setResults(savedResults);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (results) {
+      showResultsModal();
+    }
+  }, [results]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  });
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
-    // const newPath = `/competition/cuoc-thi/start/${id}/${slug}`;
-    // navigate(newPath);
   };
 
   return (
@@ -30,8 +99,20 @@ const IntroPage = () => {
             <div className='mt-4 lg:mt-8'>
               <div className='flex items-center justify-center gap-4 lg:gap-8 text-green-700'>
                 <div className='px-4 py-6 shadow-md min-w-[70px] lg:min-w-[130px] text-center rounded-lg'>
-                  <div className='text-xl lg:text-4xl text-green-700 font-bold'>02</div>
+                  <div className='text-xl lg:text-4xl text-green-700 font-bold'>{timeLeft.days}</div>
                   <div className='lg:text-xl mt-2 text-[#686868]'> Ngày </div>
+                </div>
+                <div className='px-4 py-6 shadow-md min-w-[70px] lg:min-w-[130px] text-center rounded-lg'>
+                  <div className='text-xl lg:text-4xl text-green-700 font-bold'>{timeLeft.hours}</div>
+                  <div className='lg:text-xl mt-2 text-[#686868]'> Giờ </div>
+                </div>
+                <div className='px-4 py-6 shadow-md min-w-[70px] lg:min-w-[130px] text-center rounded-lg'>
+                  <div className='text-xl lg:text-4xl text-green-700 font-bold'>{timeLeft.minutes}</div>
+                  <div className='lg:text-xl mt-2 text-[#686868]'> Phút </div>
+                </div>
+                <div className='px-4 py-6 shadow-md min-w-[70px] lg:min-w-[130px] text-center rounded-lg'>
+                  <div className='text-xl lg:text-4xl text-green-700 font-bold'>{timeLeft.seconds}</div>
+                  <div className='lg:text-xl mt-2 text-[#686868]'> Giây </div>
                 </div>
               </div>
             </div>

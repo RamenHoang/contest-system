@@ -42,10 +42,7 @@ export const FormSetup = () => {
 
   return (
     <>
-      <div className='mb-2 text-sm flex'>
-        Trộn nhiều đề thi.
-        <p className='ml-2 text-red-500'>Thêm ngay</p>
-      </div>
+      <div className='mb-2 text-sm flex'>Trộn nhiều đề thi.</div>
       <div className='flex items-center gap-1 mb-2'>
         <Select
           mode='multiple'

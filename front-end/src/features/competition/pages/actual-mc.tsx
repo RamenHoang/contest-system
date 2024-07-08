@@ -3,11 +3,21 @@ import { Button, Radio, Space, Spin, message, Modal } from 'antd';
 import { useStartCompetition } from '~/features/competition/hooks/use-start-competition';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import moment from 'moment'; // Add moment.js for easier date formatting
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSubmitAnswer } from '~/features/competition/hooks/use-submit-answer';
 import { ISubmitAnswer } from '~/types';
 
+type TQuestionRes = {
+  questionId: number;
+  chosenAnswerId: number;
+  typeQuestion: string;
+};
+
 const Quiz = () => {
+  const navigate = useNavigate();
+
+  const { id, slug } = useParams();
+
   const { data: questionsData, isFetching } = useStartCompetition();
   const { mutate: callSubmitAnswer } = useSubmitAnswer();
   const { state } = useLocation(); // Retrieve state from location
@@ -91,7 +101,7 @@ const Quiz = () => {
     });
     setResults(resultData);
 
-    const detailedResultData = questions.map((question, index) => ({
+    const detailedResultData = questions.map((question, index: number) => ({
       questionId: question.id,
       chosenAnswerId: question.answers[selectedOptions[index]]?.id,
       typeQuestion: 'MC'
@@ -116,10 +126,15 @@ const Quiz = () => {
       results: detailedResultData
     };
 
-    console.log(finishTime);
-    console.log(finalData);
+    callSubmitAnswer(finalData, {
+      onSuccess: (res) => {
+        const { userName, totalCorrectAnswers, correctAnswersRate } = res && res.data;
+        // Navigate back to the intro page with the results data
+        localStorage.setItem('quizResult', JSON.stringify({ userName, totalCorrectAnswers, correctAnswersRate }));
 
-    callSubmitAnswer(finalData);
+        navigate(`/competition/cuoc-thi/intro/${id}/${slug}`);
+      }
+    });
   };
 
   const showConfirmSubmitModal = () => {
@@ -132,7 +147,7 @@ const Quiz = () => {
     });
   };
 
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
@@ -158,7 +173,7 @@ const Quiz = () => {
             <span>&nbsp;câu</span>
           </div>
           <div className='bg-white text-theme-color py-1 px-3 text-center min-w-[100px] rounded-2xl'>
-            {testDuration ? formatTime(remainingTime) : 'Không giới hạn'}
+            {testDuration && remainingTime !== null ? formatTime(remainingTime) : 'Không giới hạn'}
           </div>
         </div>
       </div>
@@ -170,7 +185,7 @@ const Quiz = () => {
                 Nộp bài
               </Button>
               <div className='flex overflow-auto py-2 bg-white md:flex-wrap md:border rounded-xl md:p-4 md:justify-center'>
-                {questions.map((_, index) => (
+                {questions.map((_, index: number) => (
                   <div key={index} className='flex flex-col items-center'>
                     <Button
                       shape='circle'
@@ -214,7 +229,7 @@ const Quiz = () => {
                 <div className='font-medium text-lg mb-3'>{questions[currentQuestion]?.title}</div>
                 <Radio.Group onChange={handleSelectOption} value={selectedOptions[currentQuestion]}>
                   <Space direction='vertical' className='flex gap-4'>
-                    {questions[currentQuestion]?.answers.map((answer, index) => (
+                    {questions[currentQuestion]?.answers.map((answer, index: number) => (
                       <Radio key={answer.id} value={index}>
                         <span className='text-base tracking-normal'>{answer.answer}</span>
                       </Radio>
