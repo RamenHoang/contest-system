@@ -28,11 +28,15 @@ export const FormSetup = () => {
 
     const finalData = {
       ...data,
-      examIds
+      testDuration: Number(data.testDuration),
+      testAttempts: Number(data.testAttempts),
+      isMix: data.isMix === 'null' ? null : data.isMix,
+      examOfCompetitions: examIds.map((id) => ({ examBankingId: id }))
     };
 
     console.log(finalData);
 
+    // @ts-expect-error null
     setUpCompetition(finalData, {
       onSuccess: () => {
         navigate('/dashboard/contest');
@@ -70,13 +74,22 @@ export const FormSetup = () => {
         <Form.Item label='Thời gian làm bài (phút) (0: Không giới hạn)' name='testDuration'>
           <Input placeholder='Thời gian làm bài' type='number' />
         </Form.Item>
-        <Form.Item label='Hiển thị kết quả cho thí sinh'>
-          <Input placeholder='Thể lệ cuộc thi..' />
-        </Form.Item>
         <Form.Item label='Số lần làm bài (0: Không giới hạn)' name='testAttempts'>
           <Input placeholder='Số lần làm bài..' type='number' />
         </Form.Item>
-
+        <Form.Item name='isMix' label='Trộn câu hỏi'>
+          <Select
+            showSearch
+            defaultValue={{ value: 'null', label: 'Không trộn' }}
+            placeholder='Chọn hình thức trộn'
+            filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+            options={[
+              { value: 'null', label: 'Không trộn' },
+              { value: 'question', label: 'Chỉ trộn câu hỏi' },
+              { value: 'question-answer', label: 'Trộn câu hỏi và câu trả lời' }
+            ]}
+          />
+        </Form.Item>
         <div className='mt-5 mb-2 flex justify-end gap-3'>
           <Button size='middle' htmlType='submit' type='primary'>
             Tiếp tục

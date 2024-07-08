@@ -98,7 +98,7 @@ export const FormContest = () => {
             headers={{
               Authorization: `Bearer ${user?.accessToken}`
             }}
-            action='http://localhost:8000/api/v1/competitions/upload-image'
+            action={`${import.meta.env.VITE_DOMAIN_URL}/api/v1/competitions/upload-image`}
             listType='picture'
             onChange={handleUploadChange}
           >

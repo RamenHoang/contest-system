@@ -2,11 +2,10 @@ import axios from 'axios';
 import { getState } from '~/store/store';
 // import { getState } from '~/store/store';
 
-const BASE_URL = 'http://localhost:8000/api/v1';
+const BASE_URL = `${import.meta.env.VITE_DOMAIN_URL}/api/v1`;
 
 const axiosClient = axios.create({
   baseURL: BASE_URL
-  // timeout: 1000
 });
 
 // Add a request interceptor

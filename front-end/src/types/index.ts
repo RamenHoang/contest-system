@@ -54,7 +54,12 @@ export interface ICompetition {
 export interface ISetupCompetition {
   testDuration: number;
   testAttempts: number;
-  examIds: number[];
+  isMix: 'null' | 'question' | 'question-answer';
+  examOfCompetitions: IExamBanking[];
+}
+
+export interface IExamBanking {
+  examBankingId: number;
 }
 
 export interface IListCompetition extends ICompetition {

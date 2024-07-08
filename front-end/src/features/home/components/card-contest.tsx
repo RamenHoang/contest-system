@@ -30,7 +30,7 @@ export const CardContest = ({ competition }: { competition: ICompetition }) => {
           <div className='flex items-center gap-4'>
             <div className='flex-shrink-0' style={{ width: '240px' }}>
               <Image
-                src={`http://localhost:8000` + competition?.bannerUrl}
+                src={`${import.meta.env.VITE_DOMAIN_URL}/api/v1` + competition?.bannerUrl}
                 className='rounded-xl w-full h-auto'
                 alt='Contest Banner'
               />

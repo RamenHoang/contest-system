@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Button, Radio, Space, Spin, message, Modal } from 'antd';
 import { useStartCompetition } from '~/features/competition/hooks/use-start-competition';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -6,8 +6,9 @@ import moment from 'moment'; // Add moment.js for easier date formatting
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSubmitAnswer } from '~/features/competition/hooks/use-submit-answer';
 import { ISubmitAnswer } from '~/types';
+import { RadioChangeEvent } from 'antd/lib/radio';
 
-type TQuestionRes = {
+export type TQuestionRes = {
   questionId: number;
   chosenAnswerId: number;
   typeQuestion: string;
@@ -25,17 +26,15 @@ const Quiz = () => {
   const questions = useMemo(() => questionsData?.data?.questions || [], [questionsData]);
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [results, setResults] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
   const [detailedResults, setDetailedResults] = useState([]);
-  const [score, setScore] = useState(0);
 
   const testDuration = null; // Set this to null for no time limit
   const [remainingTime, setRemainingTime] = useState(testDuration ? testDuration * 60 : null); // Convert to seconds
 
   // New state variables for start and finish time
-  const [startTime, setStartTime] = useState(null);
-  const [finishTime, setFinishTime] = useState(null);
+  const [startTime, setStartTime] = useState<string | null>(null);
+  const [finishTime, setFinishTime] = useState<string | null>(null);
 
   useEffect(() => {
     if (questions.length > 0 && !startTime) {
@@ -47,12 +46,12 @@ const Quiz = () => {
     if (testDuration) {
       const timer = setInterval(() => {
         setRemainingTime((prevTime) => {
-          if (prevTime <= 1) {
+          if (prevTime !== null && prevTime <= 1) {
             clearInterval(timer);
             handleSubmit(true);
             return 0;
           }
-          return prevTime - 1;
+          return prevTime !== null ? prevTime - 1 : null;
         });
       }, 1000);
 
@@ -72,13 +71,13 @@ const Quiz = () => {
     }
   };
 
-  const handleSelectOption = (e) => {
+  const handleSelectOption = (e: RadioChangeEvent) => {
     const newSelectedOptions = [...selectedOptions];
     newSelectedOptions[currentQuestion] = e.target.value;
     setSelectedOptions(newSelectedOptions);
   };
 
-  const handleQuickNav = (index) => {
+  const handleQuickNav = (index: number) => {
     setCurrentQuestion(index);
   };
 
@@ -86,29 +85,12 @@ const Quiz = () => {
     const finishTime = moment().format('YYYY-MM-DD HH:mm:ss'); // Set finish time before processing results
     setFinishTime(finishTime);
 
-    let calculatedScore = 0;
-    const resultData = questions.map((question, index) => {
-      const isCorrect = question.answers[selectedOptions[index]]?.isCorrect;
-      if (isCorrect) {
-        calculatedScore += 1;
-      }
-      return {
-        question: question.title,
-        chooseAnswer: selectedOptions[index],
-        correctAnswer: question.answers.find((answer) => answer.isCorrect)?.answer,
-        isCorrect: isCorrect
-      };
-    });
-    setResults(resultData);
-
-    const detailedResultData = questions.map((question, index: number) => ({
+    const detailedResultData = questions.map((question: { id: number; answers: { id: number }[] }, index: number) => ({
       questionId: question.id,
       chosenAnswerId: question.answers[selectedOptions[index]]?.id,
       typeQuestion: 'MC'
     }));
     setDetailedResults(detailedResultData);
-
-    setScore(calculatedScore);
 
     if (!autoSubmit) {
       message.success('Bài kiểm tra đã được nộp!');
@@ -229,11 +211,13 @@ const Quiz = () => {
                 <div className='font-medium text-lg mb-3'>{questions[currentQuestion]?.title}</div>
                 <Radio.Group onChange={handleSelectOption} value={selectedOptions[currentQuestion]}>
                   <Space direction='vertical' className='flex gap-4'>
-                    {questions[currentQuestion]?.answers.map((answer, index: number) => (
-                      <Radio key={answer.id} value={index}>
-                        <span className='text-base tracking-normal'>{answer.answer}</span>
-                      </Radio>
-                    ))}
+                    {questions[currentQuestion]?.answers.map(
+                      (answer: { id: number; answer: string }, index: number) => (
+                        <Radio key={answer.id} value={index}>
+                          <span className='text-base tracking-normal'>{answer.answer}</span>
+                        </Radio>
+                      )
+                    )}
                   </Space>
                 </Radio.Group>
               </div>
