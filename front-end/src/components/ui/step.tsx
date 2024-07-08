@@ -80,7 +80,7 @@ const AntStep: React.FC = () => {
       <div style={{ marginTop: 48, textAlign: 'right' }}>
         {current > 0 && (
           <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-            Previous
+            Quay lại
           </Button>
         )}
         {current === steps.length - 1 && (
@@ -90,7 +90,7 @@ const AntStep: React.FC = () => {
         )}
         {current < steps.length - 1 && (
           <Button type='primary' onClick={() => next()}>
-            Next
+            Tiếp tục
           </Button>
         )}
       </div>

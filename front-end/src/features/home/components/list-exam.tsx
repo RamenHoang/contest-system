@@ -1,7 +1,7 @@
 import { Card, Checkbox } from 'antd';
-import { IContest } from '~/types';
+import { IExam } from '~/types';
 
-const ExamItem = ({ title, tnCount, tlCount }: Partial<IContest>) => {
+const ExamItem = ({ title, totalEssayQuestion, totalMCQuestion }: Partial<IExam>) => {
   return (
     <Card className='exam-item-card mt-5 rounded-lg shadow px-2 py-1.5'>
       <div className='flex items-center gap-2'>
@@ -11,10 +11,10 @@ const ExamItem = ({ title, tnCount, tlCount }: Partial<IContest>) => {
         </div>
         <div className='flex gap-x-5'>
           <div className='px-3 py-1 w-max rounded-2xl' style={{ backgroundColor: '#ffe7aa' }}>
-            {tnCount} câu TN
+            {totalMCQuestion} câu TN
           </div>
           <div className='px-3 py-1 w-max rounded-2xl' style={{ backgroundColor: '#c2f5e9' }}>
-            {tlCount} câu TL
+            {totalEssayQuestion} câu TL
           </div>
         </div>
       </div>

@@ -24,12 +24,15 @@ export const AuthApi = {
       console.log(error);
     }
   },
-  logoutGoogle() {
-    return axiosClient.get('/user/logout', {
-      headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NWIwZWY0NzZiYzY5YWU4YjkxYThmNCIsImVtYWlsIjoiaW1wb3NzaWJsZUBnbWFpbC5jb20iLCJuYW1lIjoiaW1wb3NzaWJsZSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzE3MjQzNjU2LCJleHAiOjE3MTc4NDg0NTZ9.4EdfLcG7Yh5f2KnZe4XJjlaRaZqwZRTw-CnduZdGx_Q'
-      }
-    });
+
+  async logoutAccount(rftoken: string) {
+    try {
+      const { data } = await axiosClient.post('/auth/logout', {
+        refreshToken: rftoken
+      });
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

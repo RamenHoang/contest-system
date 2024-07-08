@@ -1,6 +1,7 @@
 import { Modal } from 'antd';
-import { exams } from '~/utils/data';
 import ExamItem from '~/features/home/components/list-exam';
+import { useExams } from '~/features/quiz/hooks/use-exams';
+import { IExam } from '~/types';
 
 const AntModal = ({
   isModalOpen,
@@ -9,6 +10,8 @@ const AntModal = ({
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
 }) => {
+  const { data: examsData } = useExams();
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -33,10 +36,16 @@ const AntModal = ({
           style: { padding: '18px 32px' }
         }}
         onCancel={handleCancel}
+        style={{ maxHeight: '700px', overflow: 'auto', borderRadius: '12px' }}
       >
         <ul>
-          {exams.map((exam) => (
-            <ExamItem key={exam.id} id={exam.id} title={exam.title} tnCount={exam.tnCount} tlCount={exam.tlCount} />
+          {examsData?.data?.map((exam: IExam) => (
+            <ExamItem
+              key={exam.id}
+              title={exam.title}
+              totalEssayQuestion={exam.totalEssayQuestion}
+              totalMCQuestion={exam.totalMCQuestion}
+            />
           ))}
         </ul>
       </Modal>
