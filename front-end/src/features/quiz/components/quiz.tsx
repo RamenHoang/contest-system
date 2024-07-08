@@ -6,7 +6,7 @@ const { TextArea } = Input;
 
 type Props = {
   questionNumber: number;
-  onAddQuestion: (questionData: Partial<IQuestion>, isUpdate: boolean) => void;
+  onAddQuestion: (questionData: IQuestion, isUpdate: boolean) => void;
   question?: IQuestion;
 };
 
@@ -53,7 +53,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
     setAnswers(newAnswers);
   };
 
-  const eachQuestionData: Partial<IQuestion> = {
+  const eachQuestionData: IQuestion = {
     id: question?.id,
     title,
     type: 'MC',

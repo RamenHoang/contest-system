@@ -24,6 +24,7 @@ const IntroPage = () => {
   });
 
   const { data: competition } = useCompetition();
+  console.log(competition);
   const timeEnd = competition?.data?.timeEnd;
 
   // Function to calculate the remaining time
@@ -131,9 +132,6 @@ const IntroPage = () => {
                 Thể lệ
               </button>
               <div></div>
-            </div>
-            <div className='mt-4 lg:mt-8 text-lg lg:text-2xl text-[#C50300] text-center'>
-              <div className='bg-[#FFF4D9] w-fit py-3 px-12 mx-auto rounded-full'>Bạn còn 2 lượt làm bài</div>
             </div>
           </div>
         </section>

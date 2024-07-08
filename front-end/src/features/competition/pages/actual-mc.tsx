@@ -167,7 +167,7 @@ const Quiz = () => {
                 Nộp bài
               </Button>
               <div className='flex overflow-auto py-2 bg-white md:flex-wrap md:border rounded-xl md:p-4 md:justify-center'>
-                {questions.map((_, index: number) => (
+                {questions.map((_: unknown, index: number) => (
                   <div key={index} className='flex flex-col items-center'>
                     <Button
                       shape='circle'

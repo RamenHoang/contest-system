@@ -23,11 +23,11 @@ const CreateExam = () => {
     }
   }, [exam?.data?.title, exam?.data?.questions]);
 
-  const handleAddQuestion = (questionData: Partial<IQuestion>, isUpdate: boolean) => {
+  const handleAddQuestion = (questionData: IQuestion, isUpdate: boolean) => {
     if (Array.isArray(questionData)) {
       console.error('questionData should be an object, not an array');
     } else {
-      setQuestions((prevQuestions) => {
+      setQuestions((prevQuestions: IQuestion[]) => {
         console.log('Before update/add:', prevQuestions); // Debug log
 
         let updatedQuestions;
