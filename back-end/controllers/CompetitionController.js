@@ -17,8 +17,8 @@ const UserAnswers = require("../models/UserAnswers");
 const sequelize = require("sequelize");
 
 const uploadImage = async (req, res) => {
-  const filePath = req.file.path;
-  res.status(StatusCodes.OK).json(ApiResponse(filePath, 1));
+  const filename = req.file.filename;
+  res.status(StatusCodes.OK).json(ApiResponse(`/${filename}`, 1));
 };
 
 const getListCompetition = async (req, res, next) => {
