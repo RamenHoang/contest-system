@@ -27,8 +27,12 @@
   }
 }
 
+.ant-layout-sider {
+  /* background-color: #fafafa !important; */
+}
+
 .ant-layout-sider-trigger {
-  background-color: rgb(233, 233, 233) !important;
+  background-color: #fafafa !important;
 }
 
 .ant-layout-sider-trigger span svg {

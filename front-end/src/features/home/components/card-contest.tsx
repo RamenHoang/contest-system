@@ -26,7 +26,7 @@ export const CardContest = ({ competition }: { competition: ICompetition }) => {
   return (
     <div className='relative w-full mt-4'>
       <Link to={`competition/cuoc-thi/intro/${competition?.id}/${toSlug(competition?.name)}`}>
-        <div className='p-2 shadow-lg rounded-2xl w-full max-w'>
+        <div className='p-2 shadow-md rounded-2xl w-full max-w'>
           <div className='flex items-center gap-4'>
             <div className='flex-shrink-0' style={{ width: '240px' }}>
               <Image

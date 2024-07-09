@@ -31,5 +31,5 @@ const items: MenuItem[] = [
 ];
 
 export const AntMenu = () => {
-  return <Menu defaultSelectedKeys={['1']} mode='inline' items={items} />;
+  return <Menu defaultOpenKeys={['sub1']} defaultSelectedKeys={['1']} mode='inline' items={items} />;
 };

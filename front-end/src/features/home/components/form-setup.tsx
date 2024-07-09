@@ -9,6 +9,8 @@ export const FormSetup = () => {
   const navigate = useNavigate();
   const { data: exams } = useExams();
 
+  console.log(exams);
+
   const { id } = useParams();
   console.log(id);
 
@@ -28,6 +30,7 @@ export const FormSetup = () => {
 
     const finalData = {
       ...data,
+      id: parseInt(id as string),
       testDuration: Number(data.testDuration),
       testAttempts: Number(data.testAttempts),
       isMix: data.isMix === 'null' ? null : data.isMix,
@@ -39,7 +42,7 @@ export const FormSetup = () => {
     // @ts-expect-error null
     setUpCompetition(finalData, {
       onSuccess: () => {
-        navigate('/dashboard/contest');
+        navigate(`/dashboard/contest/${id}/edit?step=3`);
       }
     });
   };
@@ -55,20 +58,20 @@ export const FormSetup = () => {
             setExamIds(selectedIds);
           }}
           defaultValue={options?.[0]?.id}
-          style={{ width: 240 }}
+          style={{ width: '100%' }}
           options={options}
         />
-        <div className='w-[85px]'>
+        {/* <div className='w-[85px]'>
           <Input type='number' placeholder='TN' value='1' />
         </div>
         <div className='w-[85px]'>
           <Input type='number' placeholder='TL' value='0' />
-        </div>
+        </div> */}
       </div>
-      <div>
-        Đề thi có <span className='text-blue-500 font-semibold'>1</span> câu trắc nghiệm và{' '}
+      {/* <div>
+        Đề thi có <span className='text-blue-500 font-semibold'>30</span> câu trắc nghiệm và{' '}
         <span className='text-blue-500 font-semibold'>0</span> câu tự luận.{' '}
-      </div>
+      </div> */}
       <Divider className='my-4' />
       <Form form={form} layout='vertical' onFinish={handleSubmit}>
         <Form.Item label='Thời gian làm bài (phút) (0: Không giới hạn)' name='testDuration'>

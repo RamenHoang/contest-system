@@ -42,13 +42,15 @@ export interface IAnswer {
 }
 
 export interface ICompetition {
-  id?: number;
+  id: number;
   name: string;
   rules: string;
   timeStart: string;
   timeEnd: string;
   unitGroupName: string;
   bannerUrl: string;
+  password: string;
+  infoRequire: string;
 }
 
 export interface ISetupCompetition {
@@ -78,7 +80,7 @@ export interface ISubUnit {
 }
 
 export interface IOrganizer {
-  id?: number;
+  id: number;
   name: string;
   address: string;
   email: string;
@@ -138,4 +140,13 @@ export interface IFieldRequired {
   job: string;
   sex: string;
   other: string;
+}
+
+export interface IStatistic {
+  id: number;
+  fullName: string;
+  totalCorrectAnswers: number;
+  correctAnswersRate: number;
+  duration: string;
+  createdAt: string;
 }

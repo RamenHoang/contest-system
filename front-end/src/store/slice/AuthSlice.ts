@@ -7,7 +7,9 @@ export type AuthData = {
   email?: string;
   username?: string;
   accessToken?: string;
+  refreshToken?: string;
   avatar?: string;
+  role?: string;
 };
 
 export interface AuthState {
@@ -26,7 +28,9 @@ const initialState: AuthState = {
     email: undefined,
     username: undefined,
     avatar: undefined,
-    id: undefined
+    id: undefined,
+    role: undefined,
+    refreshToken: undefined
   }
 };
 

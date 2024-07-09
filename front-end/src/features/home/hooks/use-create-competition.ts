@@ -5,7 +5,7 @@ import { ICompetition } from '~/types';
 
 export const useCreateCompetition = () => {
   return useMutation({
-    mutationFn: (data: ICompetition) => CompetitionApi.createCompetition(data),
+    mutationFn: async (data: Partial<ICompetition>) => CompetitionApi.createCompetition(data),
 
     onSuccess: () => {
       message.success('Bước 1 thành công');

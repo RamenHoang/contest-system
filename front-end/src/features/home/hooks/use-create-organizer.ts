@@ -11,7 +11,7 @@ export const useCreateOrganizer = () => {
     mutationFn: (data: IOrganizer) => OrganizerApi.createOrganizer(data, id as string),
 
     onSuccess: () => {
-      message.success('Thêm đơn vị thành công');
+      message.success('Thêm thông tin BTC thành công');
     },
 
     onError: (error) => {
