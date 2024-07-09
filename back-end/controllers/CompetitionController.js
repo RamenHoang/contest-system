@@ -144,14 +144,14 @@ const createCompetition = async (req, res, next) => {
         );
       }
 
-      competition.bannerUrl = bannerUrl;
-      competition.name = name;
-      competition.rules = rules;
+      competition.bannerUrl = bannerUrl ?? competition.bannerUrl;
+      competition.name = name ?? competition.name;
+      competition.rules = rules ?? competition.name;
       competition.password = password ?? competition.password;
       competition.themeColor = themeColor ?? competition.themeColor;
-      competition.timeStart = timeStart;
-      competition.timeEnd = timeEnd;
-      competition.infoRequire = infoRequire;
+      competition.timeStart = timeStart ?? competition.timeStart;
+      competition.timeEnd = timeEnd ?? competition.timeEnd;
+      competition.infoRequire = infoRequire ?? competition.infoRequire;
 
       await competition.save();
     } else {
