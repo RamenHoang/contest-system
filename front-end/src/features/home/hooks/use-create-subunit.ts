@@ -18,7 +18,7 @@ export const useCreateSubUnit = () => {
     },
 
     onError: (error) => {
-      console.log(error);
+      message.error(error.message);
     }
   });
 };

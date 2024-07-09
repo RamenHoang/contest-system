@@ -18,7 +18,7 @@ export interface IUser {
 }
 
 export interface IExam {
-  id?: number;
+  id: number;
   idUser?: number;
   title: string;
   totalMCQuestion: number;
@@ -42,13 +42,16 @@ export interface IAnswer {
 }
 
 export interface ICompetition {
-  id?: number;
+  id: number;
   name: string;
   rules: string;
   timeStart: string;
   timeEnd: string;
   unitGroupName: string;
   bannerUrl: string;
+  password: string;
+  themeColor: string;
+  infoRequire: string;
 }
 
 export interface ISetupCompetition {
@@ -58,6 +61,20 @@ export interface ISetupCompetition {
   examOfCompetitions: IExamBanking[];
 }
 
+export interface IInfoStep2 {
+  isMix: string | null;
+  testDuration: number;
+  testAttempts: number;
+  examOfCompetitions: IExamsStep2[];
+}
+
+export interface IExamsStep2 {
+  id: number;
+  examBankingId: number;
+  totalMCQuestion: number;
+  totalEssayQuestion: number;
+}
+
 export interface IExamBanking {
   examBankingId: number;
 }
@@ -65,6 +82,8 @@ export interface IExamBanking {
 export interface IListCompetition extends ICompetition {
   id: number;
   unitGroupName: string;
+  numberOfExams: number;
+  isPublic: 'Chỉnh sửa' | 'Xuất bản';
 }
 
 export interface ICreateSubUnits {
@@ -78,7 +97,7 @@ export interface ISubUnit {
 }
 
 export interface IOrganizer {
-  id?: number;
+  id: number;
   name: string;
   address: string;
   email: string;
@@ -138,4 +157,13 @@ export interface IFieldRequired {
   job: string;
   sex: string;
   other: string;
+}
+
+export interface IStatistic {
+  id: number;
+  fullName: string;
+  totalCorrectAnswers: number;
+  correctAnswersRate: number;
+  duration: string;
+  createdAt: string;
 }

@@ -71,11 +71,9 @@ const AuthSlice = createSlice({
     },
     logoutFailed: (state) => {
       state.loadingState = 'failed';
-      state.isSignedIn = true;
+      state.isSignedIn = false;
       state.isLoaded = true;
-      state.data = {
-        ...state.data
-      };
+      state.data = {};
     }
   }
 });

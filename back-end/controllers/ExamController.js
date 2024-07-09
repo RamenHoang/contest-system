@@ -323,6 +323,29 @@ const importExamFromDocx = async (req, res, next) => {
   }
 };
 
+const deleteExam = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    // Find exam by ID
+    const exam = await ExamBanking.findByPk(id);
+
+    if (!exam) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Exam not found.")
+      );
+    }
+
+    // Delete exam
+    await exam.destroy();
+
+    res
+      .status(StatusCodes.OK)
+      .json(ApiResponse(true, 0, StatusCodes.OK, "Exam deleted."));
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getExamsByCurrentUser,
   updateQuestions,
@@ -330,4 +353,5 @@ module.exports = {
   updateExam,
   getExamById,
   importExamFromDocx,
+  deleteExam,
 };

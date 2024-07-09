@@ -1,20 +1,35 @@
-import { Button, Space, Table, Tag, Tooltip } from 'antd';
+import { Button, Modal, Space, Table, Tag, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { format } from 'date-fns';
-import { Eye, PencilIcon, TrashIcon } from 'lucide-react';
+import { PencilIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useCompetitions } from '~/features/home/hooks/use-competitions';
+import { useDeleteCompetition } from '~/features/competition/hooks/use-delete-competition';
+import { useUserCompetitions } from '~/features/competition/hooks/use-user-competitions';
 import { IListCompetition } from '~/types';
 
 const statusToTagName: Record<string, string> = {
-  'Đang diễn ra': 'success',
-  'Kết thúc': 'error'
+  'Đang diễn ra': '#faad14',
+  'Kết thúc': '#52c41a',
+  'Chưa bắt đầu': '#cac9c9'
 };
 
 export const TableContest = () => {
   const navigate = useNavigate();
 
-  const { data: competitions, isPending: isLoading } = useCompetitions();
+  const { data: userCompetitions, isPending: isLoading } = useUserCompetitions();
+  const { mutate: deleteCompetition } = useDeleteCompetition();
+
+  const showDeleteConfirm = (id: string) => {
+    Modal.confirm({
+      title: 'Bạn có chắc chắn xóa cuộc thi này?',
+      okText: 'Xác nhận',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      onOk() {
+        deleteCompetition(id);
+      }
+    });
+  };
 
   const columns: ColumnsType<Partial<IListCompetition>> = [
     {
@@ -39,7 +54,7 @@ export const TableContest = () => {
       width: 200,
       ellipsis: { showTitle: true },
       render: (value, record) => (
-        <Tag color='warning' className='!text-gray-500 font-medium py-0.5 px-2 rounded-full'>
+        <Tag color='#54a0fc' className='text-white font-medium py-0.5 px-2 rounded-full'>
           {format(new Date(value), 'dd/MM/yyyy') ?? '-'} &mdash;{' '}
           {record?.timeEnd ? format(new Date(record.timeEnd), 'dd/MM/yyyy') : '-'}
         </Tag>
@@ -66,7 +81,7 @@ export const TableContest = () => {
 
         const tagName = statusToTagName[statusText];
         return (
-          <Tag className='text-[13px] font-normal rounded-full' color={tagName}>
+          <Tag color={tagName} className='!text-white font-medium py-0.5 px-2 rounded-full'>
             {statusText}
           </Tag>
         );
@@ -74,9 +89,10 @@ export const TableContest = () => {
     },
     {
       title: 'Số lượt làm bài',
-      key: 'count',
-      dataIndex: 'count',
-      width: 120
+      key: 'numberOfExams',
+      dataIndex: 'numberOfExams',
+      width: 120,
+      align: 'center'
     },
     {
       title: 'Thao tác',
@@ -84,16 +100,8 @@ export const TableContest = () => {
       dataIndex: 'action',
       width: 100,
       align: 'center',
-      render: (_, value) => (
+      render: (_, item) => (
         <Space size='small'>
-          <Tooltip title='Xem trước'>
-            <Button
-              type='text'
-              htmlType='button'
-              className='inline-flex items-center justify-center'
-              icon={<Eye className='h-4 w-4' />}
-            />
-          </Tooltip>
           <Tooltip title='Chỉnh sửa'>
             <Button
               type='text'
@@ -101,7 +109,7 @@ export const TableContest = () => {
               className='inline-flex items-center justify-center'
               icon={<PencilIcon className='h-4 w-4' />}
               onClick={() => {
-                navigate(`/${value?.id}/edit`);
+                navigate(`/dashboard/contest/${item.id}/edit?step=1`);
               }}
             />
           </Tooltip>
@@ -112,6 +120,7 @@ export const TableContest = () => {
               htmlType='button'
               className='inline-flex items-center justify-center'
               icon={<TrashIcon className='h-4 w-4' />}
+              onClick={() => showDeleteConfirm(String(item.id))}
             />
           </Tooltip>
         </Space>
@@ -123,17 +132,15 @@ export const TableContest = () => {
     <Table
       loading={isLoading}
       className='font-light'
-      // onRow={(contest) => ({
-      //   className: 'cursor-pointer',
-      //   onClick: () => {
-      //     console.log(`/dashboard/contest/edit/${contest?.id}`);
-      //     navigate(`/dashboard/contest/edit/${contest?.id}`);
-      //   }
-      // })}
       rowKey='code'
-      dataSource={competitions?.data}
+      dataSource={userCompetitions?.data}
       columns={columns}
       scroll={{ x: 870 }}
+      pagination={{
+        defaultPageSize: 10,
+        showTotal: (total) => `Tổng ${total} kết quả`,
+        position: ['bottomCenter']
+      }}
     />
   );
 };

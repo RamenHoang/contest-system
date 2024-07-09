@@ -1,49 +1,59 @@
-import {
-  Button,
-  Checkbox,
-  Col,
-  // ColorPicker,
-  // ColorPickerProps,
-  DatePicker,
-  Form,
-  GetProp,
-  Input,
-  Modal,
-  Row,
-  Upload
-} from 'antd';
+import { Button, Checkbox, Col, ColorPicker, DatePicker, Form, Input, Modal, Row, Upload } from 'antd';
 import { format } from 'date-fns';
+import { isEmpty } from 'lodash';
 import { UploadIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { SetStateAction, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useCompetition } from '~/features/competition/hooks/use-competition';
 import { useCreateCompetition } from '~/features/home/hooks/use-create-competition';
 import { useGetInfoRequired } from '~/features/home/hooks/use-info-required';
 import { useInfo } from '~/hooks/useInfo';
 import { ICompetition } from '~/types';
+import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
+import moment from 'moment';
+import { Color } from 'antd/es/color-picker';
 
-// @ts-expect-error eee
-const normFile = (e) => {
+const normFile = (e: { fileList: unknown }) => {
   if (Array.isArray(e)) {
     return e;
   }
   return e?.fileList;
 };
 
-// type Color = GetProp<ColorPickerProps, 'value'>;
-
 export const FormContest = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [selectedValues, setSelectedValues] = useState('');
-  const [bannerUrl, setBannerUrl] = useState('');
-  // const [themeColor, setThemeColor] = useState<Color>('#ffa616');
-
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [bannerUrl, setBannerUrl] = useState<string | undefined>('');
   const user = useInfo();
-
   const { mutate: createCompetition } = useCreateCompetition();
-
+  const { data: competitionData } = useCompetition();
+  const competition: ICompetition = competitionData?.data;
   const [form] = Form.useForm<ICompetition>();
+  const [color] = useState<Color>();
+
+  useEffect(() => {
+    if (!competition || isEmpty(competition)) {
+      return;
+    }
+
+    const { name, rules, timeEnd, timeStart, infoRequire, password, bannerUrl, themeColor } = competition;
+
+    form.setFieldsValue({
+      name,
+      rules,
+      // @ts-expect-error date
+      timeStart: timeStart && moment(timeStart),
+      // @ts-expect-error date
+      timeEnd: timeEnd && moment(timeEnd),
+      password,
+      bannerUrl,
+      themeColor
+    });
+
+    setSelectedValues(Array.isArray(infoRequire) ? infoRequire : infoRequire ? infoRequire.split(', ') : []);
+  }, [competition, form]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -57,14 +67,13 @@ export const FormContest = () => {
     setIsModalOpen(false);
   };
 
-  const onChange: GetProp<typeof Checkbox.Group, 'onChange'> = (checkedValues) => {
-    setSelectedValues(checkedValues.join());
+  const onChange = (checkedValues: SetStateAction<string[]>) => {
+    setSelectedValues(checkedValues);
   };
 
   const { data: listInfoRequired } = useGetInfoRequired();
 
-  // @ts-expect-error info
-  const handleUploadChange = (info) => {
+  const handleUploadChange = (info: UploadChangeParam<UploadFile<{ data: SetStateAction<string | undefined> }>>) => {
     if (info.file.status === 'done') {
       setBannerUrl(info?.file?.response?.data);
     }
@@ -73,19 +82,17 @@ export const FormContest = () => {
   const handleSubmit = (data: ICompetition) => {
     const finalData = {
       ...data,
+      id: parseInt(id as string),
       timeStart: format(new Date(data.timeStart), 'yyyy-MM-dd HH:mm:ss'),
       timeEnd: format(new Date(data.timeEnd), 'yyyy-MM-dd HH:mm:ss'),
       bannerUrl,
-      infoRequire: selectedValues
-      // themeColor
+      infoRequire: selectedValues.join(', ')
     };
 
     createCompetition(finalData, {
       onSuccess: (response) => {
-        // Assuming response.data contains the ID you want to use in the URL
         const contestId = response?.data;
-        console.log(contestId);
-        navigate(`/dashboard/contest/${contestId}/create?step=2`);
+        navigate(`/dashboard/contest/${contestId}/edit?step=2`);
       }
     });
   };
@@ -122,24 +129,26 @@ export const FormContest = () => {
           name='timeStart'
           rules={[{ required: true, message: 'Vui lòng nhập thời gian bắt đầu!' }]}
         >
-          <DatePicker placeholder='Chọn ngày bắt đầu' />
+          <DatePicker placeholder='Chọn ngày bắt đầu' format='YYYY-MM-DD HH:mm:ss' />
         </Form.Item>
         <Form.Item
           label='Ngày kết thúc'
           name='timeEnd'
           rules={[{ required: true, message: 'Vui lòng nhập thời gian bắt đầu!' }]}
         >
-          <DatePicker placeholder='Chọn ngày kết thúc' />
+          <DatePicker placeholder='Chọn ngày kết thúc' format='YYYY-MM-DD HH:mm:ss' />
         </Form.Item>
-        {/* <Form.Item label='Màu chủ đề'>
+        <Form.Item label='Mật khẩu' name='password'>
+          <Input.Password placeholder='Nhập mật khẩu cuộc thi...' />
+        </Form.Item>
+        <Form.Item label='Màu chủ đề' name='themeColor' initialValue={{ value: '#38a382' }}>
           <ColorPicker
-            value={themeColor}
-            onChange={setThemeColor}
-            showText={(color) => <span className='text-gray-500'>{color.toHexString()}</span>}
+            value={color}
+            onChange={(_, hex) => {
+              form.setFieldsValue({ themeColor: hex });
+            }}
+            showText
           />
-        </Form.Item> */}
-        <Form.Item label='Mật khẩu'>
-          <Input placeholder='Mật khẩu..' disabled />
         </Form.Item>
         <Form.Item label='Thông tin bắt buộc'>
           <Input value='Họ tên, Số điện thoại, Email' onClick={showModal} className='cursor-pointer bg-gray-200' />
@@ -147,7 +156,7 @@ export const FormContest = () => {
 
         <div className='mt-5 mb-2 flex justify-end gap-3'>
           <Button size='middle' htmlType='submit' type='primary'>
-            Tiếp tục
+            Xác nhận
           </Button>
         </div>
       </Form>
@@ -157,10 +166,10 @@ export const FormContest = () => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
+        <Checkbox.Group style={{ width: '100%' }} value={selectedValues} onChange={onChange}>
           <Row>
             {listInfoRequired?.data?.map((item: { id: number; label: string }) => (
-              <Col span={12}>
+              <Col span={12} key={item.id}>
                 <Checkbox value={item.id}>{item.label}</Checkbox>
               </Col>
             ))}

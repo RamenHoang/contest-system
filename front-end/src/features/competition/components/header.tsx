@@ -20,7 +20,12 @@ export const Header = ({ data }: { data: IStartRequired }) => {
       <nav className='px-4 lg:px-6 py-2.5 text-white'>
         <div className='flex items-center justify-between gap-8 mx-auto max-w-screen-xl'>
           <Link to='/'>
-            <img src='/public/vite.svg' alt='logo' />
+            <img
+              src='https://png.pngtree.com/png-vector/20221127/ourmid/pngtree-digital-media-play-button-gradient-color-hexagon-marketing-agency-mobile-app-png-image_6482499.png'
+              alt='logo'
+              width={50}
+              height={50}
+            />
           </Link>
           <div className='bg-green-700 flex items-center justify-end lg:grow lg:py-2 lg:px-7 rounded-full'>
             <div className='flex items-center lg:order-2'>

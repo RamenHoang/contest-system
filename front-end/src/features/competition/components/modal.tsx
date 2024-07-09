@@ -22,7 +22,6 @@ const AntModal = ({
       .validateFields()
       .then((values) => {
         const participant = { ...values };
-        console.log(participant); // You can handle the submission logic here
         setIsModalOpen(false);
         const newPath = `/competition/cuoc-thi/start/${id}/${slug}`;
         navigate(newPath, { state: { participant } });
@@ -37,8 +36,6 @@ const AntModal = ({
   };
 
   const infoRequire = data?.infoRequire || [];
-
-  console.log(infoRequire);
 
   const formFields = [
     { id: 1, label: 'Họ tên thí sinh', type: 'string', field: 'fullName' },

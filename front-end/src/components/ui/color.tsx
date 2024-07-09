@@ -34,6 +34,7 @@ const TableColor = () => {
           key={index}
           className='w-6 h-6 rounded-full shrink-0 cursor-pointer flex items-center justify-center'
           style={{ backgroundColor: color }}
+          onClick={() => navigator.clipboard.writeText(color)}
         ></li>
       ))}
     </ul>

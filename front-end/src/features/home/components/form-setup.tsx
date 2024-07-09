@@ -1,20 +1,22 @@
-import { Button, Divider, Form, Input, Select } from 'antd';
-import { useState } from 'react';
+import { Button, Form, Input, Select } from 'antd';
+import { isEmpty } from 'lodash';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useInfoStep2 } from '~/features/competition/hooks/use-info-step2';
 import { useSetupCompetition } from '~/features/home/hooks/use-setup-competition';
 import { useExams } from '~/features/quiz/hooks/use-exams';
-import { IExam, ISetupCompetition } from '~/types';
+import { IExam, IInfoStep2, ISetupCompetition } from '~/types';
 
 export const FormSetup = () => {
   const navigate = useNavigate();
   const { data: exams } = useExams();
 
-  console.log(exams);
-
   const { id } = useParams();
-  console.log(id);
 
   const [examIds, setExamIds] = useState<number[]>([]);
+
+  const { data: infoStep2Data } = useInfoStep2();
+  const infoStep2: IInfoStep2 = infoStep2Data?.data;
 
   const [form] = Form.useForm<ISetupCompetition>();
 
@@ -30,6 +32,7 @@ export const FormSetup = () => {
 
     const finalData = {
       ...data,
+      id: parseInt(id as string),
       testDuration: Number(data.testDuration),
       testAttempts: Number(data.testAttempts),
       isMix: data.isMix === 'null' ? null : data.isMix,
@@ -41,38 +44,46 @@ export const FormSetup = () => {
     // @ts-expect-error null
     setUpCompetition(finalData, {
       onSuccess: () => {
-        navigate('/dashboard/contest');
+        navigate(`/dashboard/contest/${id}/edit?step=3`);
       }
     });
   };
 
+  useEffect(() => {
+    if (!infoStep2 || isEmpty(infoStep2)) {
+      return;
+    }
+
+    const { testDuration, testAttempts, isMix, examOfCompetitions } = infoStep2;
+
+    form.setFieldsValue({
+      testDuration,
+      testAttempts,
+      // @ts-expect-error null
+      isMix: isMix === null ? 'null' : isMix
+    });
+
+    const selectedExamIds = examOfCompetitions?.map((exam) => exam.examBankingId) || [];
+    setExamIds(selectedExamIds);
+  }, [infoStep2, form]);
+
+  console.log(examIds);
+
   return (
-    <>
-      <div className='mb-2 text-sm flex'>Trộn nhiều đề thi.</div>
-      <div className='flex items-center gap-1 mb-2'>
-        <Select
-          mode='multiple'
-          onChange={(selectedItems) => {
-            const selectedIds = selectedItems.map((item: number) => Number(item));
-            setExamIds(selectedIds);
-          }}
-          defaultValue={options?.[0]?.id}
-          style={{ width: '100%' }}
-          options={options}
-        />
-        {/* <div className='w-[85px]'>
-          <Input type='number' placeholder='TN' value='1' />
-        </div>
-        <div className='w-[85px]'>
-          <Input type='number' placeholder='TL' value='0' />
-        </div> */}
-      </div>
-      {/* <div>
-        Đề thi có <span className='text-blue-500 font-semibold'>30</span> câu trắc nghiệm và{' '}
-        <span className='text-blue-500 font-semibold'>0</span> câu tự luận.{' '}
-      </div> */}
-      <Divider className='my-4' />
+    <div className='-mt-10'>
       <Form form={form} layout='vertical' onFinish={handleSubmit}>
+        <Form.Item label='Trộn nhiều đề thi'>
+          <Select
+            mode='multiple'
+            onChange={(selectedItems) => {
+              const selectedIds = selectedItems.map((item: number) => Number(item));
+              setExamIds(selectedIds);
+            }}
+            defaultValue={[9, 19]}
+            style={{ width: '100%' }}
+            options={options}
+          />
+        </Form.Item>
         <Form.Item label='Thời gian làm bài (phút) (0: Không giới hạn)' name='testDuration'>
           <Input placeholder='Thời gian làm bài' type='number' />
         </Form.Item>
@@ -94,10 +105,10 @@ export const FormSetup = () => {
         </Form.Item>
         <div className='mt-5 mb-2 flex justify-end gap-3'>
           <Button size='middle' htmlType='submit' type='primary'>
-            Tiếp tục
+            Xác nhận
           </Button>
         </div>
       </Form>
-    </>
+    </div>
   );
 };

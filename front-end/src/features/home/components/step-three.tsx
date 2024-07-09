@@ -7,7 +7,7 @@ const StepThree = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [subUnitName, setSubUnitName] = useState('');
 
-  const { mutate: createSubUnit } = useCreateSubUnit();
+  const { mutate: createSubUnit, isPending } = useCreateSubUnit();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -35,7 +35,15 @@ const StepThree = () => {
         </div>
         <TableSubUnit />
       </div>
-      <Modal title='Thêm nhóm đơn vị con' open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal
+        title='Thêm nhóm đơn vị con'
+        open={isModalOpen}
+        okText='Xác nhận'
+        cancelText='Hủy'
+        onOk={handleOk}
+        onCancel={handleCancel}
+        confirmLoading={isPending}
+      >
         <Input
           size='large'
           value={subUnitName}

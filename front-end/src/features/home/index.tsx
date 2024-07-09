@@ -14,8 +14,7 @@ const HomeRoutes = () => {
     <Routes>
       <Route path='/' element={<HomePage />} />
       <Route path='/dashboard/contest' element={<ContestPage />} />
-      <Route path='/dashboard/contest/create' element={<CreateContest />} />
-      <Route path='/dashboard/contest/:id/create' element={<CreateContest />} />
+      <Route path='/dashboard/contest/:id/edit' element={<CreateContest />} />
       <Route path='/dashboard/quiz' element={<ExamPage />} />
       <Route path='/dashboard/quiz/:id/edit' element={<CreateExam />} />
       <Route path='/dashboard/quiz/import' element={<ImportExam />} />

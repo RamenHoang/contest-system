@@ -1,8 +1,9 @@
-import { Button, Space, Table, Tag, Tooltip } from 'antd';
+import { Button, Space, Table, Tag, Tooltip, Modal } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
-import { Eye, PencilIcon, TrashIcon } from 'lucide-react';
+import { PencilIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useDeleteExam } from '~/features/quiz/hooks/use-delete-exam';
 import { useExams } from '~/features/quiz/hooks/use-exams';
 import { IExam } from '~/types';
 
@@ -10,7 +11,20 @@ export const TableExam = () => {
   const navigate = useNavigate();
 
   const { data: exams, isLoading } = useExams();
+  const { mutate: deleteExam } = useDeleteExam();
   console.log(exams);
+
+  const showDeleteConfirm = (id: string) => {
+    Modal.confirm({
+      title: 'Bạn có chắc chắn xóa bài thi này?',
+      okText: 'Xác nhận',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      onOk() {
+        deleteExam(id);
+      }
+    });
+  };
 
   const columns: ColumnsType<Partial<IExam>> = [
     {
@@ -53,16 +67,8 @@ export const TableExam = () => {
       dataIndex: 'action',
       width: 100,
       align: 'center',
-      render: (_, value) => (
+      render: (_, item) => (
         <Space size='small'>
-          <Tooltip title='Xem trước'>
-            <Button
-              type='text'
-              htmlType='button'
-              className='inline-flex items-center justify-center'
-              icon={<Eye className='h-4 w-4' />}
-            />
-          </Tooltip>
           <Tooltip title='Chỉnh sửa'>
             <Button
               type='text'
@@ -70,8 +76,7 @@ export const TableExam = () => {
               className='inline-flex items-center justify-center'
               icon={<PencilIcon className='h-4 w-4' />}
               onClick={() => {
-                console.log(value.id);
-                navigate(`/${value.id}/edit`);
+                navigate(`/dashboard/quiz/${item.id}/edit`);
               }}
             />
           </Tooltip>
@@ -82,6 +87,7 @@ export const TableExam = () => {
               htmlType='button'
               className='inline-flex items-center justify-center'
               icon={<TrashIcon className='h-4 w-4' />}
+              onClick={() => showDeleteConfirm(String(item.id))}
             />
           </Tooltip>
         </Space>
@@ -93,16 +99,15 @@ export const TableExam = () => {
     <Table
       loading={isLoading}
       className='font-light'
-      onRow={(exam) => ({
-        className: 'cursor-pointer',
-        onClick: () => {
-          navigate(`/dashboard/quiz/${exam?.id}/edit`);
-        }
-      })}
       rowKey='code'
       dataSource={exams?.data}
       columns={columns}
       scroll={{ x: 570 }}
+      pagination={{
+        defaultPageSize: 10,
+        showTotal: (total) => `Tổng ${total} kết quả`,
+        position: ['bottomCenter']
+      }}
     />
   );
 };
