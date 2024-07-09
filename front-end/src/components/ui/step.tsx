@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, message, Steps } from 'antd';
+import { Button, Steps } from 'antd';
 import { useNavigate, useLocation, useParams } from 'react-router-dom'; // Import useLocation
 import StepTwo from '~/features/home/components/step-two';
 import StepThree from '~/features/home/components/step-three';
@@ -87,7 +87,7 @@ const AntStep: React.FC = () => {
           </Button>
         )}
         {current === steps.length - 1 && (
-          <Button type='primary' onClick={() => message.success('Processing complete!')}>
+          <Button type='primary' onClick={() => navigate('/dashboard/contest')}>
             Kết thúc
           </Button>
         )}

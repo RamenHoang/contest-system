@@ -60,6 +60,20 @@ export interface ISetupCompetition {
   examOfCompetitions: IExamBanking[];
 }
 
+export interface IInfoStep2 {
+  isMix: string | null;
+  testDuration: number;
+  testAttempts: number;
+  examOfCompetitions: IExamsStep2[];
+}
+
+export interface IExamsStep2 {
+  id: number;
+  examBankingId: number;
+  totalMCQuestion: number;
+  totalEssayQuestion: number;
+}
+
 export interface IExamBanking {
   examBankingId: number;
 }
@@ -67,6 +81,8 @@ export interface IExamBanking {
 export interface IListCompetition extends ICompetition {
   id: number;
   unitGroupName: string;
+  numberOfExams: number;
+  isPublic: 'Chỉnh sửa' | 'Xuất bản';
 }
 
 export interface ICreateSubUnits {

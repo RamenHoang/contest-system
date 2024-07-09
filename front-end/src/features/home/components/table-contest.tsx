@@ -1,20 +1,21 @@
 import { Button, Space, Table, Tag, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { format } from 'date-fns';
-import { Eye, PencilIcon, TrashIcon } from 'lucide-react';
+import { PencilIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useCompetitions } from '~/features/home/hooks/use-competitions';
-import { IListCompetition } from '~/types';
+import { useUserCompetitions } from '~/features/competition/hooks/use-user-competitions';
+import { ICompetition, IListCompetition } from '~/types';
 
 const statusToTagName: Record<string, string> = {
-  'Đang diễn ra': 'success',
-  'Kết thúc': 'error'
+  'Đang diễn ra': '#faad14',
+  'Kết thúc': '#52c41a',
+  'Chưa bắt đầu': '#cac9c9'
 };
 
 export const TableContest = () => {
   const navigate = useNavigate();
 
-  const { data: competitions, isPending: isLoading } = useCompetitions();
+  const { data: userCompetitions, isPending: isLoading } = useUserCompetitions();
 
   const columns: ColumnsType<Partial<IListCompetition>> = [
     {
@@ -39,7 +40,7 @@ export const TableContest = () => {
       width: 200,
       ellipsis: { showTitle: true },
       render: (value, record) => (
-        <Tag color='warning' className='!text-gray-500 font-medium py-0.5 px-2 rounded-full'>
+        <Tag color='#4096ff' className='text-white font-medium py-0.5 px-2 rounded-full'>
           {format(new Date(value), 'dd/MM/yyyy') ?? '-'} &mdash;{' '}
           {record?.timeEnd ? format(new Date(record.timeEnd), 'dd/MM/yyyy') : '-'}
         </Tag>
@@ -66,7 +67,7 @@ export const TableContest = () => {
 
         const tagName = statusToTagName[statusText];
         return (
-          <Tag className='text-[13px] font-normal rounded-full' color={tagName}>
+          <Tag color={tagName} className='!text-white font-medium py-0.5 px-2 rounded-full'>
             {statusText}
           </Tag>
         );
@@ -74,9 +75,10 @@ export const TableContest = () => {
     },
     {
       title: 'Số lượt làm bài',
-      key: 'count',
-      dataIndex: 'count',
-      width: 120
+      key: 'numberOfExams',
+      dataIndex: 'numberOfExams',
+      width: 120,
+      align: 'center'
     },
     {
       title: 'Thao tác',
@@ -84,24 +86,17 @@ export const TableContest = () => {
       dataIndex: 'action',
       width: 100,
       align: 'center',
-      render: (_, value) => (
+      render: () => (
         <Space size='small'>
-          <Tooltip title='Xem trước'>
-            <Button
-              type='text'
-              htmlType='button'
-              className='inline-flex items-center justify-center'
-              icon={<Eye className='h-4 w-4' />}
-            />
-          </Tooltip>
           <Tooltip title='Chỉnh sửa'>
             <Button
               type='text'
               htmlType='button'
               className='inline-flex items-center justify-center'
               icon={<PencilIcon className='h-4 w-4' />}
-              onClick={() => {
-                navigate(`/${value?.id}/edit`);
+              // @ts-expect-error aaa
+              onClick={(_: unknown, contest: ICompetition) => {
+                navigate(`/dashboard/contest/${contest?.id}/edit?step=1`);
               }}
             />
           </Tooltip>
@@ -123,17 +118,23 @@ export const TableContest = () => {
     <Table
       loading={isLoading}
       className='font-light'
-      // onRow={(contest) => ({
-      //   className: 'cursor-pointer',
-      //   onClick: () => {
-      //     console.log(`/dashboard/contest/edit/${contest?.id}`);
-      //     navigate(`/dashboard/contest/edit/${contest?.id}`);
-      //   }
-      // })}
+      onRow={(contest) => ({
+        className: 'cursor-pointer',
+        onClick: () => {
+          navigate(`/dashboard/contest/${contest?.id}/edit?step=1`);
+        }
+      })}
       rowKey='code'
-      dataSource={competitions?.data}
+      dataSource={userCompetitions?.data}
       columns={columns}
       scroll={{ x: 870 }}
+      pagination={{
+        defaultPageSize: 10,
+        showSizeChanger: false,
+        pageSizeOptions: ['10', '20', '30'],
+        showTotal: (total) => `Tổng ${total} kết quả`,
+        position: ['bottomCenter']
+      }}
     />
   );
 };

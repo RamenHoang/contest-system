@@ -11,6 +11,15 @@ export const CompetitionApi = {
     }
   },
 
+  async getCompetitionsByUser() {
+    try {
+      const { data } = await axiosClient.get('/competitions/get-competitions-by-user?pageIndex=1&pageSize=100');
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   async getListInfoRequired() {
     try {
       const { data } = await axiosClient.get('/competitions/list-info-required');
@@ -102,6 +111,15 @@ export const CompetitionApi = {
       document.body.removeChild(link);
     } catch (error) {
       console.error(error);
+    }
+  },
+
+  async publishCompetition(id: string) {
+    try {
+      const { data } = await axiosClient.get(`/competitions/publish-competition/${id}`);
+      return data;
+    } catch (error) {
+      console.log(error);
     }
   }
 };
