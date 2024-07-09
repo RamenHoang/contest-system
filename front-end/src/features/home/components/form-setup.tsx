@@ -11,10 +11,7 @@ export const FormSetup = () => {
   const navigate = useNavigate();
   const { data: exams } = useExams();
 
-  console.log(exams);
-
   const { id } = useParams();
-  console.log(exams);
 
   const [examIds, setExamIds] = useState<number[]>([]);
 
@@ -108,7 +105,7 @@ export const FormSetup = () => {
         </Form.Item>
         <div className='mt-5 mb-2 flex justify-end gap-3'>
           <Button size='middle' htmlType='submit' type='primary'>
-            Tiếp tục
+            Xác nhận
           </Button>
         </div>
       </Form>

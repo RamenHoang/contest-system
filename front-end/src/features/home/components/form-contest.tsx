@@ -156,7 +156,7 @@ export const FormContest = () => {
 
         <div className='mt-5 mb-2 flex justify-end gap-3'>
           <Button size='middle' htmlType='submit' type='primary'>
-            Tiếp tục
+            Xác nhận
           </Button>
         </div>
       </Form>

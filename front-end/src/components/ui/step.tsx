@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Steps } from 'antd';
+import { Button, Steps, Tooltip } from 'antd';
 import { useNavigate, useLocation, useParams } from 'react-router-dom'; // Import useLocation
 import StepTwo from '~/features/home/components/step-two';
 import StepThree from '~/features/home/components/step-three';
@@ -91,9 +91,11 @@ const AntStep: React.FC = () => {
           </Button>
         )}
         {current < steps.length - 1 && (
-          <Button type='primary' onClick={() => next()}>
-            Tiếp tục
-          </Button>
+          <Tooltip title='Nếu không chỉnh sửa'>
+            <Button type='primary' onClick={() => next()}>
+              Tiếp tục
+            </Button>
+          </Tooltip>
         )}
       </div>
     </>
