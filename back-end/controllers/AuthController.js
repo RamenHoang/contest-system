@@ -107,27 +107,31 @@ const login = AsyncHandler(async (req, res) => {
   res.status(StatusCodes.OK).json(ApiResponse(responseData));
 });
 
-const logout = async (req, res) => {
-  const { refreshToken } = req.body;
+const logout = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body;
 
-  if (!refreshToken) {
-    throw new ApiError(
-      ApiResponse(false, 0, StatusCodes.BAD_REQUEST, "Invalid token.")
-    );
+    if (!refreshToken) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.BAD_REQUEST, "Invalid token.")
+      );
+    }
+
+    const user = await User.findOne({ where: { refreshToken: refreshToken } });
+
+    if (!user) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.UNAUTHORIZED, "Invalid token.")
+      );
+    }
+
+    user.refreshToken = null;
+    await user.save();
+
+    res.status(StatusCodes.OK).json(ApiResponse(true));
+  } catch (error) {
+    next(error);
   }
-
-  const user = await User.findOne({ where: { refreshToken: refreshToken } });
-
-  if (!user) {
-    throw new ApiError(
-      ApiResponse(false, 0, StatusCodes.UNAUTHORIZED, "Invalid token.")
-    );
-  }
-
-  user.refreshToken = null;
-  await user.save();
-
-  res.status(StatusCodes.OK).json(ApiResponse(true));
 };
 
 /**
