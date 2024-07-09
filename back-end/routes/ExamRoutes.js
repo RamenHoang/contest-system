@@ -49,4 +49,6 @@ router.post(
   ExamController.importExamFromDocx
 );
 
+router.delete("/delete/:id", AuthMiddleware, ExamController.deleteExam);
+
 module.exports = router;

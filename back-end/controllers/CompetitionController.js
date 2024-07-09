@@ -708,7 +708,8 @@ const statisticParticipant = async (req, res, next) => {
       toDate,
       pageIndex,
       pageSize,
-      keyword
+      keyword,
+      next
     );
 
     res.status(StatusCodes.OK).json(ApiResponse(data, count));
@@ -734,7 +735,8 @@ const exportExcel = async (req, res, next) => {
       toDate,
       pageIndex,
       pageSize,
-      keyword
+      keyword,
+      next
     );
 
     // Initialize a new workbook and add a worksheet
@@ -769,7 +771,7 @@ const exportExcel = async (req, res, next) => {
       { header: "Lượt đăng ký", key: "total", width: 20 },
     ];
 
-    const statisticUnit = await getStatisticUnitOfCompetition(id);
+    const statisticUnit = await getStatisticUnitOfCompetition(id, next);
     console.log(statisticUnit);
     statisticUnit.forEach((d) => {
       worksheet2.addRow({
@@ -788,7 +790,7 @@ const exportExcel = async (req, res, next) => {
       { header: "Thời gian làm", key: "duration", width: 20 },
     ];
 
-    const pHightestScore = await getParticipantHightestScore(id);
+    const pHightestScore = await getParticipantHightestScore(id, next);
     const timeDistance = moment(pHightestScore.finishTime).diff(
       moment(pHightestScore.startTime)
     );
@@ -882,7 +884,7 @@ const getResultParticipant = async (
   }
 };
 
-const getStatisticUnitOfCompetition = async (id, error) => {
+const getStatisticUnitOfCompetition = async (id, next) => {
   try {
     //group participant by unit and count
     const data = await Participant.findAll({
@@ -913,7 +915,7 @@ const getStatisticUnitOfCompetition = async (id, error) => {
   }
 };
 
-const getParticipantHightestScore = async (id, error) => {
+const getParticipantHightestScore = async (id, next) => {
   try {
     const data = await Participant.findOne({
       where: {
@@ -932,6 +934,25 @@ const getParticipantHightestScore = async (id, error) => {
     });
 
     return data;
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteCompetition = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const competition = await Competitions.findByPk(id);
+    if (!competition) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Competition not found")
+      );
+    }
+
+    await competition.destroy();
+
+    res.status(StatusCodes.OK).json(ApiResponse(true, 1));
   } catch (error) {
     next(error);
   }
@@ -958,4 +979,5 @@ module.exports = {
   saveResultCompetition,
   statisticParticipant,
   exportExcel,
+  deleteCompetition,
 };

@@ -129,4 +129,11 @@ router.get(
   CompetitionController.exportExcel
 );
 
+//delete
+router.delete(
+  "/delete/:id",
+  AuthMiddleware,
+  CompetitionController.deleteCompetition
+);
+
 module.exports = router;
