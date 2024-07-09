@@ -258,7 +258,7 @@ const getExamsOfCompetition = async (req, res, next) => {
       isMix: competition.isMix,
       testDuration: competition.testDuration,
       testAttempts: competition.testAttempts,
-      exams: examBankings.map((item) => {
+      examOfCompetitions: examBankings.map((item) => {
         const exam = exams.find((exam) => exam.examBankingId === item.id);
         return {
           id: exam.id,
