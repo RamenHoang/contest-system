@@ -67,6 +67,7 @@ app.use(cookieParser());
 routes, not found and custom api error handler
 ==============================*/
 app.get("/:name", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
   return res.sendFile(path.join(__dirname, "public", req.params.name));
 });
 
