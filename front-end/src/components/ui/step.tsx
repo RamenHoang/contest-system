@@ -5,9 +5,15 @@ import StepTwo from '~/features/home/components/step-two';
 import StepThree from '~/features/home/components/step-three';
 import StepFour from '~/features/home/components/step-four';
 import StepFive from '~/features/home/components/step-five';
+import { toSlug } from '~/utils/helpers';
+import { IStartRequired } from '~/types';
+import { useCompetition } from '~/features/competition/hooks/use-competition';
 
 const AntStep: React.FC = () => {
   const { id } = useParams();
+  const { data: competitionData } = useCompetition();
+  const competition: IStartRequired = competitionData?.data;
+  const slug = toSlug(competition?.name || '');
 
   const steps = [
     {
@@ -16,8 +22,7 @@ const AntStep: React.FC = () => {
         <div className=''>
           <iframe
             title='Contest Preview'
-            // src='https://myaloha.vn/dashboard/contest/84673/edit'
-            src={`https://quiz-application-kmn.vercel.app/dashboard/competition/cuoc-thi/intro/10/cuoc-thi-moi-ne`}
+            src={`https://quiz-application-kmn.vercel.app/competition/cuoc-thi/intro/${id}/${slug}`}
             className='rounded-sm pointer-events-auto w-full h-screen mx-auto shadow-xl border-[0.25rem] md:border-[0.75rem] border-gray-700'
           ></iframe>
         </div>

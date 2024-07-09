@@ -28,7 +28,7 @@ const StepFive = () => {
   };
 
   return (
-    <div className='step-four'>
+    <div className='step-five'>
       <div className='flex items-center gap-8'>
         <DashboardCard
           imgSrc='https://myaloha.vn/image/dashboard/human.png'

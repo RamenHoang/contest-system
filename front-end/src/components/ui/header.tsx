@@ -14,7 +14,7 @@ const AntHeader = () => {
               height={50}
             />
             <h1 className='font-extrabold text-transparent text-2xl bg-clip-text bg-gradient-to-r from-violet-400 to-orange-600'>
-              QUIZLE
+              ĐTN
             </h1>
           </Link>
           <AntDropdown />

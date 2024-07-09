@@ -13,7 +13,7 @@ export const ExamApi = {
 
   async getExams() {
     try {
-      const { data } = await axiosClient.get('/exam/get-exams-by-current-user?pageIndex=1&pageSize=50');
+      const { data } = await axiosClient.get('/exam/get-exams-by-current-user?pageIndex=1&pageSize=200');
       return data;
     } catch (error) {
       console.log(error);

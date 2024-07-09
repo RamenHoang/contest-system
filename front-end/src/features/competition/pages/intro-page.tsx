@@ -9,6 +9,9 @@ import { useCompetition } from '~/features/competition/hooks/use-competition';
 import { IStartRequired, IStatistic } from '~/types';
 import RankingList from '~/features/competition/components/ranking';
 import { useStatistics } from '~/features/competition/hooks/use-statistic';
+import { useNavigate } from 'react-router-dom';
+import { useInfo } from '~/hooks/useInfo';
+import { useLogin } from '~/hooks/useLogin';
 
 type IResult = {
   userName: string;
@@ -17,6 +20,10 @@ type IResult = {
 };
 
 const IntroPage = () => {
+  const navigate = useNavigate();
+
+  const isLoggedIn = useLogin();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [results, setResults] = useState<IResult | null>(null);
   const [timeLeft, setTimeLeft] = useState({
@@ -145,14 +152,23 @@ const IntroPage = () => {
               </div>
             </div>
             <div className='mt-4 lg:mt-8 flex items-center justify-center gap-4 lg:gap-8'>
-              <button
-                type='button'
-                className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-green-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
-                onClick={handleOpenModal}
-              >
-                Tham gia
-              </button>
-
+              {isLoggedIn ? (
+                <button
+                  type='button'
+                  className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-green-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
+                  onClick={handleOpenModal}
+                >
+                  Tham gia
+                </button>
+              ) : (
+                <button
+                  type='button'
+                  className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-green-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
+                  onClick={() => navigate('/auth/sign-in')}
+                >
+                  Đăng nhập
+                </button>
+              )}
               <Popover content={popoverContent} title='Thể lệ' trigger='click' placement='bottom'>
                 <button
                   type='button'

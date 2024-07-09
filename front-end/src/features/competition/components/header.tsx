@@ -1,7 +1,7 @@
-import { Modal } from 'antd';
+import { Image, Modal } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import AntDropdown from '~/components/ui/dropdown';
+// import AntDropdown from '~/components/ui/dropdown';
 import { IStartRequired } from '~/types';
 
 export const Header = ({ data }: { data: IStartRequired }) => {
@@ -27,10 +27,10 @@ export const Header = ({ data }: { data: IStartRequired }) => {
               height={50}
             />
           </Link>
-          <div className='bg-green-700 flex items-center justify-end lg:grow lg:py-2 lg:px-7 rounded-full'>
-            <div className='flex items-center lg:order-2'>
+          <div className='bg-green-700 flex items-center justify-end lg:grow px-5 py-1 lg:py-2 lg:px-7 rounded-full'>
+            {/* <div className='flex items-center lg:order-2'>
               <AntDropdown />
-            </div>
+            </div> */}
             <div className='justify-between items-center w-full lg:flex lg:w-auto lg:order-1 grow'>
               <ul className='flex items-center gap-x-10 text-lg'>
                 <Link to='/' className='hover:text-white/70'>
@@ -58,10 +58,17 @@ export const Header = ({ data }: { data: IStartRequired }) => {
 
       <div className='px-4 lg-px-6'>
         <div className='max-w-screen-xl mx-auto mt-4 lg:mt-8'>
-          <img
-            src='https://myaloha.s3-hn-2.cloud.cmctelecom.vn/tenant1/images/contest/banner/4573648_tnSe2Q1TJhTht3ZRrtORsBvgBq6e4cq6JfAa7I6L_1720004456.jpg'
+          <Image
+            loading='lazy'
+            crossOrigin='anonymous'
+            preview={false}
+            src={
+              data?.bannerUrl !== null && data?.bannerUrl !== ''
+                ? `http://localhost:8000${data?.bannerUrl}`
+                : 'https://myaloha.s3-hn-2.cloud.cmctelecom.vn/tenant1/images/contest/banner/4573648_tnSe2Q1TJhTht3ZRrtORsBvgBq6e4cq6JfAa7I6L_1720004456.jpg'
+            }
             alt='banner'
-            className='max-w-full h-auto mx-auto rounded-xl'
+            className='max-w-full h-auto mx-auto rounded-xl object-cover'
           />
         </div>
       </div>

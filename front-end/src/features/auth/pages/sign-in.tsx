@@ -72,10 +72,10 @@ const SignIn = () => {
         <div className='flex-center flex-col gap-2 mb-10'>
           <img
             alt='nextui logo'
-            src='https://cdn1.iconfinder.com/data/icons/social-media-glossy/512/42-quora_question_social-512.png'
+            src='https://png.pngtree.com/png-vector/20221127/ourmid/pngtree-digital-media-play-button-gradient-color-hexagon-marketing-agency-mobile-app-png-image_6482499.png'
             className='w-12 h-12'
           />
-          <h4 className='font-bold text-2xl'>AHAMOVE</h4>
+          <h4 className='font-bold text-2xl'>ĐTN</h4>
           <p className='text-base font-medium'>Đăng nhập vào tài khoản để tiếp tục</p>
         </div>
         <Form

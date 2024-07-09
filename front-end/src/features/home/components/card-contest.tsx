@@ -8,28 +8,46 @@ export const CardContest = ({ competition }: { competition: ICompetition }) => {
   return (
     <div className='relative w-full mt-4'>
       <Link to={`competition/cuoc-thi/intro/${competition?.id}/${toSlug(competition?.name)}`}>
-        <div className='p-2 shadow-md rounded-2xl w-full max-w'>
-          <div className='flex items-center gap-4'>
-            <div className='flex-shrink-0' style={{ width: '240px' }}>
+        <div className='p-2 shadow-md rounded-2xl w-full'>
+          <div className='flex items-center md:gap-10 flex-col sm:flex-row'>
+            <div className='flex-shrink-0 w-full sm:w-60'>
               <Image
-                src={`${import.meta.env.VITE_DOMAIN_URL}/api/v1` + competition?.bannerUrl}
-                className='rounded-xl w-full h-auto'
-                alt='Contest Banner'
+                loading='lazy'
+                crossOrigin='anonymous'
+                preview={false}
+                src={
+                  competition?.bannerUrl !== null && competition?.bannerUrl !== ''
+                    ? `http://localhost:8000${competition?.bannerUrl}`
+                    : 'http://localhost:8000/1720538636246-Screenshot 2024-05-23 141554.png'
+                }
+                alt='banner'
+                // width={200}
+                // height={100}
+                className='rounded-xl w-full max-h-auto sm:max-w-none'
               />
             </div>
-            <div className='flex flex-col flex-grow'>
-              <div className='text-base font-medium line-clamp-2 text-gray-600'>{competition?.name}</div>
-            </div>
-            <div className='flex flex-col w-[20%] md:shrink-0'>
-              <div className='text-base font-medium line-clamp-2 text-gray-600'>{competition?.unitGroupName}</div>
-            </div>
-            <div className='hidden md:flex flex-col md:shrink-0 text-gray-500 font-light'>
-              <div className='text-base line-clamp-1'>
+            <div className='flex flex-col flex-grow sm:hidden'>
+              <div className='text-base font-medium text-gray-600'>{competition?.name}</div>
+              <div className='text-gray-500 font-light'>
                 {format(new Date(competition?.timeStart), 'dd/MM/yyyy HH:mm:ss') ?? '-'}
               </div>
-              <div className='text-base line-clamp-1'>
+              <div className='text-gray-500 font-light'>
                 {format(new Date(competition?.timeEnd), 'dd/MM/yyyy HH:mm:ss') ?? '-'}
               </div>
+            </div>
+            <div className='hidden sm:flex flex-col flex-grow'>
+              <div className='text-base font-medium text-gray-600'>{competition?.name}</div>
+              <div className='flex flex-col'>
+                <div className='text-base text-gray-500 font-light'>
+                  {format(new Date(competition?.timeStart), 'dd/MM/yyyy HH:mm:ss') ?? '-'}
+                </div>
+                <div className='text-base text-gray-500 font-light'>
+                  {format(new Date(competition?.timeEnd), 'dd/MM/yyyy HH:mm:ss') ?? '-'}
+                </div>
+              </div>
+            </div>
+            <div className='hidden sm:flex flex-col sm:w-[20%] text-gray-500 font-light'>
+              <div className='text-base'>{competition?.unitGroupName}</div>
             </div>
           </div>
         </div>

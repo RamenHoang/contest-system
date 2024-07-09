@@ -5,6 +5,7 @@ import { useCreateCompetition } from '~/features/home/hooks/use-create-competiti
 
 const ManageContest = () => {
   const navigate = useNavigate();
+
   const { mutate: createCompetition } = useCreateCompetition();
 
   const handleCreateCompetition = () => {
@@ -51,6 +52,7 @@ const ManageContest = () => {
       </div>
       <div className='mb-4'>
         <div className='text-[#757575] uppercase text-[27px] leading-[34px] font-normal mb-4'>Danh sách cuộc thi</div>
+
         <TableContest />
       </div>
     </div>

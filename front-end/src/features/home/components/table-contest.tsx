@@ -1,9 +1,11 @@
-import { Button, Modal, Space, Table, Tag, Tooltip } from 'antd';
+import { Button, DatePicker, Modal, Space, Table, Tag, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { format } from 'date-fns';
-import { PencilIcon, TrashIcon } from 'lucide-react';
+import { Download, PencilIcon, TrashIcon } from 'lucide-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteCompetition } from '~/features/competition/hooks/use-delete-competition';
+import { useExportExcelRow } from '~/features/competition/hooks/use-export-excel_row';
 import { useUserCompetitions } from '~/features/competition/hooks/use-user-competitions';
 import { IListCompetition } from '~/types';
 
@@ -16,8 +18,12 @@ const statusToTagName: Record<string, string> = {
 export const TableContest = () => {
   const navigate = useNavigate();
 
+  const [fromDate, setFromDate] = useState<Date | null>(null);
+  const [toDate, setToDate] = useState(null);
+
   const { data: userCompetitions, isPending: isLoading } = useUserCompetitions();
   const { mutate: deleteCompetition } = useDeleteCompetition();
+  const { exportExcel, loading } = useExportExcelRow();
 
   const showDeleteConfirm = (id: string) => {
     Modal.confirm({
@@ -29,6 +35,20 @@ export const TableContest = () => {
         deleteCompetition(id);
       }
     });
+  };
+
+  // @ts-expect-error date
+  const formattedFromDate = fromDate ? fromDate.format('YYYY-MM-DD HH:mm:ss') : null;
+  // @ts-expect-error date
+  const formattedToDate = toDate ? toDate.format('YYYY-MM-DD HH:mm:ss') : null;
+
+  const handleExport = (id: string) => {
+    if (!fromDate || !toDate) {
+      console.error('Please select both dates');
+      return;
+    }
+
+    exportExcel(id, 1, 100, formattedFromDate, formattedToDate);
   };
 
   const columns: ColumnsType<Partial<IListCompetition>> = [
@@ -87,18 +107,18 @@ export const TableContest = () => {
         );
       }
     },
-    {
-      title: 'Số lượt làm bài',
-      key: 'numberOfExams',
-      dataIndex: 'numberOfExams',
-      width: 120,
-      align: 'center'
-    },
+    // {
+    //   title: 'Số lượt làm bài',
+    //   key: 'numberOfExams',
+    //   dataIndex: 'numberOfExams',
+    //   width: 120,
+    //   align: 'center'
+    // },
     {
       title: 'Thao tác',
       key: 'action',
       dataIndex: 'action',
-      width: 100,
+      width: 150,
       align: 'center',
       render: (_, item) => (
         <Space size='small'>
@@ -123,24 +143,52 @@ export const TableContest = () => {
               onClick={() => showDeleteConfirm(String(item.id))}
             />
           </Tooltip>
+          <Tooltip title='Tải xuống'>
+            <Button
+              type='text'
+              htmlType='button'
+              className='inline-flex items-center justify-center'
+              icon={<Download className='h-4 w-4' />}
+              onClick={() => handleExport(String(item.id))}
+              loading={loading}
+            />
+          </Tooltip>
         </Space>
       )
     }
   ];
 
   return (
-    <Table
-      loading={isLoading}
-      className='font-light'
-      rowKey='code'
-      dataSource={userCompetitions?.data}
-      columns={columns}
-      scroll={{ x: 870 }}
-      pagination={{
-        defaultPageSize: 10,
-        showTotal: (total) => `Tổng ${total} kết quả`,
-        position: ['bottomCenter']
-      }}
-    />
+    <>
+      <div className='relative sm:rounded-lg px-2 pb-4 flex items-center justify-end gap-4'>
+        <DatePicker
+          placeholder='Từ ngày'
+          format='YYYY-MM-DD HH:mm:ss'
+          size='large'
+          // @ts-expect-error date
+          onChange={(date) => setFromDate(date)}
+        />
+        <DatePicker
+          placeholder='Đến ngày'
+          format='YYYY-MM-DD HH:mm:ss'
+          size='large'
+          // @ts-expect-error date
+          onChange={(date) => setToDate(date)}
+        />
+      </div>
+      <Table
+        loading={isLoading}
+        className='font-light'
+        rowKey='code'
+        dataSource={userCompetitions?.data}
+        columns={columns}
+        scroll={{ x: 870 }}
+        pagination={{
+          defaultPageSize: 10,
+          showTotal: (total) => `Tổng ${total} kết quả`,
+          position: ['bottomCenter']
+        }}
+      />
+    </>
   );
 };
