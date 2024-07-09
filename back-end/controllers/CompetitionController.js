@@ -263,8 +263,8 @@ const getExamsOfCompetition = async (req, res, next) => {
         return {
           id: exam.id,
           examBankingId: item.id,
-          totalQuestionMCQ: item.total_mc_questions,
-          totalQuestionEssay: item.total_essay_questions,
+          totalMCQuestion: item.total_mc_questions,
+          totalEssayQuestion: item.total_essay_questions,
         };
       }),
     };
