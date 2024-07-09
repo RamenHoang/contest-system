@@ -64,7 +64,7 @@ export const FormPublish = () => {
       </div>
 
       <div className='mt-5 flex justify-center gap-3'>
-        <Button size='large' onClick={showConfirm} type='primary'>
+        <Button className='p-5' onClick={showConfirm} type='primary'>
           Xuất bản
         </Button>
       </div>
