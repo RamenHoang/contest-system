@@ -950,6 +950,25 @@ const deleteCompetition = async (req, res, next) => {
       );
     }
 
+    //delete all reference
+    await Unit.destroy({
+      where: {
+        competitionId: id,
+      },
+    });
+
+    await ExamsOfCompetition.destroy({
+      where: {
+        competitionId: id,
+      },
+    });
+
+    await Participant.destroy({
+      where: {
+        idCompetition: id,
+      },
+    });
+
     await competition.destroy();
 
     res.status(StatusCodes.OK).json(ApiResponse(true, 1));
