@@ -1,19 +1,32 @@
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Avatar, Button, Dropdown, Space } from 'antd';
-import { Link } from 'react-router-dom';
+import { Avatar, Button, Dropdown, message, Space } from 'antd';
+import { useDispatch } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
 import { AuthApi } from '~/api/auth-api';
 import { useInfo } from '~/hooks/useInfo';
 import { useLogin } from '~/hooks/useLogin';
+import { logoutFailed, logoutStart, logoutSuccess } from '~/store/slice/AuthSlice';
 
 const AntDropdown = () => {
+  const dispatch = useDispatch();
   const user = useInfo();
   const isLoggedIn = useLogin();
-  console.log(isLoggedIn);
 
   const handleLogout = async () => {
-    const res = await AuthApi.logoutAccount(user?.refreshToken as string);
-    console.log(res);
+    try {
+      dispatch(logoutStart());
+      const res = await AuthApi.logoutAccount(user?.refreshToken as string);
+      if (res?.statusCode === 200) {
+        dispatch(logoutSuccess());
+        message.success('Đăng xuất thành công');
+        <Navigate to='/auth/sign-in' replace={true} />;
+      }
+    } catch (error) {
+      dispatch(logoutFailed());
+      <Navigate to='/auth/sign-in' replace={true} />;
+      console.log(error);
+    }
   };
 
   const items: MenuProps['items'] = [

@@ -1,8 +1,9 @@
-import { Button, Space, Table, Tag, Tooltip } from 'antd';
+import { Button, Modal, Space, Table, Tag, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { format } from 'date-fns';
 import { PencilIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useDeleteCompetition } from '~/features/competition/hooks/use-delete-competition';
 import { useUserCompetitions } from '~/features/competition/hooks/use-user-competitions';
 import { ICompetition, IListCompetition } from '~/types';
 
@@ -16,6 +17,19 @@ export const TableContest = () => {
   const navigate = useNavigate();
 
   const { data: userCompetitions, isPending: isLoading } = useUserCompetitions();
+  const { mutate: deleteCompetition } = useDeleteCompetition();
+
+  const showDeleteConfirm = (id: string) => {
+    Modal.confirm({
+      title: 'Bạn có chắc chắn xóa cuộc thi này?',
+      okText: 'Xác nhận',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      onOk() {
+        deleteCompetition(id);
+      }
+    });
+  };
 
   const columns: ColumnsType<Partial<IListCompetition>> = [
     {
@@ -40,7 +54,7 @@ export const TableContest = () => {
       width: 200,
       ellipsis: { showTitle: true },
       render: (value, record) => (
-        <Tag color='#4096ff' className='text-white font-medium py-0.5 px-2 rounded-full'>
+        <Tag color='#54a0fc' className='text-white font-medium py-0.5 px-2 rounded-full'>
           {format(new Date(value), 'dd/MM/yyyy') ?? '-'} &mdash;{' '}
           {record?.timeEnd ? format(new Date(record.timeEnd), 'dd/MM/yyyy') : '-'}
         </Tag>
@@ -86,7 +100,7 @@ export const TableContest = () => {
       dataIndex: 'action',
       width: 100,
       align: 'center',
-      render: () => (
+      render: (_, item) => (
         <Space size='small'>
           <Tooltip title='Chỉnh sửa'>
             <Button
@@ -107,6 +121,7 @@ export const TableContest = () => {
               htmlType='button'
               className='inline-flex items-center justify-center'
               icon={<TrashIcon className='h-4 w-4' />}
+              onClick={() => showDeleteConfirm(String(item.id))}
             />
           </Tooltip>
         </Space>
@@ -118,20 +133,12 @@ export const TableContest = () => {
     <Table
       loading={isLoading}
       className='font-light'
-      onRow={(contest) => ({
-        className: 'cursor-pointer',
-        onClick: () => {
-          navigate(`/dashboard/contest/${contest?.id}/edit?step=1`);
-        }
-      })}
       rowKey='code'
       dataSource={userCompetitions?.data}
       columns={columns}
       scroll={{ x: 870 }}
       pagination={{
         defaultPageSize: 10,
-        showSizeChanger: false,
-        pageSizeOptions: ['10', '20', '30'],
         showTotal: (total) => `Tổng ${total} kết quả`,
         position: ['bottomCenter']
       }}

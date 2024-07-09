@@ -6,7 +6,7 @@ export const useOrganizer = () => {
   const { id } = useParams();
 
   return useQuery({
-    queryKey: ['organizer', id],
+    queryKey: ['organizer'],
     queryFn: () => OrganizerApi.getOrganizer(id as string)
   });
 };

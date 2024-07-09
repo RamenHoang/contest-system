@@ -1,4 +1,4 @@
-import { Modal, Popover } from 'antd';
+import { Modal, Popover, Input, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 
@@ -25,6 +25,8 @@ const IntroPage = () => {
     minutes: 0,
     seconds: 0
   });
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [enteredPassword, setEnteredPassword] = useState('');
 
   const { data: competitionData } = useCompetition();
   const { data: statisticsData } = useStatistics();
@@ -96,7 +98,21 @@ const IntroPage = () => {
   }, [timeEnd]);
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
+    if (competition?.password) {
+      setIsPasswordModalOpen(true);
+    } else {
+      setIsModalOpen(true);
+    }
+  };
+
+  const handlePasswordSubmit = () => {
+    if (enteredPassword === competition?.password) {
+      message.success('Password correct');
+      setIsPasswordModalOpen(false);
+      setIsModalOpen(true);
+    } else {
+      message.error('Password incorrect');
+    }
   };
 
   return (
@@ -131,7 +147,7 @@ const IntroPage = () => {
             <div className='mt-4 lg:mt-8 flex items-center justify-center gap-4 lg:gap-8'>
               <button
                 type='button'
-                className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-green-700 border-theme-color text-white hover:shadow-sm  text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
+                className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-green-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
                 onClick={handleOpenModal}
               >
                 Tham gia
@@ -140,7 +156,7 @@ const IntroPage = () => {
               <Popover content={popoverContent} title='Thể lệ' trigger='click' placement='bottom'>
                 <button
                   type='button'
-                  className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-green-700 border-theme-color text-white hover:shadow-sm  text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
+                  className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-green-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
                 >
                   Thể lệ
                 </button>
@@ -187,6 +203,20 @@ const IntroPage = () => {
         <Footer />
       </main>
       <AntModal data={competition} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <Modal
+        title='Nhập mật khẩu cuộc thi'
+        open={isPasswordModalOpen}
+        onOk={handlePasswordSubmit}
+        okText='Xác nhận'
+        onCancel={() => setIsPasswordModalOpen(false)}
+        cancelText='Huỷ'
+      >
+        <Input.Password
+          value={enteredPassword}
+          onChange={(e) => setEnteredPassword(e.target.value)}
+          placeholder='Nhập mật khẩu cuộc thi'
+        />
+      </Modal>
     </div>
   );
 };

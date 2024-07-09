@@ -65,7 +65,6 @@ const AntStep: React.FC = () => {
   };
 
   const onChange = (value: number) => {
-    console.log('onChange:', value);
     setCurrent(value);
     navigate(`/dashboard/contest/${id}/edit?step=${value + 1}`);
   };

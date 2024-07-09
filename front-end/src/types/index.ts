@@ -18,7 +18,7 @@ export interface IUser {
 }
 
 export interface IExam {
-  id?: number;
+  id: number;
   idUser?: number;
   title: string;
   totalMCQuestion: number;
@@ -50,6 +50,7 @@ export interface ICompetition {
   unitGroupName: string;
   bannerUrl: string;
   password: string;
+  themeColor: string;
   infoRequire: string;
 }
 

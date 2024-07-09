@@ -6,7 +6,7 @@ export const useInfoStep2 = () => {
   const { id } = useParams();
 
   return useQuery({
-    queryKey: ['infoStep2', id],
+    queryKey: ['infoStep2'],
     queryFn: () => CompetitionApi.getInfoStep2(id as string)
   });
 };

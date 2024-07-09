@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, DatePicker, Form, Input, Modal, Row, Upload } from 'antd';
+import { Button, Checkbox, Col, ColorPicker, DatePicker, Form, Input, Modal, Row, Upload } from 'antd';
 import { format } from 'date-fns';
 import { isEmpty } from 'lodash';
 import { UploadIcon } from 'lucide-react';
@@ -11,6 +11,7 @@ import { useInfo } from '~/hooks/useInfo';
 import { ICompetition } from '~/types';
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
 import moment from 'moment';
+import { Color } from 'antd/es/color-picker';
 
 const normFile = (e: { fileList: unknown }) => {
   if (Array.isArray(e)) {
@@ -30,13 +31,14 @@ export const FormContest = () => {
   const { data: competitionData } = useCompetition();
   const competition: ICompetition = competitionData?.data;
   const [form] = Form.useForm<ICompetition>();
+  const [color] = useState<Color>();
 
   useEffect(() => {
     if (!competition || isEmpty(competition)) {
       return;
     }
 
-    const { name, rules, timeEnd, timeStart, infoRequire, password, bannerUrl } = competition;
+    const { name, rules, timeEnd, timeStart, infoRequire, password, bannerUrl, themeColor } = competition;
 
     form.setFieldsValue({
       name,
@@ -46,7 +48,8 @@ export const FormContest = () => {
       // @ts-expect-error date
       timeEnd: timeEnd && moment(timeEnd),
       password,
-      bannerUrl
+      bannerUrl,
+      themeColor
     });
 
     setSelectedValues(Array.isArray(infoRequire) ? infoRequire : infoRequire ? infoRequire.split(', ') : []);
@@ -135,8 +138,17 @@ export const FormContest = () => {
         >
           <DatePicker placeholder='Chọn ngày kết thúc' format='YYYY-MM-DD HH:mm:ss' />
         </Form.Item>
-        <Form.Item label='Mật khẩu'>
-          <Input placeholder='Mật khẩu..' disabled />
+        <Form.Item label='Mật khẩu' name='password'>
+          <Input.Password placeholder='Nhập mật khẩu cuộc thi...' />
+        </Form.Item>
+        <Form.Item label='Màu chủ đề' name='themeColor' initialValue={{ value: '#38a382' }}>
+          <ColorPicker
+            value={color}
+            onChange={(_, hex) => {
+              form.setFieldsValue({ themeColor: hex });
+            }}
+            showText
+          />
         </Form.Item>
         <Form.Item label='Thông tin bắt buộc'>
           <Input value='Họ tên, Số điện thoại, Email' onClick={showModal} className='cursor-pointer bg-gray-200' />

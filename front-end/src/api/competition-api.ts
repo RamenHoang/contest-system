@@ -121,5 +121,14 @@ export const CompetitionApi = {
     } catch (error) {
       console.log(error);
     }
+  },
+
+  async deleteCompetition(id: string) {
+    try {
+      const { data } = await axiosClient.delete(`/competitions/delete/${id}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
