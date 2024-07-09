@@ -28,11 +28,9 @@ include middlewares, custom middlewares, Routes and Database connection
 const Routes = require("./routes");
 const { sequelize } = require("./config/db");
 const SyncDatabase = require("./models/SyncDatabase");
-const constants = require("./config/constants");
 const HandleNotFound = require("./middlewares/HandleNotFoundMiddleware");
 const HandleApiError = require("./middlewares/ApiErrorMiddleware");
 const ErrorLogger = require("./config/logger");
-const { body } = require("express-validator");
 // const HttpsRequestOnly = require("./middlewares/HttpsRequestOnly"); // for production use
 
 /*==============================
