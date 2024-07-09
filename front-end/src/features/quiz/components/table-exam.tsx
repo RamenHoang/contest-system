@@ -1,7 +1,7 @@
 import { Button, Space, Table, Tag, Tooltip, Modal } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
-import { Eye, PencilIcon, TrashIcon } from 'lucide-react';
+import { PencilIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteExam } from '~/features/quiz/hooks/use-delete-exam';
 import { useExams } from '~/features/quiz/hooks/use-exams';
@@ -69,14 +69,6 @@ export const TableExam = () => {
       align: 'center',
       render: (_, item) => (
         <Space size='small'>
-          <Tooltip title='Xem trước'>
-            <Button
-              type='text'
-              htmlType='button'
-              className='inline-flex items-center justify-center'
-              icon={<Eye className='h-4 w-4' />}
-            />
-          </Tooltip>
           <Tooltip title='Chỉnh sửa'>
             <Button
               type='text'
@@ -84,8 +76,7 @@ export const TableExam = () => {
               className='inline-flex items-center justify-center'
               icon={<PencilIcon className='h-4 w-4' />}
               onClick={() => {
-                console.log(item.id);
-                navigate(`/${item.id}/edit`);
+                navigate(`/dashboard/quiz/${item.id}/edit`);
               }}
             />
           </Tooltip>

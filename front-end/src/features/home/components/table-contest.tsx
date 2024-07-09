@@ -5,7 +5,7 @@ import { PencilIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteCompetition } from '~/features/competition/hooks/use-delete-competition';
 import { useUserCompetitions } from '~/features/competition/hooks/use-user-competitions';
-import { ICompetition, IListCompetition } from '~/types';
+import { IListCompetition } from '~/types';
 
 const statusToTagName: Record<string, string> = {
   'Đang diễn ra': '#faad14',
@@ -108,9 +108,8 @@ export const TableContest = () => {
               htmlType='button'
               className='inline-flex items-center justify-center'
               icon={<PencilIcon className='h-4 w-4' />}
-              // @ts-expect-error aaa
-              onClick={(_: unknown, contest: ICompetition) => {
-                navigate(`/dashboard/contest/${contest?.id}/edit?step=1`);
+              onClick={() => {
+                navigate(`/dashboard/contest/${item.id}/edit?step=1`);
               }}
             />
           </Tooltip>
