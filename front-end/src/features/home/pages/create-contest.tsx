@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import AntStep from '~/components/ui/step';
 import { FormContest, FormSetup } from '~/features/home/components/index';
+import { FormPublish } from '~/features/home/components/form-publish';
 
 const CreateContest = () => {
   const location = useLocation();
@@ -22,7 +23,7 @@ const CreateContest = () => {
       case '4':
         return null;
       case '5':
-        return null;
+        return <FormPublish />;
       default:
         return <FormContest />;
     }

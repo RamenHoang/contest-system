@@ -92,7 +92,6 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
           </div>
           {/* Icons */}
           <div className='flex items-center gap-4'>
-            <X size={18} />
             {showAnswerInput ? <ChevronDown size={18} /> : <ChevronUp size={18} />}
           </div>
         </div>
@@ -146,9 +145,11 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
           </div>
         )}
       </div>
-      <Button type='default' onClick={addQuestion}>
-        {question ? 'Update Question' : 'Add Question to Exam'}
-      </Button>
+      <div className={`flex justify-${question ? 'start' : 'start'}`}>
+        <Button type='default' onClick={addQuestion}>
+          {question ? 'Cập nhật' : 'Thêm câu hỏi'}
+        </Button>
+      </div>
     </div>
   );
 };

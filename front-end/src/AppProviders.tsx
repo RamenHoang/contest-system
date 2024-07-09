@@ -5,13 +5,14 @@ import { QueryClientProvider, QueryErrorResetBoundary } from '@tanstack/react-qu
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { FullscreenFallback, ErrorBoundaryFallback } from './components/fallbacks';
-import { App } from 'antd';
+import { App, ConfigProvider } from 'antd';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Provider } from 'react-redux';
 import { persistor, store } from '~/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { queryClient } from '~/api/query-client';
 import { ExamProvider } from '~/features/home/context/exam-context';
+import { theme } from '~/utils/theme';
 // import { theme } from '~/styles/theme';
 
 const AppProviders = ({ children }: PropsWithChildren) => {
@@ -24,14 +25,14 @@ const AppProviders = ({ children }: PropsWithChildren) => {
               <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                   <QueryClientProvider client={queryClient}>
-                    {/* <ConfigProvider theme={theme}> */}
-                    <ExamProvider>
-                      <App>
-                        <Router>{children}</Router>
-                        <ReactQueryDevtools initialIsOpen={false} position='left' />
-                      </App>
-                    </ExamProvider>
-                    {/* </ConfigProvider> */}
+                    <ConfigProvider theme={theme}>
+                      <ExamProvider>
+                        <App>
+                          <Router>{children}</Router>
+                          <ReactQueryDevtools initialIsOpen={false} position='left' />
+                        </App>
+                      </ExamProvider>
+                    </ConfigProvider>
                   </QueryClientProvider>
                 </PersistGate>
               </Provider>

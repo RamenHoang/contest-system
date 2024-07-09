@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, message, Steps } from 'antd';
+import { Button, Steps } from 'antd';
 import { useNavigate, useLocation, useParams } from 'react-router-dom'; // Import useLocation
 import StepTwo from '~/features/home/components/step-two';
 import StepThree from '~/features/home/components/step-three';
@@ -17,7 +17,7 @@ const AntStep: React.FC = () => {
           <iframe
             title='Contest Preview'
             // src='https://myaloha.vn/dashboard/contest/84673/edit'
-            src={`http://localhost:8000/dashboard/contest/${id}/edit`}
+            src={`https://quiz-application-kmn.vercel.app/dashboard/competition/cuoc-thi/intro/10/cuoc-thi-moi-ne`}
             className='rounded-sm pointer-events-auto w-full h-screen mx-auto shadow-xl border-[0.25rem] md:border-[0.75rem] border-gray-700'
           ></iframe>
         </div>
@@ -87,7 +87,7 @@ const AntStep: React.FC = () => {
           </Button>
         )}
         {current === steps.length - 1 && (
-          <Button type='primary' onClick={() => message.success('Processing complete!')}>
+          <Button type='primary' onClick={() => navigate('/dashboard/contest')}>
             Kết thúc
           </Button>
         )}

@@ -10,7 +10,6 @@ import { IStartRequired, IStatistic } from '~/types';
 import RankingList from '~/features/competition/components/ranking';
 import { useStatistics } from '~/features/competition/hooks/use-statistic';
 
-
 type IResult = {
   userName: string;
   totalCorrectAnswers: number;

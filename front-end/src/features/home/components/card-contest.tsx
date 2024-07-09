@@ -2,25 +2,7 @@ import { Image } from 'antd';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { ICompetition } from '~/types';
-
-function toSlug(str: string) {
-  const from = 'àáãảạăằắẵẳặâầấẫẩậèéẽẻẹêềếễểệìíĩỉịòóõỏọôồốỗổộơờớỡởợùúũủụưừứữửựỳýỹỷỵđ';
-  const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd';
-  str = str.replace(/^\s+|\s+$/g, ''); // trim
-  str = str.toLowerCase();
-
-  // Remove accents, swap ñ for n, etc
-  for (let i = 0, l = from.length; i < l; i++) {
-    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-  }
-
-  str = str
-    .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-    .replace(/\s+/g, '-') // collapse whitespace and replace by -
-    .replace(/-+/g, '-'); // collapse dashes
-
-  return str;
-}
+import { toSlug } from '~/utils/helpers';
 
 export const CardContest = ({ competition }: { competition: ICompetition }) => {
   return (
