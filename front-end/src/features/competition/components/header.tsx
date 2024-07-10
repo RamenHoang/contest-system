@@ -16,7 +16,7 @@ export const Header = ({ data }: { data: IStartRequired }) => {
   };
 
   return (
-    <header className='bg-green-800'>
+    <header className='bg-cyan-800'>
       <nav className='px-4 lg:px-6 py-2.5 text-white'>
         <div className='flex items-center justify-between gap-8 mx-auto max-w-screen-xl'>
           <Link to='/'>
@@ -27,7 +27,7 @@ export const Header = ({ data }: { data: IStartRequired }) => {
               height={50}
             />
           </Link>
-          <div className='bg-green-700 flex items-center justify-end lg:grow px-5 py-1 lg:py-2 lg:px-7 rounded-full'>
+          <div className='bg-cyan-700 flex items-center justify-end lg:grow px-5 py-1 lg:py-2 lg:px-7 rounded-full'>
             <div className='justify-between items-center w-full lg:flex lg:w-auto lg:order-1 grow'>
               <ul className='flex items-center gap-x-10 text-lg'>
                 <Link to='/' className='hover:text-white/70'>
@@ -69,7 +69,7 @@ export const Header = ({ data }: { data: IStartRequired }) => {
           />
         </div>
       </div>
-      <div className='px-4 lg:px-6 py-2 lg:py-6 uppercase text-lg lg:text-4xl text-center text-white bg-green-700 mt-4 lg:mt-12'>
+      <div className='px-4 lg:px-6 py-2 lg:py-6 uppercase text-lg lg:text-4xl text-center text-white bg-cyan-700 mt-4 lg:mt-12'>
         {data?.name}
       </div>
     </header>
