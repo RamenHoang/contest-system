@@ -62,7 +62,7 @@ export const Header = ({ data }: { data: IStartRequired }) => {
             src={
               data?.bannerUrl !== null && data?.bannerUrl !== ''
                 ? `http://localhost:8000${data?.bannerUrl}`
-                : 'https://myaloha.s3-hn-2.cloud.cmctelecom.vn/tenant1/images/contest/banner/4573648_tnSe2Q1TJhTht3ZRrtORsBvgBq6e4cq6JfAa7I6L_1720004456.jpg'
+                : 'http://localhost:8000/1720538636246-Screenshot 2024-05-23 141554.png'
             }
             alt='banner'
             className='max-w-full h-auto mx-auto rounded-xl object-cover'
