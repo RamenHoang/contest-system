@@ -739,6 +739,8 @@ const exportExcel = async (req, res, next) => {
       next
     );
 
+    console.log(1 + " " + data);
+
     // Initialize a new workbook and add a worksheet
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Kết quả");
@@ -757,11 +759,11 @@ const exportExcel = async (req, res, next) => {
     // Add data to the worksheet
     data.forEach((d) => {
       worksheet.addRow({
-        fullName: d.fullName,
-        createdAt: d.createdAt,
-        totalCorrectAnswers: d.totalCorrectAnswers,
-        correctAnswersRate: d.correctAnswersRate,
-        duration: d.duration,
+        fullName: d.fullName ?? "",
+        createdAt: d.createdAt ?? "",
+        totalCorrectAnswers: d.totalCorrectAnswers ?? "",
+        correctAnswersRate: d.correctAnswersRate ?? "",
+        duration: d.duration ?? "",
       });
     });
 
@@ -772,11 +774,12 @@ const exportExcel = async (req, res, next) => {
     ];
 
     const statisticUnit = await getStatisticUnitOfCompetition(id, next);
-    console.log(statisticUnit);
+    console.log(2 + " " + statisticUnit);
+
     statisticUnit.forEach((d) => {
       worksheet2.addRow({
-        unitName: d.unitName,
-        total: d.total,
+        unitName: d.unitName ?? "",
+        total: d.total ?? "",
       });
     });
 
@@ -790,18 +793,24 @@ const exportExcel = async (req, res, next) => {
       { header: "Thời gian làm", key: "duration", width: 20 },
     ];
 
+    let duration = "";
     const pHightestScore = await getParticipantHightestScore(id, next);
-    const timeDistance = moment(pHightestScore.finishTime).diff(
-      moment(pHightestScore.startTime)
-    );
-    const duration = moment.duration(timeDistance);
+    console.log(3 + " " + pHightestScore);
+
+    if (pHightestScore.startTime != null && pHightestScore.finishTime != null) {
+      const timeDistance = moment(pHightestScore.finishTime).diff(
+        moment(pHightestScore.startTime)
+      );
+      duration = moment.duration(timeDistance);
+    }
 
     worksheet3.addRow({
-      fullName: pHightestScore.fullName,
-      createdAt: pHightestScore.createdAt,
-      totalCorrectAnswers: pHightestScore.totalCorrectAnswers,
-      correctAnswersRate: pHightestScore.correctAnswersRate,
-      duration: `${duration.minutes()}:${duration.seconds()}`,
+      fullName: pHightestScore.fullName ?? "",
+      createdAt: pHightestScore.createdAt ?? "",
+      totalCorrectAnswers: pHightestScore.totalCorrectAnswers ?? "",
+      correctAnswersRate: pHightestScore.correctAnswersRate ?? "",
+      duration:
+        duration === "" ? "" : `${duration.minutes()}:${duration.seconds()}`,
     });
 
     // Set the response headers
@@ -862,6 +871,13 @@ const getResultParticipant = async (
       offset: offset,
     });
 
+    if (participant.length === 0) {
+      return {
+        data: [],
+        count: 0,
+      };
+    }
+
     const resData = participant.map((item) => {
       const timeDistance = moment(item.finishTime).diff(moment(item.startTime));
       const duration = moment.duration(timeDistance);
@@ -902,6 +918,8 @@ const getStatisticUnitOfCompetition = async (id, next) => {
       ],
     });
 
+    if (data.length === 0) return [];
+
     const resData = data.map((item) => {
       return {
         unitName: item.Unit.name,
@@ -933,7 +951,17 @@ const getParticipantHightestScore = async (id, next) => {
       order: [["correctAnswersRate", "DESC"]],
     });
 
-    return data;
+    return data != null
+      ? data
+      : {
+          id: "",
+          fullName: "",
+          createdAt: "",
+          totalCorrectAnswers: "",
+          correctAnswersRate: "",
+          startTime: null,
+          finishTime: null,
+        };
   } catch (error) {
     next(error);
   }
