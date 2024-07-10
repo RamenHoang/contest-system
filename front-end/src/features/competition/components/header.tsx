@@ -61,8 +61,8 @@ export const Header = ({ data }: { data: IStartRequired }) => {
             preview={false}
             src={
               data?.bannerUrl !== null && data?.bannerUrl !== ''
-                ? `${process.env.VITE_DOMAIN_URL}${data?.bannerUrl}`
-                : `${process.env.VITE_DOMAIN_URL}/1720538636246-Screenshot 2024-05-23 141554.png`
+                ? `${import.meta.env.VITE_DOMAIN_URL}${data?.bannerUrl}`
+                : `${import.meta.env.VITE_DOMAIN_URL}/1720627369516-336890955_223175616882164_6663631839570440780_n.jpg`
             }
             alt='banner'
             className='max-w-full h-auto mx-auto rounded-xl object-cover'

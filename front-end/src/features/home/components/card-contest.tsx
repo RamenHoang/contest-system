@@ -17,13 +17,11 @@ export const CardContest = ({ competition }: { competition: ICompetition }) => {
                 preview={false}
                 src={
                   competition?.bannerUrl !== null && competition?.bannerUrl !== ''
-                    ? `${process.env.VITE_DOMAIN_URL}${competition?.bannerUrl}`
-                    : `${process.env.VITE_DOMAIN_URL}/1720538636246-Screenshot 2024-05-23 141554.png`
+                    ? `${import.meta.env.VITE_DOMAIN_URL}${competition?.bannerUrl}`
+                    : `${import.meta.env.VITE_DOMAIN_URL}/1720627369516-336890955_223175616882164_6663631839570440780_n.jpg`
                 }
                 alt='banner'
-                // width={200}
-                // height={100}
-                className='rounded-xl w-full max-h-auto sm:max-w-none'
+                className='rounded-xl !w-[400px] sm:!w-64 max-h-32 object-cover'
               />
             </div>
             <div className='flex flex-col flex-grow sm:hidden'>
