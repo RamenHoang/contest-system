@@ -11,8 +11,8 @@ import { useGetInfoRequired } from '~/features/home/hooks/use-info-required';
 import { useInfo } from '~/hooks/useInfo';
 import { ICompetition } from '~/types';
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
-import moment from 'moment';
 import { useRefresh } from '~/features/home/context/refresh-context';
+import dayjs from 'dayjs';
 
 const normFile = (e: { fileList: unknown }) => {
   if (Array.isArray(e)) {
@@ -44,9 +44,9 @@ export const FormContest: React.FC = () => {
       name,
       rules,
       // @ts-expect-error null
-      timeStart: timeStart && moment(timeStart),
+      timeStart: timeStart && dayjs(timeStart),
       // @ts-expect-error null
-      timeEnd: timeEnd && moment(timeEnd),
+      timeEnd: timeEnd && dayjs(timeEnd),
       password,
       bannerUrl,
       themeColor
