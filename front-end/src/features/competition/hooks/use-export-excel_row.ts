@@ -4,10 +4,10 @@ import { CompetitionApi } from '~/api/competition-api';
 export const useExportExcelRow = () => {
   const [loading, setLoading] = useState(false);
 
-  const exportExcel = async (id: string, pageIndex: number, pageSize: number, fromDate: string, toDate: string) => {
+  const exportExcel = async (id: string, pageIndex: number, pageSize: number) => {
     setLoading(true);
     try {
-      await CompetitionApi.exportExcel(id, pageIndex, pageSize, fromDate, toDate);
+      await CompetitionApi.exportExcelFast(id, pageIndex, pageSize);
     } catch (error) {
       console.error(error);
     } finally {

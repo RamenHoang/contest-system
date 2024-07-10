@@ -114,6 +114,26 @@ export const CompetitionApi = {
     }
   },
 
+  async exportExcelFast(id: string, pageIndex = 1, pageSize = 100) {
+    try {
+      const url = `/competitions/export-excel/${id}?pageIndex=${pageIndex}&pageSize=${pageSize}`;
+      const response = await axiosClient.get(url, {
+        responseType: 'blob' // Important for handling binary data
+      });
+      const blob = new Blob([response.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `export_${id}_${new Date().toISOString()}.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   async publishCompetition(id: string) {
     try {
       const { data } = await axiosClient.get(`/competitions/publish-competition/${id}`);

@@ -1,8 +1,7 @@
-import { Button, DatePicker, Modal, Space, Table, Tag, Tooltip } from 'antd';
+import { Button, Modal, Space, Table, Tag, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { format } from 'date-fns';
 import { Download, PencilIcon, TrashIcon } from 'lucide-react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteCompetition } from '~/features/competition/hooks/use-delete-competition';
 import { useExportExcelRow } from '~/features/competition/hooks/use-export-excel_row';
@@ -17,9 +16,6 @@ const statusToTagName: Record<string, string> = {
 
 export const TableContest = () => {
   const navigate = useNavigate();
-
-  const [fromDate, setFromDate] = useState<Date | null>(null);
-  const [toDate, setToDate] = useState(null);
 
   const { data: userCompetitions, isPending: isLoading } = useUserCompetitions();
   const { mutate: deleteCompetition } = useDeleteCompetition();
@@ -37,18 +33,8 @@ export const TableContest = () => {
     });
   };
 
-  // @ts-expect-error date
-  const formattedFromDate = fromDate ? fromDate.format('YYYY-MM-DD HH:mm:ss') : null;
-  // @ts-expect-error date
-  const formattedToDate = toDate ? toDate.format('YYYY-MM-DD HH:mm:ss') : null;
-
   const handleExport = (id: string) => {
-    if (!fromDate || !toDate) {
-      console.error('Please select both dates');
-      return;
-    }
-
-    exportExcel(id, 1, 100, formattedFromDate, formattedToDate);
+    exportExcel(id, 1, 100);
   };
 
   const columns: ColumnsType<Partial<IListCompetition>> = [
@@ -160,22 +146,6 @@ export const TableContest = () => {
 
   return (
     <>
-      <div className='relative sm:rounded-lg px-2 pb-4 flex items-center justify-end gap-4'>
-        <DatePicker
-          placeholder='Từ ngày'
-          format='YYYY-MM-DD HH:mm:ss'
-          size='large'
-          // @ts-expect-error date
-          onChange={(date) => setFromDate(date)}
-        />
-        <DatePicker
-          placeholder='Đến ngày'
-          format='YYYY-MM-DD HH:mm:ss'
-          size='large'
-          // @ts-expect-error date
-          onChange={(date) => setToDate(date)}
-        />
-      </div>
       <Table
         loading={isLoading}
         className='font-light'
