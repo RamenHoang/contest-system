@@ -193,6 +193,13 @@ const getCompetitionById = async (req, res, next) => {
       },
     });
 
+    const organizer = await Organizer.findOne({
+      where: {
+        competitionId: competition.id,
+      },
+      attributes: ["id", "name", "address", "email", "phone"],
+    });
+
     const resData = {
       bannerUrl: competition.bannerUrl,
       name: competition.name,
@@ -204,6 +211,7 @@ const getCompetitionById = async (req, res, next) => {
       testAttempts: competition.testAttempts,
       participant: participant,
       infoRequire: competition.infoRequire.split(",").map((item) => +item),
+      organizer: organizer,
     };
 
     res.status(StatusCodes.OK).json(ApiResponse(resData, 1));
@@ -751,6 +759,8 @@ const exportExcel = async (req, res, next) => {
     // Set up worksheet 1
     worksheet.columns = [
       { header: "Họ tên", key: "fullName", width: 20 },
+      { header: "Số điện thoại", key: "phone", width: 20 },
+      { header: "Email", key: "email", width: 20 },
       { header: "Ngày dự thi", key: "createdAt", width: 20 },
       { header: "Kết quả", key: "totalCorrectAnswers", width: 20 },
       { header: "Độ chính xác", key: "correctAnswersRate", width: 20 },
@@ -761,6 +771,8 @@ const exportExcel = async (req, res, next) => {
     data.forEach((d) => {
       worksheet.addRow({
         fullName: d.fullName ?? "",
+        phone: d.phone ?? "",
+        email: d.email ?? "",
         createdAt: d.createdAt ?? "",
         totalCorrectAnswers: d.totalCorrectAnswers ?? "",
         correctAnswersRate: d.correctAnswersRate ?? "",
@@ -788,6 +800,8 @@ const exportExcel = async (req, res, next) => {
     // Set up worksheet 1
     worksheet3.columns = [
       { header: "Họ tên", key: "fullName", width: 20 },
+      { header: "Số điện thoại", key: "phone", width: 20 },
+      { header: "Email", key: "email", width: 20 },
       { header: "Ngày dự thi", key: "createdAt", width: 20 },
       { header: "Kết quả", key: "totalCorrectAnswers", width: 20 },
       { header: "Độ chính xác", key: "correctAnswersRate", width: 20 },
@@ -807,6 +821,8 @@ const exportExcel = async (req, res, next) => {
 
     worksheet3.addRow({
       fullName: pHightestScore.fullName ?? "",
+      phone: pHightestScore.phone ?? "",
+      email: pHightestScore.email ?? "",
       createdAt: pHightestScore.createdAt ?? "",
       totalCorrectAnswers: pHightestScore.totalCorrectAnswers ?? "",
       correctAnswersRate: pHightestScore.correctAnswersRate ?? "",
@@ -861,6 +877,8 @@ const getResultParticipant = async (
       attributes: [
         "id",
         "fullName",
+        "phone",
+        "email",
         "createdAt",
         "totalCorrectAnswers",
         "correctAnswersRate",
@@ -943,6 +961,8 @@ const getParticipantHightestScore = async (id, next) => {
       attributes: [
         "id",
         "fullName",
+        "phone",
+        "email",
         "createdAt",
         "totalCorrectAnswers",
         "correctAnswersRate",
