@@ -10,7 +10,6 @@ import { IStartRequired, IStatistic } from '~/types';
 import RankingList from '~/features/competition/components/ranking';
 import { useStatistics } from '~/features/competition/hooks/use-statistic';
 import { useNavigate } from 'react-router-dom';
-import { useInfo } from '~/hooks/useInfo';
 import { useLogin } from '~/hooks/useLogin';
 
 type IResult = {
