@@ -17,8 +17,8 @@ export const CardContest = ({ competition }: { competition: ICompetition }) => {
                 preview={false}
                 src={
                   competition?.bannerUrl !== null && competition?.bannerUrl !== ''
-                    ? `${process.env.VITE_DOMAIN_URL}${competition?.bannerUrl}`
-                    : `${process.env.VITE_DOMAIN_URL}/1720538636246-Screenshot 2024-05-23 141554.png`
+                    ? `${import.meta.env.VITE_DOMAIN_URL}${competition?.bannerUrl}`
+                    : `${import.meta.env.VITE_DOMAIN_URL}/1720626945005-NQGQEST1E0DU.webp`
                 }
                 alt='banner'
                 // width={200}
