@@ -28,9 +28,6 @@ export const Header = ({ data }: { data: IStartRequired }) => {
             />
           </Link>
           <div className='bg-green-700 flex items-center justify-end lg:grow px-5 py-1 lg:py-2 lg:px-7 rounded-full'>
-            {/* <div className='flex items-center lg:order-2'>
-              <AntDropdown />
-            </div> */}
             <div className='justify-between items-center w-full lg:flex lg:w-auto lg:order-1 grow'>
               <ul className='flex items-center gap-x-10 text-lg'>
                 <Link to='/' className='hover:text-white/70'>
