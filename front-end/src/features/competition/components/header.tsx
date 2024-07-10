@@ -62,7 +62,7 @@ export const Header = ({ data }: { data: IStartRequired }) => {
             src={
               data?.bannerUrl !== null && data?.bannerUrl !== ''
                 ? `${process.env.VITE_DOMAIN_URL}${data?.bannerUrl}`
-                : `${process.env.VITE_DOMAIN_URL}/1720538636246-Screenshot 2024-05-23 141554.png`
+                : `${process.env.VITE_DOMAIN_URL}/1720538636246-Screenshot%202024-05-23%20141554.png`
             }
             alt='banner'
             className='max-w-full h-auto mx-auto rounded-xl object-cover'
