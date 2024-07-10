@@ -1,5 +1,6 @@
 import { Button } from 'antd';
-import React, { useState } from 'react';
+import { RotateCcw } from 'lucide-react';
+import { useState } from 'react';
 
 const RefreshableIframe = ({ src }: { src: string }) => {
   const [refreshKey, setRefreshKey] = useState(0);
@@ -11,7 +12,7 @@ const RefreshableIframe = ({ src }: { src: string }) => {
   return (
     <div className='flex flex-col gap-2 items-end'>
       <Button className='text-white bg-cyan-600 hover:!bg-cyan-700 hover:!text-white' onClick={refreshIframe}>
-        Tải lai trang
+        Reload <RotateCcw size={16} />
       </Button>
       <iframe
         key={refreshKey}

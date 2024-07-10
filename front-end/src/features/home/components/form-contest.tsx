@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { isEmpty } from 'lodash';
 import { UploadIcon } from 'lucide-react';
 import { SetStateAction, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useCompetition } from '~/features/competition/hooks/use-competition';
 import { useCreateCompetition } from '~/features/home/hooks/use-create-competition';
 import { useGetInfoRequired } from '~/features/home/hooks/use-info-required';
