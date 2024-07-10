@@ -1,8 +1,9 @@
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Col, DatePicker, Form, Input, Modal, Row, Upload } from 'antd';
 import { format } from 'date-fns';
 import { isEmpty } from 'lodash';
 import { UploadIcon } from 'lucide-react';
-import { SetStateAction, useEffect, useState } from 'react';
+import { SetStateAction } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCompetition } from '~/features/competition/hooks/use-competition';
 import { useCreateCompetition } from '~/features/home/hooks/use-create-competition';
@@ -11,7 +12,7 @@ import { useInfo } from '~/hooks/useInfo';
 import { ICompetition } from '~/types';
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
 import moment from 'moment';
-// import { Color } from 'antd/es/color-picker';
+import { useRefresh } from '~/features/home/context/refresh-context';
 
 const normFile = (e: { fileList: unknown }) => {
   if (Array.isArray(e)) {
@@ -20,8 +21,7 @@ const normFile = (e: { fileList: unknown }) => {
   return e?.fileList;
 };
 
-export const FormContest = () => {
-  // const navigate = useNavigate();
+export const FormContest: React.FC = () => {
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
@@ -31,7 +31,7 @@ export const FormContest = () => {
   const { data: competitionData } = useCompetition();
   const competition: ICompetition = competitionData?.data;
   const [form] = Form.useForm<ICompetition>();
-  // const [color] = useState<Color>();
+  const { triggerRefresh } = useRefresh();
 
   useEffect(() => {
     if (!competition || isEmpty(competition)) {
@@ -43,9 +43,9 @@ export const FormContest = () => {
     form.setFieldsValue({
       name,
       rules,
-      // @ts-expect-error date
+      // @ts-expect-error null
       timeStart: timeStart && moment(timeStart),
-      // @ts-expect-error date
+      // @ts-expect-error null
       timeEnd: timeEnd && moment(timeEnd),
       password,
       bannerUrl,
@@ -91,9 +91,7 @@ export const FormContest = () => {
 
     createCompetition(finalData, {
       onSuccess: () => {
-        // const contestId = response?.data;
-        // navigate(`/dashboard/contest/${contestId}/edit?step=2`);
-        // window.location.reload(); // Refresh the page
+        triggerRefresh();
       }
     });
   };
@@ -142,15 +140,6 @@ export const FormContest = () => {
         <Form.Item label='Mật khẩu' name='password'>
           <Input.Password placeholder='Nhập mật khẩu cuộc thi...' />
         </Form.Item>
-        {/* <Form.Item label='Màu chủ đề' name='themeColor' initialValue={{ value: '#38a382' }}>
-          <ColorPicker
-            value={color}
-            onChange={(_, hex) => {
-              form.setFieldsValue({ themeColor: hex });
-            }}
-            showText
-          />
-        </Form.Item> */}
         <Form.Item label='Thông tin bắt buộc'>
           <Input value='Họ tên, Số điện thoại, Email' onClick={showModal} className='cursor-pointer bg-gray-200' />
         </Form.Item>

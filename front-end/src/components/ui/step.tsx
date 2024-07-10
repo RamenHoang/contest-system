@@ -8,37 +8,46 @@ import StepFive from '~/features/home/components/step-five';
 import { toSlug } from '~/utils/helpers';
 import { IStartRequired } from '~/types';
 import { useCompetition } from '~/features/competition/hooks/use-competition';
-import RefreshableIframe from '~/components/ui/iframe';
+import { useRefresh } from '~/features/home/context/refresh-context';
 
 const AntStep: React.FC = () => {
   const { id } = useParams();
   const { data: competitionData } = useCompetition();
   const competition: IStartRequired = competitionData?.data;
   const slug = toSlug(competition?.name || '');
+  const { refreshKey } = useRefresh();
 
   const steps = [
     {
       title: 'Tổng quan',
       content: (
-        <div className=''>
-          <RefreshableIframe src={`https://quiz-application-kmn.vercel.app/competition/cuoc-thi/intro/${id}/${slug}`} />
+        <div className='flex flex-col gap-2 items-end'>
+          <iframe
+            key={refreshKey}
+            onChange={() => {
+              refreshKey;
+            }}
+            id='quiz-iframe'
+            src={`https://quiz-application-kmn.vercel.app/competition/cuoc-thi/intro/${id}/${slug}/`}
+            className='rounded-sm pointer-events-auto w-full h-screen mx-auto shadow-xl border-[0.25rem] md:border-[0.75rem] border-gray-700'
+          ></iframe>
         </div>
       )
     },
     {
-      title: 'Cài đặt đề thi',
+      title: 'Bước 2',
       content: <StepTwo />
     },
     {
-      title: 'Chọn đơn vị',
+      title: 'Bước 3',
       content: <StepThree />
     },
     {
-      title: 'Trang thông tin',
+      title: 'Bước 4',
       content: <StepFour />
     },
     {
-      title: 'Xuất bản',
+      title: 'Bước 5',
       content: <StepFive />
     }
   ];
@@ -53,7 +62,7 @@ const AntStep: React.FC = () => {
     if (step >= 0 && step < steps.length) {
       setCurrent(step);
     }
-  }, [location]);
+  }, [location, refreshKey]);
 
   const next = () => {
     setCurrent(current + 1);

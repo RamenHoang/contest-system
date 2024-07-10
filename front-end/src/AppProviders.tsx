@@ -11,8 +11,8 @@ import { Provider } from 'react-redux';
 import { persistor, store } from '~/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { queryClient } from '~/api/query-client';
-import { ExamProvider } from '~/features/home/context/exam-context';
 import { theme } from '~/utils/theme';
+import { RefreshProvider } from '~/features/home/context/refresh-context';
 // import { theme } from '~/styles/theme';
 
 const AppProviders = ({ children }: PropsWithChildren) => {
@@ -26,12 +26,12 @@ const AppProviders = ({ children }: PropsWithChildren) => {
                 <PersistGate loading={null} persistor={persistor}>
                   <QueryClientProvider client={queryClient}>
                     <ConfigProvider theme={theme}>
-                      <ExamProvider>
+                      <RefreshProvider>
                         <App>
                           <Router>{children}</Router>
                           <ReactQueryDevtools initialIsOpen={false} position='left' />
                         </App>
-                      </ExamProvider>
+                      </RefreshProvider>
                     </ConfigProvider>
                   </QueryClientProvider>
                 </PersistGate>
