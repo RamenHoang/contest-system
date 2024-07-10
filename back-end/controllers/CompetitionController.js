@@ -721,9 +721,10 @@ const statisticParticipant = async (req, res, next) => {
 const exportExcel = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const competition = await Competitions.findByPk(id);
     const {
-      fromDate,
-      toDate,
+      fromDate = competition.timeStart,
+      toDate = competition.timeEnd,
       pageIndex = 1,
       pageSize = 50,
       keyword = "",
