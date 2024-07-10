@@ -10,7 +10,7 @@ const HomePage = () => {
   return (
     <div className='max-w-screen-lg mx-auto p-4 min-h-screen'>
       {role === 'admin' && (
-        <div className='hidden sm:block'>
+        <div className='sm:block'>
           <div className='text-[#707070] uppercase text-xl leading-7 font-base mb-4'>BẠN MUỐN TẠO ...</div>
           <ul className='flex items-center gap-4 text-white'>
             <CardItem
