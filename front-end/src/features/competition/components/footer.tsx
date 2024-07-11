@@ -18,14 +18,13 @@ export const Footer = () => {
         </div>
         <div className='col-span-2 md:col-span-1'>
           <div className='text-base lg:text-2xl font-semibold mb-2'> ĐƠN VỊ ĐỒNG HÀNH </div>
-          <div className='uppercase'>CÔNG TY CỔ PHẦN TMĐT ĐTN</div>
-          <div> Địa chỉ: ĐTN, Xóm Chiếu, Quận 4, Thành phố Hồ Chí Minh </div>
-          <div>Điện thoại: 0935.989.998</div>
-          <div>Email: cskh@đtn.com.vn</div>
+          <div className='uppercase'>Công ty TNHH MTV Kim Cương</div>
+          <div> Địa chỉ: 113 phố Đoàn Thượng, thị trấn Gia Lộc, huyện Gia Lộc</div>
+          <div>Điện thoại: 0938540999</div>
         </div>
       </div>
       <div className='bg-[#515151] text-white text-sm lg:text-base py-6 text-center'>
-        Copyright © ĐTN 2024. Designed and developed by ĐTN
+        Copyright © Ekosmith 2024. Designed and developed by ĐTN
       </div>
     </footer>
   );
