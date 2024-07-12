@@ -15,7 +15,7 @@ const DBConnect = () => {
   });
 };
 
-const sequelize = new Sequelize("quiz", "root", {
+const sequelize = new Sequelize("quiz", "root", "", {
   host: "localhost",
   dialect: "mysql",
   port: 3306,
