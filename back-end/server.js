@@ -26,7 +26,7 @@ const http = require("http");
 include middlewares, custom middlewares, Routes and Database connection
 ==============================*/
 const Routes = require("./routes");
-const { sequelize } = require("./config/db");
+const { sequelize, DBConnect } = require("./config/db");
 const SyncDatabase = require("./models/SyncDatabase");
 const HandleNotFound = require("./middlewares/HandleNotFoundMiddleware");
 const HandleApiError = require("./middlewares/ApiErrorMiddleware");
@@ -44,6 +44,7 @@ const HTTP_PORT = process.env.HTTP_PORT || 80;
 /*==============================
 server application configurations
 ==============================*/
+DBConnect();
 sequelize;
 console.log(process.env.IS_SYNC);
 if (process.env.IS_SYNC == "true") {

@@ -3,11 +3,10 @@ const { Sequelize } = require("sequelize");
 
 const DBConnect = () => {
   const connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.PORT,
+    host: "localhost",
+    user: "root",
+    password: "Gp5k@bKpP72*",
+    database: "quiz",
   });
   connection.connect(function (err) {
     if (err) throw err.message;
@@ -15,10 +14,10 @@ const DBConnect = () => {
   });
 };
 
-const sequelize = new Sequelize("quiz", "root", "1234", {
+const sequelize = new Sequelize("quiz", "root", "Gp5k@bKpP72*", {
   host: "127.0.0.1",
   dialect: "mysql",
-  port: 3307,
+  port: 3306,
   logging: console.log,
   pool: {
     max: 5,
