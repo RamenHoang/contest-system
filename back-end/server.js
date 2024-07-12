@@ -44,7 +44,7 @@ const HTTP_PORT = process.env.HTTP_PORT || 80;
 /*==============================
 server application configurations
 ==============================*/
-DBConnect();
+//DBConnect();
 sequelize;
 console.log(process.env.IS_SYNC);
 if (process.env.IS_SYNC == "true") {
