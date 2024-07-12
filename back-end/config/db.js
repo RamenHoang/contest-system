@@ -15,10 +15,10 @@ const DBConnect = () => {
   });
 };
 
-const sequelize = new Sequelize("quiz", "root", "", {
-  host: "localhost",
+const sequelize = new Sequelize("quiz", "root", "1234", {
+  host: "127.0.0.1",
   dialect: "mysql",
-  port: 3306,
+  port: 3307,
   logging: console.log,
   pool: {
     max: 5,
