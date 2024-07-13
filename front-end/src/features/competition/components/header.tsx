@@ -61,7 +61,7 @@ export const Header = ({ data }: { data: IStartRequired }) => {
             preview={false}
             src={
               data?.bannerUrl !== null && data?.bannerUrl !== ''
-                ? `${import.meta.env.VITE_DOMAIN_URL}${data?.bannerUrl}`
+                ? `http://localhost:8000${data?.bannerUrl}`
                 : `${import.meta.env.VITE_DOMAIN_URL}/1720627369516-336890955_223175616882164_6663631839570440780_n.jpg`
             }
             alt='banner'
