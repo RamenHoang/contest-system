@@ -3,11 +3,10 @@ const { Sequelize } = require("sequelize");
 
 const DBConnect = () => {
   const connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.PORT,
+    host: "localhost",
+    user: "root",
+    password: "Gp5k@bKpP72*",
+    database: "quiz",
   });
   connection.connect(function (err) {
     if (err) throw err.message;
