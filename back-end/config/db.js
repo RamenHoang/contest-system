@@ -14,20 +14,25 @@ const DBConnect = () => {
   });
 };
 
-const sequelize = new Sequelize("quiz", "root", "Gp5k@bKpP72*", {
-  host: "localhost",
-  dialect: "mysql",
-  port: 3306,
-  logging: console.log,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
-  },
-  dialectOptions: {
-    connectTimeout: 60000, //time out
-  },
-});
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.HOST,
+    dialect: "mysql",
+    port: process.env.DB_PORT,
+    logging: console.log,
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+    dialectOptions: {
+      connectTimeout: 60000, //time out
+    },
+  }
+);
 
 module.exports = { DBConnect, sequelize };
