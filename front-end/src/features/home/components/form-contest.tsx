@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Col, DatePicker, Form, Input, Modal, Row, Upload } from 'antd';
+import { Button, Checkbox, Col, ColorPicker, DatePicker, Form, Input, Modal, Row, Upload } from 'antd';
 import { format } from 'date-fns';
 import { isEmpty } from 'lodash';
 import { UploadIcon } from 'lucide-react';
@@ -13,6 +13,7 @@ import { ICompetition } from '~/types';
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
 import { useRefresh } from '~/features/home/context/refresh-context';
 import dayjs from 'dayjs';
+import { Color } from 'antd/es/color-picker';
 
 const normFile = (e: { fileList: unknown }) => {
   if (Array.isArray(e)) {
@@ -96,6 +97,8 @@ export const FormContest: React.FC = () => {
     });
   };
 
+  const [color] = useState<Color>();
+
   return (
     <>
       <Form form={form} layout='vertical' onFinish={handleSubmit}>
@@ -143,7 +146,15 @@ export const FormContest: React.FC = () => {
         <Form.Item label='Thông tin bắt buộc'>
           <Input value='Họ tên, Số điện thoại, Email' onClick={showModal} className='cursor-pointer bg-gray-200' />
         </Form.Item>
-
+        <Form.Item name='themeColor' initialValue={{ value: '' }}>
+          <ColorPicker
+            value={color}
+            onChange={(_, hex) => {
+              form.setFieldsValue({ themeColor: hex });
+            }}
+            showText
+          />
+        </Form.Item>
         <div className='mt-5 mb-2 flex justify-end gap-3'>
           <Button size='middle' htmlType='submit' type='primary'>
             Xác nhận
