@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Col, ColorPicker, DatePicker, Form, Input, Modal, Row, Upload } from 'antd';
+import { Button, Checkbox, Col, ColorPicker, DatePicker, Form, Input, message, Modal, Row, Upload } from 'antd';
 import { format } from 'date-fns';
 import { isEmpty } from 'lodash';
 import { UploadIcon } from 'lucide-react';
@@ -27,6 +27,8 @@ export const FormContest: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [bannerUrl, setBannerUrl] = useState<string | undefined>('');
+  const [imageUploaded, setImageUploaded] = useState(false);
+
   const user = useInfo();
   const { mutate: createCompetition } = useCreateCompetition();
   const { data: competitionData } = useCompetition();
@@ -76,11 +78,20 @@ export const FormContest: React.FC = () => {
 
   const handleUploadChange = (info: UploadChangeParam<UploadFile<{ data: SetStateAction<string | undefined> }>>) => {
     if (info.file.status === 'done') {
+      setImageUploaded(true);
       setBannerUrl(info?.file?.response?.data);
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      setImageUploaded(false);
+      message.error(`${info.file.name} file upload failed.`);
     }
   };
 
   const handleSubmit = (data: ICompetition) => {
+    if (!imageUploaded) {
+      message.error('Vui lòng tải ảnh banner');
+      return;
+    }
     const finalData = {
       ...data,
       id: parseInt(id as string),
@@ -102,7 +113,17 @@ export const FormContest: React.FC = () => {
   return (
     <>
       <Form form={form} layout='vertical' onFinish={handleSubmit}>
-        <Form.Item label='Banner' valuePropName='fileList' getValueFromEvent={normFile}>
+        <Form.Item
+          label='Banner'
+          valuePropName='fileList'
+          getValueFromEvent={normFile}
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng upload banner'
+            }
+          ]}
+        >
           <Upload
             headers={{
               Authorization: `Bearer ${user?.accessToken}`
@@ -110,6 +131,7 @@ export const FormContest: React.FC = () => {
             action={`${import.meta.env.VITE_DOMAIN_URL}/api/v1/competitions/upload-image`}
             listType='picture'
             onChange={handleUploadChange}
+            maxCount={1}
           >
             <Button className='w-[282px]' icon={<UploadIcon size={20} />}>
               Tải lên
@@ -146,7 +168,25 @@ export const FormContest: React.FC = () => {
         <Form.Item label='Thông tin bắt buộc'>
           <Input value='Họ tên, Số điện thoại, Email' onClick={showModal} className='cursor-pointer bg-gray-200' />
         </Form.Item>
-        <Form.Item name='themeColor' initialValue={{ value: '' }}>
+        <Form.Item
+          name='themeColor'
+          initialValue={{ value: '' }}
+          label='Màu chủ đề'
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng chọn màu chủ đề'
+            },
+            () => ({
+              validator(_, value) {
+                if (value === '#000000') {
+                  return Promise.reject(new Error('Vui lòng chọn màu khác'));
+                }
+                return Promise.resolve();
+              }
+            })
+          ]}
+        >
           <ColorPicker
             value={color}
             onChange={(_, hex) => {

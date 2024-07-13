@@ -31,17 +31,6 @@ const AntDropdown = () => {
 
   const items: MenuProps['items'] = [
     {
-      label: <Link to='https://www.antgroup.com'>Tài khoản</Link>,
-      key: '0'
-    },
-    {
-      label: <Link to='https://www.antgroup.com'>Lịch sử làm bài</Link>,
-      key: '1'
-    },
-    {
-      type: 'divider'
-    },
-    {
       label: <p onClick={handleLogout}>Đăng xuất</p>,
       key: '3'
     }

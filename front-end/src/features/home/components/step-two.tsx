@@ -14,16 +14,17 @@ const StepTwo = () => {
     <>
       <div className='flex justify-center items-center mt-32 gap-20'>
         <div className='p-2 shadow-lg rounded-2xl w-full max-w max-w-[14rem]'>
-          <div className='min-h-[225px] flex items-center justify-center p-4 text-center cursor-pointer'>
+          <div
+            className='min-h-[225px] flex items-center justify-center p-4 text-center cursor-pointer'
+            onClick={() => navigate('/dashboard/quiz/')}
+          >
             <div>
               <img
                 src='https://myaloha.vn/upload/images/edit_manually.png'
                 alt='Từ kho đề thi'
                 className='w-full h-auto'
               />
-              <div className='mt-4' onClick={() => navigate('/dashboard/quiz/')}>
-                Soạn đề mới
-              </div>
+              <div className='mt-4'>Soạn đề mới</div>
             </div>
           </div>
         </div>
