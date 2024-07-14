@@ -662,7 +662,7 @@ const saveResultCompetition = async (req, res, next) => {
           typeQuestion,
           participantId: newParticipant.id,
           answerText,
-          isCorrect,
+          isCorrect: false,
         });
       } else {
         const correctAnswer = answers.find(
