@@ -648,12 +648,17 @@ const saveResultCompetition = async (req, res, next) => {
     let correctAnswersRate = 0;
     let totalCorrectAnswers = 0;
     for (const result of results) {
-      const { questionId, chosenAnswerId, typeQuestion, answerText } = result;
+      const {
+        questionId,
+        chosenAnswerId = null,
+        typeQuestion,
+        answerText,
+      } = result;
       //typequestion === essay => save to userAnswer with answerText
       if (typeQuestion === "ESSAY") {
         userAnswers.push({
           questionId,
-          chosenOption,
+          chosenOption: chosenAnswerId,
           typeQuestion,
           participantId: newParticipant.id,
           answerText,
