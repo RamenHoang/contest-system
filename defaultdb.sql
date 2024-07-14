@@ -15,131 +15,11 @@ CREATE TABLE `AnswerBankings`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idQuestionBanking`(`idQuestionBanking` ASC) USING BTREE,
   CONSTRAINT `AnswerBankings_ibfk_1` FOREIGN KEY (`idQuestionBanking`) REFERENCES `QuestionBankings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1242 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1264 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of AnswerBankings
 -- ----------------------------
-INSERT INTO `AnswerBankings` VALUES (632, 160, 'A. Quảng Nam', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (633, 160, 'B. Quảng Ngãi', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (634, 160, 'C. Bình Định', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (635, 160, 'D. Phan Thiết', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (636, 161, 'A. Một', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (637, 161, 'B. Hai', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (638, 161, 'C. Ba', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (639, 161, 'D. Bốn', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (640, 162, 'A. 1917', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (641, 162, 'B. 1918', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (642, 162, 'C. 1919', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (643, 162, 'D. 1920', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (644, 163, 'A. 18/6/1917', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (645, 163, 'B. 18/6/1918', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (646, 163, 'C. 18/6/1919', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (647, 163, 'D. 18/6/1920', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (648, 164, 'A. 1901', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (649, 164, 'B. 1905', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (650, 164, 'C. 1911', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (651, 164, 'D. 1917', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (652, 165, 'A. Khi Bác lên tàu từ bến Nhà Rồng năm 1911', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (653, 165, 'B. Tại Hội nghị Véc xay năm 1919', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (654, 165, 'C. Khi Bác tham gia sáng lập Đảng cộng sản Pháp năm 1920', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (655, 165, 'D. Khi Bác sang hoạt động ở Liên Xô năm 1923.', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (656, 166, 'A. 6/1924. Hương Cảng – Trung Quốc', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (657, 166, 'B. 6/1925. Quảng Châu – Trung Quốc', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (658, 166, 'C. 6/1926. Thượng Hải – Trung Quốc', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (659, 166, 'D. 6/1927. Cao Bằng – Việt Nam', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (660, 167, 'A. Con rồng tre', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (661, 167, 'B. Bản án chế độ thực dân Pháp', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (662, 167, 'C. V.I. Lênin và các dân tộc Phương Đông.', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (663, 167, 'D. Đường cách mệnh', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (664, 168, 'A. 1890 – 1911', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (665, 168, 'B. 1921 – 1930', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (666, 168, 'C. 1930 – 1945', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (667, 168, 'D. 1945 – 1969', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (668, 169, 'A. 1911 – 1920', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (669, 169, 'B. 1921 – 1930', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (670, 169, 'C. 1930 – 1945', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (671, 169, 'D. 1945 – 1969', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (672, 170, 'A. Hòa An – Cao Bằng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (673, 170, 'B. Bình Nguyên – Cao Bằng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (674, 170, 'C. Trà Lĩnh – Cao Bằng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (675, 170, 'D. Hà Quảng – Cao Bằng', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (676, 171, 'A. Quân lệnh số 1 của Uỷ Ban khởi nghĩa toàn quốc', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (677, 171, 'B. Lời kêu gọi tổng khởi nghĩa của Chủ tịch Hồ Chi Minh', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (678, 171, 'C. Chỉ thị toàn quốc kháng chiến của Trung ương Đảng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (679, 171, 'D. Lời kêu gọi toàn quốc kháng chiến của Chủ tịch Hồ Chi Min', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (680, 172, 'A. 19/12/1946', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (681, 172, 'B. 20/12/1946', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (682, 172, 'C. 22/12/1946', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (683, 172, 'D. 27/12/1946', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (684, 173, 'A. Lời kêu gọi của BCH Trung ương Đảng Lao Động ngày 3/9/1969', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (685, 173, 'B. Điếu văn của BCH Trung ương Đảng Lao Động ngày 9/9/1969', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (686, 173, 'C. Bản thông cáo đặc biệt ngày 4/9/1969', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (687, 173, 'D. Xã luận báo Nhân dân ngày 9/9/1969', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (688, 174, 'A. Đạo đức cách mạng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (689, 174, 'B. Sửa đổi lối làm việc', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (690, 174, 'C. Đường cách mệnh', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (691, 174, 'D. Bản Di chúc', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (692, 175, 'A. Tinh thần hiếu học', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (693, 175, 'B. Sự tu dưỡng đạo đức cá nhân', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (694, 175, 'C. Quản lý xã hội bằng đạo đức', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (695, 175, 'D. Tinh thần nhân nghĩa', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (696, 176, 'A. Năm vững lý luận', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (697, 176, 'B. Để sống với nhau có tình, có nghĩa', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (698, 176, 'C. Để chứng tỏ trình độ lý luận', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (699, 176, 'D. Để làm cán bộ', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (700, 177, 'A. Công nhân thế giới', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (701, 177, 'B. Vàng đen trắng đỏ', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (702, 177, 'C. Lao động thế giớ', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (703, 177, 'D. Bốn phương vô sản', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (704, 178, 'A. Kẻ thù ở thuộc địa yếu hơn kẻ thù của giai cấp vô sản ở chính quốc.', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (705, 178, 'B. Lực lượng cách mạng ở thuộc địa đông và mạnh hơn lực lượng cách mạng ở chính quốc.', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (706, 178, 'C. Nộc độc và sức sống của con rắn độc tư bản chủ chủ nghĩa tập trung ở các nước thuộc địa hơn ở chính quốc.', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (707, 178, 'D. Nhân dân ở các nước thuộc địa căm thù chủ nghĩa đế quốc và khát khao được độc lập.', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (708, 179, 'A. Đại đoàn kết dân tộc là vấn đề sách lược.', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (709, 179, 'B. Đại đoàn kết dân tộc là vấn đề chiến lược.', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (710, 179, 'C. Đại đoàn kết dân tộc là phương pháp chính trị.', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (711, 179, 'D. Đại đoàn kết dân tộc là một thủ đọan chính trị', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (712, 180, 'A. Con bạch tuộc', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (713, 180, 'B. Con chim đại bàng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (714, 180, 'C. Con đỉa hai vòi', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (715, 180, 'D. Con chim ưng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (716, 181, 'A. 3/3/1950', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (717, 181, 'B. 3/3/1951', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (718, 181, 'C. 3/3/1955', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (719, 181, 'D. 3/3/1960', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (720, 182, 'A. Võ Nguyên Giáp', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (721, 182, 'B. Phạm Văn Đồng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (722, 182, 'C. Huỳnh Thúc Kháng', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (723, 182, 'D. Bùi Bằng Đoàn', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (724, 183, 'A. Trần Lực', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (725, 183, 'B. Trần Dân Tiên', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (726, 183, 'C. Tân Sinh', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (727, 183, 'D. X.Y.Z', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (728, 184, 'A. Cách mạng dân chủ tư sản', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (729, 184, 'B. Cách mạng vô sản', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (730, 184, 'C. Cách mạng xã hội chủ nghĩa', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (731, 184, 'D. Cách mạng dân tộc dân chủ nhân dân', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (732, 185, 'A. Đảng cộng sản Việt Nam là Đảng của giai cấp công nhân', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (733, 185, 'B. Đảng cộng sản Việt Nam là Đảng của nhân dân lao động', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (734, 185, 'C. Đảng cộng sản Việt Nam là Đảng của giai cấp công nhân, nhân dân lao động và của cả dân tộc', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (735, 185, 'D. Đảng cộng sản Việt Nam là Đảng của toàn dân tộc', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (736, 186, 'A. Dân chúng số nhiều', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (737, 186, 'B. Giai cấp công nhân', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (738, 186, 'C. Giai cấp nông dân', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (739, 186, 'D. Giai cấp công nhân và giai cấp nông dân.', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (740, 187, 'A. Tham nhũng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (741, 187, 'B. Lười biếng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (742, 187, 'C. Tham ô, lãng phí, quan liêu', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (743, 187, 'D. Lãng phí, quan liêu', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (744, 188, 'A. Nhân – Lễ - Nghĩa – Trí – Tín', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (745, 188, 'B. Nhân – Nghĩa – Trí – Dũng – Liêm', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (746, 188, 'C. Nhân – Lễ - Nghĩa – Trí – Dũng', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (747, 188, 'D. Nhân – Lễ – Trí – Tín - Dũn', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (748, 189, 'A. 80', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (749, 189, 'B. 100', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (750, 189, 'C. 153', 1, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `AnswerBankings` VALUES (751, 189, 'D. 120', 0, '2024-07-03 15:51:31', '2024-07-03 15:51:31');
 INSERT INTO `AnswerBankings` VALUES (752, 190, 'A. Phan Châu Trinh', 0, '2024-07-03 17:46:54', '2024-07-03 17:46:54');
 INSERT INTO `AnswerBankings` VALUES (753, 190, 'B. Phan Bội Châu', 1, '2024-07-03 17:46:54', '2024-07-03 17:46:54');
 INSERT INTO `AnswerBankings` VALUES (754, 190, 'C. Trần Hưng Đạo', 0, '2024-07-03 17:46:54', '2024-07-03 17:46:54');
@@ -170,14 +50,14 @@ INSERT INTO `AnswerBankings` VALUES (778, 196, 'Jackson', 1, '2024-07-04 08:59:5
 INSERT INTO `AnswerBankings` VALUES (779, 197, 'Messi', 1, '2024-07-04 08:59:53', '2024-07-06 14:56:19');
 INSERT INTO `AnswerBankings` VALUES (780, 197, 'Ronaldo', 0, '2024-07-04 08:59:53', '2024-07-06 14:56:19');
 INSERT INTO `AnswerBankings` VALUES (781, 197, 'Doku', 0, '2024-07-04 08:59:53', '2024-07-06 14:56:19');
-INSERT INTO `AnswerBankings` VALUES (782, 198, 'A. Quảng Nam', 0, '2024-07-05 14:26:13', '2024-07-06 14:46:55');
-INSERT INTO `AnswerBankings` VALUES (783, 198, 'B. Quảng Ngãi', 0, '2024-07-05 14:26:13', '2024-07-06 14:46:55');
-INSERT INTO `AnswerBankings` VALUES (784, 198, 'C. Bình Định', 0, '2024-07-05 14:26:13', '2024-07-06 14:46:55');
-INSERT INTO `AnswerBankings` VALUES (785, 198, 'D. Phan Thiết', 1, '2024-07-05 14:26:14', '2024-07-06 14:46:56');
-INSERT INTO `AnswerBankings` VALUES (786, 199, 'A. Một', 0, '2024-07-05 14:26:14', '2024-07-06 14:46:56');
-INSERT INTO `AnswerBankings` VALUES (787, 199, 'B. Hai', 0, '2024-07-05 14:26:15', '2024-07-06 14:46:56');
-INSERT INTO `AnswerBankings` VALUES (788, 199, 'C. Ba', 0, '2024-07-05 14:26:15', '2024-07-06 14:46:57');
-INSERT INTO `AnswerBankings` VALUES (789, 199, 'D. Bốn', 1, '2024-07-05 14:26:15', '2024-07-06 14:46:57');
+INSERT INTO `AnswerBankings` VALUES (782, 198, 'A. Quảng Nam', 0, '2024-07-05 14:26:13', '2024-07-14 15:38:30');
+INSERT INTO `AnswerBankings` VALUES (783, 198, 'B. Quảng Ngãi', 0, '2024-07-05 14:26:13', '2024-07-14 15:38:30');
+INSERT INTO `AnswerBankings` VALUES (784, 198, 'C. Bình Định', 0, '2024-07-05 14:26:13', '2024-07-14 15:38:30');
+INSERT INTO `AnswerBankings` VALUES (785, 198, 'D. Phan Thiết', 1, '2024-07-05 14:26:14', '2024-07-14 15:38:30');
+INSERT INTO `AnswerBankings` VALUES (786, 199, 'A. Một', 0, '2024-07-05 14:26:14', '2024-07-14 15:38:31');
+INSERT INTO `AnswerBankings` VALUES (787, 199, 'B. Hai', 0, '2024-07-05 14:26:15', '2024-07-14 15:38:31');
+INSERT INTO `AnswerBankings` VALUES (788, 199, 'C. Ba', 0, '2024-07-05 14:26:15', '2024-07-14 15:38:31');
+INSERT INTO `AnswerBankings` VALUES (789, 199, 'D. Bốn', 1, '2024-07-05 14:26:15', '2024-07-14 15:38:31');
 INSERT INTO `AnswerBankings` VALUES (790, 200, 'A. Quảng Nam', 0, '2024-07-06 09:53:51', '2024-07-06 09:53:51');
 INSERT INTO `AnswerBankings` VALUES (791, 200, 'B. Quảng Ngãi', 0, '2024-07-06 09:53:51', '2024-07-06 09:53:51');
 INSERT INTO `AnswerBankings` VALUES (792, 200, 'C. Bình Định', 0, '2024-07-06 09:53:51', '2024-07-06 09:53:51');
@@ -218,14 +98,14 @@ INSERT INTO `AnswerBankings` VALUES (830, 208, 'dog', 0, '2024-07-06 13:57:37', 
 INSERT INTO `AnswerBankings` VALUES (831, 208, 'cat', 1, '2024-07-06 13:57:38', '2024-07-06 14:15:21');
 INSERT INTO `AnswerBankings` VALUES (832, 210, 'chó', 0, '2024-07-06 14:15:26', '2024-07-06 14:15:26');
 INSERT INTO `AnswerBankings` VALUES (833, 210, 'mèo', 1, '2024-07-06 14:15:27', '2024-07-06 14:15:27');
-INSERT INTO `AnswerBankings` VALUES (834, 212, 'Berlin', 0, '2024-07-09 07:04:15', '2024-07-09 07:52:46');
-INSERT INTO `AnswerBankings` VALUES (835, 212, 'Madrid', 1, '2024-07-09 07:04:15', '2024-07-09 07:52:46');
-INSERT INTO `AnswerBankings` VALUES (836, 212, 'Paris', 0, '2024-07-09 07:04:15', '2024-07-09 07:52:46');
-INSERT INTO `AnswerBankings` VALUES (837, 212, 'Rome', 0, '2024-07-09 07:04:15', '2024-07-09 07:52:46');
-INSERT INTO `AnswerBankings` VALUES (838, 213, 'Brazil', 1, '2024-07-09 07:04:16', '2024-07-09 07:52:46');
-INSERT INTO `AnswerBankings` VALUES (839, 213, 'Germany', 0, '2024-07-09 07:04:16', '2024-07-09 07:52:46');
-INSERT INTO `AnswerBankings` VALUES (840, 213, 'France', 0, '2024-07-09 07:04:16', '2024-07-09 07:52:46');
-INSERT INTO `AnswerBankings` VALUES (841, 213, 'Argentina', 0, '2024-07-09 07:04:16', '2024-07-09 07:52:46');
+INSERT INTO `AnswerBankings` VALUES (834, 212, 'Berlin', 0, '2024-07-09 07:04:15', '2024-07-14 06:56:54');
+INSERT INTO `AnswerBankings` VALUES (835, 212, 'Madrid', 1, '2024-07-09 07:04:15', '2024-07-14 06:56:55');
+INSERT INTO `AnswerBankings` VALUES (836, 212, 'Paris', 0, '2024-07-09 07:04:15', '2024-07-14 06:56:55');
+INSERT INTO `AnswerBankings` VALUES (837, 212, 'Rome', 0, '2024-07-09 07:04:15', '2024-07-14 06:56:55');
+INSERT INTO `AnswerBankings` VALUES (838, 213, 'Brazil', 1, '2024-07-09 07:04:16', '2024-07-14 06:56:55');
+INSERT INTO `AnswerBankings` VALUES (839, 213, 'Germany', 0, '2024-07-09 07:04:16', '2024-07-14 06:56:55');
+INSERT INTO `AnswerBankings` VALUES (840, 213, 'France', 0, '2024-07-09 07:04:16', '2024-07-14 06:56:55');
+INSERT INTO `AnswerBankings` VALUES (841, 213, 'Argentina', 0, '2024-07-09 07:04:16', '2024-07-14 06:56:55');
 INSERT INTO `AnswerBankings` VALUES (862, 219, 'A. Quảng Nam', 0, '2024-07-09 08:59:28', '2024-07-09 09:00:17');
 INSERT INTO `AnswerBankings` VALUES (863, 219, 'B. Quảng Ngãi', 0, '2024-07-09 08:59:29', '2024-07-09 09:00:18');
 INSERT INTO `AnswerBankings` VALUES (864, 219, 'C. Bình Định', 1, '2024-07-09 08:59:29', '2024-07-09 09:00:18');
@@ -606,6 +486,16 @@ INSERT INTO `AnswerBankings` VALUES (1238, 314, 'A. 80', 0, '2024-07-10 16:48:14
 INSERT INTO `AnswerBankings` VALUES (1239, 314, 'B. 100', 0, '2024-07-10 16:48:14', '2024-07-10 16:48:14');
 INSERT INTO `AnswerBankings` VALUES (1240, 314, 'C. 153', 1, '2024-07-10 16:48:14', '2024-07-10 16:48:14');
 INSERT INTO `AnswerBankings` VALUES (1241, 314, 'D. 120', 0, '2024-07-10 16:48:14', '2024-07-10 16:48:14');
+INSERT INTO `AnswerBankings` VALUES (1254, 319, 'A. Quảng Nam', 0, '2024-07-14 01:05:11', '2024-07-14 01:05:11');
+INSERT INTO `AnswerBankings` VALUES (1255, 319, 'B. Quảng Ngãi', 0, '2024-07-14 01:05:11', '2024-07-14 01:05:11');
+INSERT INTO `AnswerBankings` VALUES (1256, 319, 'C. Bình Định', 0, '2024-07-14 01:05:11', '2024-07-14 01:05:11');
+INSERT INTO `AnswerBankings` VALUES (1257, 319, 'D. Phan Thiết', 1, '2024-07-14 01:05:11', '2024-07-14 01:05:11');
+INSERT INTO `AnswerBankings` VALUES (1258, 320, 'Manchester United, Arsenal, Chelsea, Liverpool', 0, '2024-07-14 01:05:12', '2024-07-14 01:05:12');
+INSERT INTO `AnswerBankings` VALUES (1259, 321, '', 0, '2024-07-14 01:14:19', '2024-07-14 06:56:55');
+INSERT INTO `AnswerBankings` VALUES (1260, 325, 'Vietnam', 1, '2024-07-14 06:56:55', '2024-07-14 06:56:55');
+INSERT INTO `AnswerBankings` VALUES (1261, 325, 'Portugal', 0, '2024-07-14 06:56:55', '2024-07-14 06:56:55');
+INSERT INTO `AnswerBankings` VALUES (1262, 325, 'Poland', 0, '2024-07-14 06:56:55', '2024-07-14 06:56:55');
+INSERT INTO `AnswerBankings` VALUES (1263, 325, 'Nigeria', 0, '2024-07-14 06:56:56', '2024-07-14 06:56:56');
 
 -- ----------------------------
 -- Table structure for Competitions
@@ -633,7 +523,7 @@ CREATE TABLE `Competitions`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `creatorId`(`creatorId` ASC) USING BTREE,
   CONSTRAINT `Competitions_ibfk_1` FOREIGN KEY (`creatorId`) REFERENCES `Users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 80 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of Competitions
@@ -643,17 +533,16 @@ INSERT INTO `Competitions` VALUES (2, 'Lịch sử 30/4 ', '10 người chơi ch
 INSERT INTO `Competitions` VALUES (3, 'Lịch sử 30/4 121', '10 người chơi chọn 3 người 111', NULL, '#8ed934', '2024-06-21 17:00:00', '2024-07-24 17:00:00', '1, 2', 1, 111, NULL, 'Nhóm/Đơn vị mới 2', 1, 0, 1, '2024-07-05 08:43:04', '2024-07-09 17:51:10', '/1720538636246-Screenshot 2024-05-23 141554.png');
 INSERT INTO `Competitions` VALUES (5, 'demo submit anh', 'demo submit anh', NULL, '#000000', '2024-07-07 00:00:00', '2024-07-15 00:00:00', '7, 1', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 1, 0, 1, '2024-07-05 13:38:11', '2024-07-10 16:13:04', '/1720548548399-Screenshot 2024-05-02 133549.png');
 INSERT INTO `Competitions` VALUES (6, 'Cuộc thi mới 999', 'Thể lệ cuộc thi 999', NULL, '#000000', '2024-07-15 17:00:00', '2024-07-19 17:00:00', '1,3', 500, 5, NULL, 'Nhóm/Đơn vị mới 2', 1, 0, 1, '2024-07-05 13:52:28', '2024-07-05 13:52:55', '/1720187530861-Screenshot 2024-05-23 141554.png');
-INSERT INTO `Competitions` VALUES (7, 'Cuộc thi mới mmm', 'Thể lệ cuộc thi  8', NULL, '#000000', '2024-07-13 17:00:00', '2024-07-16 17:00:00', '1,3', 99, 7, NULL, 'Đơn vị mới', 0, 0, 1, '2024-07-05 14:54:08', '2024-07-05 15:19:00', '/1720191224408-oauth-flow.png');
+INSERT INTO `Competitions` VALUES (7, 'Cuộc thi mới mmm', 'Thể lệ cuộc thi  8', NULL, '#000000', '2024-07-13 17:00:00', '2024-07-16 17:00:00', '1, 3', 99, 7, NULL, 'Đơn vị mới', 0, 0, 1, '2024-07-05 14:54:08', '2024-07-13 05:47:29', '/1720849647805-anna-wangler-_GqwoiT7QY8-unsplash.jpg');
 INSERT INTO `Competitions` VALUES (8, 'Cuộc thi mới', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-06 17:00:00', '2024-08-04 17:00:00', '1,2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 2, '2024-07-06 06:02:04', '2024-07-06 06:02:04', NULL);
 INSERT INTO `Competitions` VALUES (9, 'Cuộc thi mới', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-06 17:00:00', '2024-08-04 17:00:00', '1,2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 2, '2024-07-06 06:02:34', '2024-07-06 06:02:34', NULL);
 INSERT INTO `Competitions` VALUES (10, 'Cuộc thi Số 10 Messi', 'Thể lệ cuộc thi', '', '#000000', '2024-07-06 17:00:00', '2024-08-04 17:00:00', '1, 2', 1, 20, NULL, 'Nhóm/Đơn vị mới 2', 1, 0, 2, '2024-07-06 06:03:56', '2024-07-10 07:31:59', '');
 INSERT INTO `Competitions` VALUES (11, 'Thi tốt nghiệp THPT', 'Trắc nghiệm', NULL, '#000000', '2024-07-14 17:00:00', '2024-07-18 17:00:00', '1,2', 1, 10, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-08 04:55:50', '2024-07-08 04:56:50', '/1720414519713-oauth-flow.png');
-INSERT INTO `Competitions` VALUES (12, 'Cuộc thi mới THCS', 'Thể lệ cuộc thi THCS', NULL, '#000000', '2024-07-13 17:00:00', '2024-07-15 17:00:00', '1,2', 1, 11, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-08 05:02:44', '2024-07-08 05:03:05', 'public\\1720414946591-cabin-008.jpg');
+INSERT INTO `Competitions` VALUES (12, 'Cuộc thi mới THCS', 'Thể lệ cuộc thi THCS', NULL, '#000000', '2024-07-14 00:00:00', '2024-07-16 00:00:00', '1, 2', 1, 11, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-08 05:02:44', '2024-07-13 05:43:34', '/1720849409435-pexels-cÃ¡tia-matos-1072179.jpg');
 INSERT INTO `Competitions` VALUES (13, 'test step 2', 'Thể lệ cuộc thi 2', NULL, '#000000', '2024-07-14 17:00:00', '2024-07-16 17:00:00', '1,2', 1, 11, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-08 10:01:48', '2024-07-08 10:02:12', '/1720432890074-image.jpg');
 INSERT INTO `Competitions` VALUES (14, 'Cuộc thi mới nè', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-09 17:00:00', '2024-08-09 17:00:00', '1,2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-08 13:58:38', '2024-07-08 13:58:38', NULL);
 INSERT INTO `Competitions` VALUES (15, 'Cuộc thi mới nè', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-15 14:25:42', '2024-07-22 14:25:42', '1, 2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-08 14:25:42', '2024-07-08 14:25:42', NULL);
 INSERT INTO `Competitions` VALUES (16, 'Cuộc thi mới sau edit', 'Thể lệ cuộc thi edit', NULL, '#000000', '2024-07-20 17:00:00', '2024-07-22 17:00:00', '1,6', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-08 14:26:44', '2024-07-08 14:26:44', '');
-INSERT INTO `Competitions` VALUES (17, 'Nhan dep trai', 'trac nghiem', NULL, '#000000', '2024-07-24 17:00:00', '2024-07-25 17:00:00', '1, 2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-08 15:26:19', '2024-07-08 15:26:19', '');
 INSERT INTO `Competitions` VALUES (18, 'Cuộc thi mới nè', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-15 15:46:16', '2024-07-22 15:46:16', '1, 2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-08 15:46:16', '2024-07-08 15:46:16', NULL);
 INSERT INTO `Competitions` VALUES (19, 'Cuộc thi mới nè 19 nha', 'Thể lệ cuộc thi 19', 'abc', '#8d71e2', '2024-07-22 17:00:00', '2061-09-10 17:00:00', '1, 2', 1, 9, 'question', 'Đơn vị mới', 1, 0, 1, '2024-07-08 15:49:43', '2024-07-09 14:52:51', '/1720536761530-cabin-008.jpg');
 INSERT INTO `Competitions` VALUES (20, 'Cuộc thi mới nè', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-16 02:42:21', '2024-07-23 02:42:21', '1, 2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-09 02:42:23', '2024-07-09 02:42:23', NULL);
@@ -712,6 +601,9 @@ INSERT INTO `Competitions` VALUES (73, 'Cuộc thi mới nè', 'Thể lệ cuộ
 INSERT INTO `Competitions` VALUES (74, 'Cuộc thi mới nè', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-18 14:44:41', '2024-07-25 14:44:41', '1, 2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-11 07:44:41', '2024-07-11 07:44:41', NULL);
 INSERT INTO `Competitions` VALUES (75, 'Cuộc thi mới nè', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-18 14:44:57', '2024-07-25 14:44:57', '1, 2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-11 07:44:58', '2024-07-11 07:44:58', NULL);
 INSERT INTO `Competitions` VALUES (76, 'Cuộc thi mới nè', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-18 15:06:38', '2024-07-25 15:06:38', '1, 2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-11 08:06:39', '2024-07-11 08:06:39', NULL);
+INSERT INTO `Competitions` VALUES (77, 'Cuộc thi mới nè 77', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-20 05:44:59', '2024-07-27 05:44:59', '1, 2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-13 05:44:59', '2024-07-13 05:45:51', '/1720849548338-Screenshot 2024-07-01 102844.png');
+INSERT INTO `Competitions` VALUES (78, 'Cuộc thi mới nè 78', 'Thể lệ cuộc thi', NULL, '#3c6942', '2024-07-20 05:47:40', '2024-07-27 05:47:40', '1, 2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-13 05:47:40', '2024-07-13 05:48:25', '/1720849686359-Screenshot 2024-07-01 102844.png');
+INSERT INTO `Competitions` VALUES (79, 'Cuộc thi mới nè', 'Thể lệ cuộc thi', NULL, '#000000', '2024-07-20 15:28:24', '2024-07-27 15:28:24', '1, 2', NULL, NULL, NULL, 'Nhóm/Đơn vị mới 2', 0, 0, 1, '2024-07-13 15:28:24', '2024-07-13 15:28:24', NULL);
 
 -- ----------------------------
 -- Table structure for ExamBankings
@@ -731,30 +623,16 @@ CREATE TABLE `ExamBankings`  (
 -- ----------------------------
 -- Records of ExamBankings
 -- ----------------------------
-INSERT INTO `ExamBankings` VALUES (8, 1, 'Test new away', 0, 0, '2024-07-03 15:51:31', '2024-07-06 08:09:21');
 INSERT INTO `ExamBankings` VALUES (9, 1, 'Test về lịch sử Việt Nam Nhân', 3, 0, '2024-07-03 17:46:54', '2024-07-03 17:46:54');
 INSERT INTO `ExamBankings` VALUES (10, 1, 'Bong da the gioi 555', 0, 0, '2024-07-04 05:12:06', '2024-07-06 11:49:08');
 INSERT INTO `ExamBankings` VALUES (11, 1, 'Bong da the gioi 555', 2, 0, '2024-07-04 08:59:52', '2024-07-04 08:59:52');
-INSERT INTO `ExamBankings` VALUES (12, 1, 'Test new away', 2, 0, '2024-07-05 14:23:46', '2024-07-06 14:46:57');
-INSERT INTO `ExamBankings` VALUES (13, 1, 'Bài thi mới', 0, 0, '2024-07-06 05:56:04', '2024-07-06 05:56:04');
-INSERT INTO `ExamBankings` VALUES (14, 1, 'Bài thi mới 1', 0, 0, '2024-07-06 05:56:10', '2024-07-06 05:56:10');
-INSERT INTO `ExamBankings` VALUES (15, 1, 'Bài thi mới 1123', 1, 0, '2024-07-06 06:56:02', '2024-07-06 09:53:51');
+INSERT INTO `ExamBankings` VALUES (12, 1, 'Đề thi có 2 câu dùng test', 2, 0, '2024-07-05 14:23:46', '2024-07-14 15:37:39');
+INSERT INTO `ExamBankings` VALUES (15, 1, 'Bài thi mới 1123', 1, 1, '2024-07-06 06:56:02', '2024-07-14 01:05:12');
 INSERT INTO `ExamBankings` VALUES (16, 1, 'Bài thi mới 1', 2, 0, '2024-07-06 10:01:30', '2024-07-06 10:25:07');
-INSERT INTO `ExamBankings` VALUES (17, 1, 'Bài thi mới 1', 0, 0, '2024-07-06 11:45:07', '2024-07-06 11:45:07');
-INSERT INTO `ExamBankings` VALUES (18, 1, 'Bài thi mới 1', 0, 0, '2024-07-06 11:45:37', '2024-07-06 11:45:37');
 INSERT INTO `ExamBankings` VALUES (19, 1, 'Bài thi mới test update', 5, 0, '2024-07-06 13:09:46', '2024-07-06 13:53:00');
-INSERT INTO `ExamBankings` VALUES (20, 1, 'Bài thi mới 1', 0, 0, '2024-07-08 08:19:35', '2024-07-08 08:19:35');
-INSERT INTO `ExamBankings` VALUES (21, 1, 'Bài thi mới 1', 0, 0, '2024-07-08 10:04:37', '2024-07-08 10:04:42');
-INSERT INTO `ExamBankings` VALUES (22, 1, 'Bài thi mới 1', 0, 0, '2024-07-08 10:04:38', '2024-07-08 10:04:38');
-INSERT INTO `ExamBankings` VALUES (23, 1, 'Bài thi mới 1', 0, 0, '2024-07-08 10:05:01', '2024-07-08 10:05:09');
-INSERT INTO `ExamBankings` VALUES (24, 1, 'Bài thi mới 1', 0, 0, '2024-07-08 10:08:01', '2024-07-08 10:08:01');
-INSERT INTO `ExamBankings` VALUES (25, 1, 'Bài thi mới 1', 0, 0, '2024-07-08 10:08:07', '2024-07-08 10:08:12');
-INSERT INTO `ExamBankings` VALUES (26, 1, 'Bài thi mới 1', 0, 0, '2024-07-08 10:08:47', '2024-07-08 10:08:47');
-INSERT INTO `ExamBankings` VALUES (27, 1, 'Bài thi mới 1', 0, 0, '2024-07-08 10:11:54', '2024-07-08 10:11:54');
-INSERT INTO `ExamBankings` VALUES (28, 1, 'Bài thi chủ đề World Cup', 2, 0, '2024-07-09 06:57:44', '2024-07-09 07:19:04');
+INSERT INTO `ExamBankings` VALUES (28, 1, 'Bài thi chủ đề World Cup', 4, 2, '2024-07-09 06:57:44', '2024-07-14 06:56:56');
 INSERT INTO `ExamBankings` VALUES (30, 1, 'Bài thi mới 1', 5, 0, '2024-07-09 08:43:09', '2024-07-09 08:59:30');
 INSERT INTO `ExamBankings` VALUES (31, 1, 'Bài thi mới 1', 31, 0, '2024-07-10 16:41:01', '2024-07-10 16:42:47');
-INSERT INTO `ExamBankings` VALUES (32, 1, 'Bài thi mới 1', 0, 0, '2024-07-10 16:41:02', '2024-07-10 16:41:02');
 INSERT INTO `ExamBankings` VALUES (33, 1, 'Bài thi mới 1', 30, 0, '2024-07-10 16:44:20', '2024-07-10 16:45:26');
 
 -- ----------------------------
@@ -789,8 +667,6 @@ INSERT INTO `ExamsOfCompetitions` VALUES (13, 11, 15, 0, '2024-07-08 04:56:50', 
 INSERT INTO `ExamsOfCompetitions` VALUES (14, 11, 9, 0, '2024-07-08 04:56:50', '2024-07-08 04:56:50');
 INSERT INTO `ExamsOfCompetitions` VALUES (15, 12, 15, 0, '2024-07-08 05:03:05', '2024-07-08 05:03:05');
 INSERT INTO `ExamsOfCompetitions` VALUES (16, 12, 9, 0, '2024-07-08 05:03:05', '2024-07-08 05:03:05');
-INSERT INTO `ExamsOfCompetitions` VALUES (17, 19, 9, 0, '2024-07-08 15:55:40', '2024-07-08 15:55:40');
-INSERT INTO `ExamsOfCompetitions` VALUES (18, 19, 19, 0, '2024-07-08 15:55:40', '2024-07-08 15:55:40');
 INSERT INTO `ExamsOfCompetitions` VALUES (19, 3, 28, 0, '2024-07-09 17:51:10', '2024-07-09 17:51:10');
 
 -- ----------------------------
@@ -858,7 +734,7 @@ CREATE TABLE `Participants`  (
   CONSTRAINT `Participants_ibfk_10` FOREIGN KEY (`idCompetition`) REFERENCES `Competitions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `Participants_ibfk_11` FOREIGN KEY (`idUser`) REFERENCES `Users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `Participants_ibfk_12` FOREIGN KEY (`idSubUnit`) REFERENCES `Units` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of Participants
@@ -894,6 +770,11 @@ INSERT INTO `Participants` VALUES (32, 3, NULL, 4, 'Nguyễn Trọng Đức', 'n
 INSERT INTO `Participants` VALUES (33, 10, NULL, 4, 'hhj ggi', 'tru hui', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-10 07:07:38', '2024-07-10 07:07:50', 0, 0, '2024-07-10 00:07:50', '2024-07-10 00:07:53', 0);
 INSERT INTO `Participants` VALUES (34, 10, NULL, 4, 'zdvz', 'zdv', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-11 15:06:12', '2024-07-11 15:06:16', NULL, 0, '2024-07-11 08:06:17', '2024-07-11 08:06:17', NULL);
 INSERT INTO `Participants` VALUES (35, 10, NULL, 4, 'zdvz', 'zdv', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-11 15:06:12', '2024-07-11 15:06:24', 0, 0, '2024-07-11 08:06:24', '2024-07-11 08:06:25', 0);
+INSERT INTO `Participants` VALUES (36, 10, NULL, 4, 'Nhan', 'nhangd311@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-14 15:36:49', '2024-07-14 15:41:59', NULL, 0, '2024-07-14 15:41:59', '2024-07-14 15:41:59', NULL);
+INSERT INTO `Participants` VALUES (37, 10, NULL, 4, 'Nhan', 'nhangd311@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-14 15:50:31', '2024-07-14 15:50:48', NULL, 0, '2024-07-14 15:50:48', '2024-07-14 15:50:48', NULL);
+INSERT INTO `Participants` VALUES (38, 10, NULL, 4, 'Nhan', 'nhangd311@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-14 15:50:31', '2024-07-14 15:52:40', NULL, 0, '2024-07-14 15:52:40', '2024-07-14 15:52:40', NULL);
+INSERT INTO `Participants` VALUES (39, 10, NULL, 4, 'Nhan', 'nhangd311@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-14 15:55:29', '2024-07-14 15:55:47', NULL, 0, '2024-07-14 15:55:47', '2024-07-14 15:55:47', NULL);
+INSERT INTO `Participants` VALUES (40, 10, NULL, 4, 'Nhan', 'nhangd311@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-14 15:58:02', '2024-07-14 15:58:14', 0, 0, '2024-07-14 15:58:14', '2024-07-14 15:58:17', 0);
 
 -- ----------------------------
 -- Table structure for QuestionBankings
@@ -910,41 +791,11 @@ CREATE TABLE `QuestionBankings`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idExamBanking`(`idExamBanking` ASC) USING BTREE,
   CONSTRAINT `QuestionBankings_ibfk_1` FOREIGN KEY (`idExamBanking`) REFERENCES `ExamBankings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 315 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 327 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of QuestionBankings
 -- ----------------------------
-INSERT INTO `QuestionBankings` VALUES (160, 8, 'Câu 1: Huyện Bình Khê, nơi cụ Nguyễn Sinh Sắc, thân phụ của Hồ Chí Minh có thời kỳ làm quan tri huyện thuộc tỉnh nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (161, 8, 'Câu 2: Thân mẫu của Hồ Chí Minh là bà Hoàng Thị Loan, Bà sinh được mấy người con?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (162, 8, 'Câu 3: Nguyễn Ái Quốc vào Đảng Xã Hội Pháp năm nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (163, 8, 'Câu 4: Nguyễn Ái Quốc gửi bản “Yêu sách của nhân dân An Nam” tới Hội nghị Vecxay vào ngày tháng năm nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (164, 8, 'Câu 5: Nguyễn Sinh Cung đổi tên là Nguyễn Tất Thành năm nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (165, 8, 'Câu 6: Nguyễn Tất Thành lấy tên là Nguyễn Ái Quốc vào thời gian nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (166, 8, 'Câu 7: Nguyễn Ái Quốc đã thành lập Hội Việt Nam Cách mạng Thanh niên vào thời gian nào, ở đâu ?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (167, 8, 'Câu 8: Bản chất của chủ nghĩa tư bản được Bác ví như là “Con đỉa có hai cái vòi, một cái vòi bám vào giai cấp vô sản ở chính quốc, một cái vòi bám vào giai cấp vô sản ở thuộc địa. Nếu muốn giết con vật ấy, người ta phải đồng thời cắt cả hai cái vòi...”. Đoạn trích này dược trích trong tác phẩm nào của Nguyễn Ái Quốc?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (168, 8, 'Câu 9: Giai đoạn hình thành tư tưởng yêu nước và chí hướng cách mạng của Hồ Chí Minh là giai đoạn nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (169, 8, 'Câu 10: Giai đoạn Hồ Chí Minh vượt qua khó khăn, thử thách, kiên trì con đường cách mạng Việt Nam là giai đoạn nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (170, 8, 'Câu 11: Địa danh đầu tiên Hồ Chí Minh đạt chân đến khi mới về nước , tại Cột móc 108 trên biên giới Việt - Trung thuộc huyện nào của tỉnh nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (171, 8, 'Câu 12: “Hỡi đồng bào yêu quý! Giờ quyết đinh cho vận mệnh dân tộc đã đến. Tòan quốc đồng bào hãy đứng dậy đem sức ta mà giải phóng cho ta”. Đoạn văn trên dược trích từ văn kiện nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (172, 8, 'Câu 13: “Không chúng ta thà hy sinh tất cả, chứ nhất định không chịu mất nuớc, nhất định không chịu làm nô lệ”. Lời khẳng định đanh thép này được trích trong “Lời kêu gọi toàn quốc kháng chiến” của Hồ Chí Minh. Lời kêu gọi đó được viết vào thời gian nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (173, 8, 'Câu 14: “Dân tộc ta, nhân dân ta, non sông đất nước ta đã sinh ra Hồ Chủ Tịch, người anh hùng dân tộc vĩ đại, và chính người đã làm rạng rỡ dân tộc ta, nhân dân ta và non sông đất nước ta”. Nhận định trên ở trong văn kiện nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (174, 8, 'Câu 15: “Đoàn viên và thanh niên ta nói chung là tốt, mọi việc đều hăng háy xung phong, không ngại khó khăn, có chí tiến thủ. Đảng cần phải chăm lo giáo dục đạo đức cách mạng cho họ, đào tạo họ thành những người thừa kế xây dựng chủ nghĩa xã hội “vừa hồng vừa chuyên”. Câu nói đó của Hồ Chí Minh trong văn kiện nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (175, 8, 'Câu 16: Theo Hồ Chí Minh ưu điểm lớn nhất trong học thuyết của Khổng Tử là gì?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (176, 8, 'Câu 17: Theo Hồ Chí Minh, học Chủ nghĩa Mác – Lênin để làm gì?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (177, 8, 'Câu 18: Chọn cụm từ đúng điền vào chỗ trống: “Rằng đây bốn biển một nhà ...... đều là anh em', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (178, 8, 'Câu 19: Chọn phương án trả lời đúng cho câu hởi sau: cách mạng giải phóng dân tộc có khả năng chủ động giành thắng lợi trước cách mạng vô sản ở chính quốc vì:', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (179, 8, 'Câu 20: Chọn cấu trả lời đúng với tư tưởng Hồ Chí Minh', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (180, 8, 'Câu 21: Hồ Chí Minh đã dùng hình tượng nào dưới đây để chỉ chủ nghĩa tư bản?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (181, 8, 'Câu 22: Trong lời kết thúc buổi ra mắt của Đảng Lao Động, Hồ Chí Minh nói: “Mục đích của Đảng Lao Động Việt Nam có thể gồm trong tám chữ là: ĐOÀN KẾT TOÀN DÂN, PHỤNG SỰ TỔ QUỐC”. Buổi ra mắt đó vào lúc nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (182, 8, 'Câu 23: Ngày 27/5/1946, Hội đồng Chính phủ đã quyết định chọn ai thay Hồ Chí Minh giữ chức vụ Chủ Tịch nước trong thời gian người đi vắng?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (183, 8, 'Câu 24: Hồ Chí Minh đã dùng bút danh gì để viết tác phẩm “Sửa đổi lối làm việc”?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (184, 8, 'Câu 25: Theo Hồ Chí Minh cách mạng giải phóng dân tộc muốn giành được thắng lợi phải đi theo con đường nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (185, 8, 'Câu 26: Chọn câu trả lời đúng nhât với tư tưởng Hồ Chí Minh', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (186, 8, 'Câu 27: Chọn cụm từ đúng điền vào dấu... “Làm cách mệnh rồi thì quyền giao cho ..., chớ để trong tay một bọn ít người”.', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (187, 8, 'Câu 28: Loại giặc Hồ Chí Minh cho là “giặc nội xâm” là:', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (188, 8, 'Câu 29: Trong nhiều bài nói, bài viết, Hồ Chí Minh đã nêu lên “5 đức tính tốt” chủ yếu của ngươi cán bộ cách mạng. Đó là các đức tính nào?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
-INSERT INTO `QuestionBankings` VALUES (189, 8, 'Câu 30: Hồ Chí Minh có bao nhiêu tên gọi và bút danh?', NULL, 'MC', '2024-07-03 15:51:31', '2024-07-03 15:51:31');
 INSERT INTO `QuestionBankings` VALUES (190, 9, 'Câu 1: Ai là người đã khởi xướng phong trào Đông Du?', NULL, 'MC', '2024-07-03 17:46:54', '2024-07-03 17:46:54');
 INSERT INTO `QuestionBankings` VALUES (191, 9, 'Câu 2: Năm nào Bác Hồ đọc bản Tuyên ngôn Độc lập, khai sinh ra nước Việt Nam Dân chủ Cộng hòa?', NULL, 'MC', '2024-07-03 17:46:54', '2024-07-03 17:46:54');
 INSERT INTO `QuestionBankings` VALUES (192, 9, 'Câu 3: Vị vua nào được biết đến với công lao đuổi quân Minh ra khỏi bờ cõi Việt Nam vào thế kỷ XV?', NULL, 'MC', '2024-07-03 17:46:54', '2024-07-03 17:46:54');
@@ -953,8 +804,8 @@ INSERT INTO `QuestionBankings` VALUES (194, 10, 'Câu 2: Năm nào Bác Hồ đ�
 INSERT INTO `QuestionBankings` VALUES (195, 10, 'Câu 3: Vị vua nào được biết đến với công lao đuổi quân Minh ra khỏi bờ cõi Việt Nam vào thế kỷ XV?', NULL, 'MC', '2024-07-04 05:12:06', '2024-07-04 05:12:06');
 INSERT INTO `QuestionBankings` VALUES (196, 11, 'Cau thu MU la ai ?', NULL, 'MC', '2024-07-04 08:59:53', '2024-07-06 14:56:16');
 INSERT INTO `QuestionBankings` VALUES (197, 11, 'Cau thu Man city la ai ?', NULL, 'MC', '2024-07-04 08:59:53', '2024-07-06 14:56:18');
-INSERT INTO `QuestionBankings` VALUES (198, 12, 'Câu 1: Huyện Bình Khê, nơi cụ Nguyễn Sinh Sắc, thân phụ của Hồ Chí Minh có thời kỳ làm quan tri huyện thuộc tỉnh nào?', NULL, 'MC', '2024-07-05 14:26:13', '2024-07-06 14:46:54');
-INSERT INTO `QuestionBankings` VALUES (199, 12, 'Câu 2: Thân mẫu của Hồ Chí Minh là bà Hoàng Thị Loan, Bà sinh được mấy người con?', NULL, 'MC', '2024-07-05 14:26:14', '2024-07-06 14:46:56');
+INSERT INTO `QuestionBankings` VALUES (198, 12, 'Câu 1: Huyện Bình Khê, nơi cụ Nguyễn Sinh Sắc, thân phụ của Hồ Chí Minh có thời kỳ làm quan tri huyện thuộc tỉnh nào?', NULL, 'MC', '2024-07-05 14:26:13', '2024-07-14 15:38:29');
+INSERT INTO `QuestionBankings` VALUES (199, 12, 'Câu 2: Thân mẫu của Hồ Chí Minh là bà Hoàng Thị Loan, Bà sinh được mấy người con?', NULL, 'MC', '2024-07-05 14:26:14', '2024-07-14 15:38:31');
 INSERT INTO `QuestionBankings` VALUES (200, 15, 'Câu 1: Huyện Bình Khê, nơi cụ Nguyễn Sinh Sắc, thân phụ của Hồ Chí Minh có thời kỳ làm quan tri huyện thuộc tỉnh nào?', NULL, 'MC', '2024-07-06 09:53:51', '2024-07-06 09:53:51');
 INSERT INTO `QuestionBankings` VALUES (201, 15, 'Câu 2: Huyện Bình Khê, nơi cụ Nguyễn Sinh Sắc, thân phụ của Hồ Chí Minh có thời kỳ làm quan tri huyện thuộc tỉnh nào?', NULL, 'MC', '2024-07-06 09:55:06', '2024-07-06 09:55:06');
 INSERT INTO `QuestionBankings` VALUES (202, 16, 'lasao', NULL, 'MC', '2024-07-06 10:24:16', '2024-07-06 10:24:16');
@@ -966,8 +817,8 @@ INSERT INTO `QuestionBankings` VALUES (208, 19, 'chó english là gì?', NULL, '
 INSERT INTO `QuestionBankings` VALUES (209, 19, 'chó là gì ?', NULL, 'MC', '2024-07-06 13:12:30', '2024-07-06 14:15:22');
 INSERT INTO `QuestionBankings` VALUES (210, 19, 'tôi là ai ?', NULL, 'MC', '2024-07-06 13:41:27', '2024-07-06 14:15:25');
 INSERT INTO `QuestionBankings` VALUES (211, 19, 'tôi là ai ?', NULL, 'MC', '2024-07-06 13:42:16', '2024-07-06 14:15:27');
-INSERT INTO `QuestionBankings` VALUES (212, 28, 'Which of the following is the capital city of France?\n\n', NULL, 'MC', '2024-07-09 07:04:15', '2024-07-09 07:52:45');
-INSERT INTO `QuestionBankings` VALUES (213, 28, 'Which country won the FIFA World Cup in 2022?\n\n', NULL, 'MC', '2024-07-09 07:04:15', '2024-07-09 07:52:46');
+INSERT INTO `QuestionBankings` VALUES (212, 28, 'Which of the following is the capital city of France?\n\n', NULL, 'MC', '2024-07-09 07:04:15', '2024-07-14 06:56:54');
+INSERT INTO `QuestionBankings` VALUES (213, 28, 'Which country won the FIFA World Cup in 2022?\n\n', NULL, 'MC', '2024-07-09 07:04:15', '2024-07-14 06:56:55');
 INSERT INTO `QuestionBankings` VALUES (219, 30, 'Câu 1: Huyện Bình Khê, nơi cụ Nguyễn Sinh Sắc, thân phụ của Hồ Chí Minh có thời kỳ làm quan tri huyện thuộc tỉnh nào?', NULL, 'MC', '2024-07-09 08:59:28', '2024-07-09 09:00:17');
 INSERT INTO `QuestionBankings` VALUES (220, 30, 'Câu 2: Thân mẫu của Hồ Chí Minh là bà Hoàng Thị Loan, Bà sinh được mấy người con?', NULL, 'MC', '2024-07-09 08:59:29', '2024-07-09 09:00:18');
 INSERT INTO `QuestionBankings` VALUES (221, 30, 'Câu 3: Nguyễn Ái Quốc vào Đảng Xã Hội Pháp năm nào?', NULL, 'MC', '2024-07-09 08:59:29', '2024-07-09 09:00:18');
@@ -1064,6 +915,14 @@ INSERT INTO `QuestionBankings` VALUES (311, 33, 'Câu 27: Chọn cụm từ đú
 INSERT INTO `QuestionBankings` VALUES (312, 33, 'Câu 28: Loại giặc Hồ Chí Minh cho là “giặc nội xâm” là:', NULL, 'MC', '2024-07-10 16:48:12', '2024-07-10 16:48:12');
 INSERT INTO `QuestionBankings` VALUES (313, 33, 'Câu 29: Trong nhiều bài nói, bài viết, Hồ Chí Minh đã nêu lên “5 đức tính tốt” chủ yếu của ngươi cán bộ cách mạng. Đó là các đức tính nào?', NULL, 'MC', '2024-07-10 16:48:13', '2024-07-10 16:48:13');
 INSERT INTO `QuestionBankings` VALUES (314, 33, 'Câu 30: Hồ Chí Minh có bao nhiêu tên gọi và bút danh?', NULL, 'MC', '2024-07-10 16:48:14', '2024-07-10 16:48:14');
+INSERT INTO `QuestionBankings` VALUES (319, 15, 'Câu 1 : Huyện Bình Khê, nơi cụ Nguyễn Sinh Sắc, thân phụ của Hồ Chí Minh có thời kỳ làm quan tri huyện thuộc tỉnh nào?', NULL, 'MC', '2024-07-14 01:05:11', '2024-07-14 01:05:11');
+INSERT INTO `QuestionBankings` VALUES (320, 15, 'Câu 2 : Kể tên top 4 Premier League?', NULL, 'ESSAY', '2024-07-14 01:05:12', '2024-07-14 01:05:12');
+INSERT INTO `QuestionBankings` VALUES (321, 28, 'Kể tên top 4 Premier League?', NULL, 'ESSAY', '2024-07-14 01:14:19', '2024-07-14 06:56:55');
+INSERT INTO `QuestionBankings` VALUES (322, 28, 'Ai là Jack', NULL, 'MC', '2024-07-14 06:50:59', '2024-07-14 06:56:55');
+INSERT INTO `QuestionBankings` VALUES (323, 28, 'Trinh bay tran danh 30/4?', NULL, 'ESSAY', '2024-07-14 06:53:17', '2024-07-14 06:56:55');
+INSERT INTO `QuestionBankings` VALUES (324, 28, 'AI vo dich Euro 2024 ?', 2000, 'ESSAY', '2024-07-14 06:56:55', '2024-07-14 06:56:55');
+INSERT INTO `QuestionBankings` VALUES (325, 28, 'Messi nguoi nuoc nao ?', 2000, 'MC', '2024-07-14 06:56:55', '2024-07-14 06:56:55');
+INSERT INTO `QuestionBankings` VALUES (326, 12, 'Ai là cha đứa bé ?', 2000, 'ESSAY', '2024-07-14 15:38:32', '2024-07-14 15:38:32');
 
 -- ----------------------------
 -- Table structure for Units
@@ -1086,9 +945,6 @@ CREATE TABLE `Units`  (
 -- ----------------------------
 INSERT INTO `Units` VALUES (3, 'chua ', 10, 0, '2024-07-05 15:19:32', '2024-07-06 05:26:54');
 INSERT INTO `Units` VALUES (4, 'd', 10, 0, '2024-07-05 15:19:32', '2024-07-05 15:19:32');
-INSERT INTO `Units` VALUES (16, 'trọng đức', 19, 0, '2024-07-08 16:18:22', '2024-07-08 16:18:22');
-INSERT INTO `Units` VALUES (17, 'vũ mập', 19, 0, '2024-07-08 16:18:43', '2024-07-08 16:18:43');
-INSERT INTO `Units` VALUES (18, 'nhi', 19, 0, '2024-07-08 16:20:21', '2024-07-08 16:20:21');
 INSERT INTO `Units` VALUES (19, 'A,B,C', 69, 0, '2024-07-10 16:19:07', '2024-07-10 16:19:07');
 INSERT INTO `Units` VALUES (20, 'A', 69, 0, '2024-07-10 16:21:51', '2024-07-10 16:21:51');
 INSERT INTO `Units` VALUES (21, 'B', 69, 0, '2024-07-10 16:21:58', '2024-07-10 16:21:58');
@@ -1101,7 +957,7 @@ CREATE TABLE `UserAnswers`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `questionId` int NOT NULL,
   `chosenOption` int NULL DEFAULT NULL,
-  `correctOption` int NULL,
+  `correctOption` int NULL DEFAULT NULL,
   `isCorrect` tinyint(1) NULL DEFAULT NULL,
   `typeQuestion` enum('MC','ESSAY') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `participantId` int NOT NULL,
@@ -1174,6 +1030,9 @@ INSERT INTO `UserAnswers` VALUES (51, 198, 782, 785, 0, 'MC', 33, NULL, '2024-07
 INSERT INTO `UserAnswers` VALUES (52, 199, 786, 789, 0, 'MC', 33, NULL, '2024-07-10 00:07:53', '2024-07-10 00:07:53');
 INSERT INTO `UserAnswers` VALUES (53, 198, 783, 785, 0, 'MC', 35, NULL, '2024-07-11 08:06:26', '2024-07-11 08:06:26');
 INSERT INTO `UserAnswers` VALUES (54, 199, 787, 789, 0, 'MC', 35, NULL, '2024-07-11 08:06:26', '2024-07-11 08:06:26');
+INSERT INTO `UserAnswers` VALUES (55, 198, 782, 785, 0, 'MC', 40, NULL, '2024-07-14 15:58:17', '2024-07-14 15:58:17');
+INSERT INTO `UserAnswers` VALUES (56, 199, 788, 789, 0, 'MC', 40, NULL, '2024-07-14 15:58:17', '2024-07-14 15:58:17');
+INSERT INTO `UserAnswers` VALUES (57, 326, NULL, NULL, 0, 'ESSAY', 40, 'ko biết', '2024-07-14 15:58:17', '2024-07-14 15:58:17');
 
 -- ----------------------------
 -- Table structure for Users
