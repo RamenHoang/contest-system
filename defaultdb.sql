@@ -1101,7 +1101,7 @@ CREATE TABLE `UserAnswers`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `questionId` int NOT NULL,
   `chosenOption` int NULL DEFAULT NULL,
-  `correctOption` int NOT NULL,
+  `correctOption` int NULL,
   `isCorrect` tinyint(1) NULL DEFAULT NULL,
   `typeQuestion` enum('MC','ESSAY') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `participantId` int NOT NULL,
