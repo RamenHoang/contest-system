@@ -50,7 +50,7 @@ const AntModal = ({
 
   // @ts-expect-error type
   const getInputComponent = (field) => {
-    switch (field.type) {
+    switch (field?.type) {
       case 'string':
         return <Input placeholder={`Vui lòng nhập ${field.label.toLowerCase()}`} />;
       case 'date':
