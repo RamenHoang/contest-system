@@ -82,6 +82,7 @@ const Quiz = () => {
     setSelectedOptions(newSelectedOptions);
   };
 
+  // @ts-expect-error aaa
   const handleEssayChange = (e) => {
     const newEssayAnswers = [...essayAnswers];
     newEssayAnswers[currentQuestion] = e.target.value;
