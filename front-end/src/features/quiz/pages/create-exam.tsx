@@ -7,6 +7,7 @@ import { QuizComponent } from '~/features/quiz/components/quiz';
 import { useCreateOrUpdateQuestion } from '~/features/quiz/hooks/use-create-update-question';
 import { useExam } from '~/features/quiz/hooks/use-exam';
 import { useUpdateExam } from '~/features/quiz/hooks/use-update-exam';
+import { QuizMComponent } from '~/features/quiz/components/quiz_mc';
 
 const CreateExam = () => {
   const [title, setTitle] = useState('');
@@ -102,8 +103,8 @@ const CreateExam = () => {
       {questions.map((question, index) => (
         <QuizComponent key={index} questionNumber={index + 1} onAddQuestion={handleAddQuestion} question={question} />
       ))}
-      <QuizComponent questionNumber={questions.length + 1} onAddQuestion={handleAddQuestion} />
-      <Button type='primary' className='font-medium text-[15px] mt-5 p-5' onClick={handleSubmitQuestion}>
+      <QuizMComponent questionNumber={questions.length + 1} onAddQuestion={handleAddQuestion} />
+      <Button type='primary' className='font-medium text-[15px] mt-5 p-4' onClick={handleSubmitQuestion}>
         Lưu bộ câu hỏi
       </Button>
     </div>
