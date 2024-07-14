@@ -11,6 +11,7 @@ import RankingList from '~/features/competition/components/ranking';
 import { useStatistics } from '~/features/competition/hooks/use-statistic';
 import { useNavigate } from 'react-router-dom';
 import { useLogin } from '~/hooks/useLogin';
+import { hexToRGBA } from '~/utils/helpers';
 
 type IResult = {
   userName: string;
@@ -127,25 +128,51 @@ const IntroPage = () => {
       <main>
         <section>
           <div className='mx-auto py-6 lg:py-16 bg-no-repeat bg-[url("https://www.pixel4k.com/wp-content/uploads/2018/09/pattern-background-light-line-texture-4k_1536097739.jpg.webp")] bg-cover'>
-            <div className='text-center text-cyan-700 text-xl lg:text-4xl font-bold uppercase'>
+            <div
+              className='text-center text-cyan-700 text-xl lg:text-4xl font-bold uppercase'
+              style={{ color: hexToRGBA(competition?.themeColor, 1) }}
+            >
               Cuộc thi kết thúc trong
             </div>
             <div className='mt-4 lg:mt-8'>
-              <div className='flex items-center justify-center gap-4 lg:gap-8 text-cyan-700'>
+              <div
+                style={{ color: hexToRGBA(competition?.themeColor, 1) }}
+                className='flex items-center justify-center gap-4 lg:gap-8 text-cyan-700'
+              >
                 <div className='px-4 py-6 shadow-md min-w-[70px] lg:min-w-[130px] text-center rounded-lg'>
-                  <div className='text-xl lg:text-4xl text-cyan-700 font-bold'>{timeLeft.days}</div>
+                  <div
+                    style={{ color: hexToRGBA(competition?.themeColor, 1) }}
+                    className='text-xl lg:text-4xl text-cyan-700 font-bold'
+                  >
+                    {timeLeft.days}
+                  </div>
                   <div className='lg:text-xl mt-2 text-[#686868]'> Ngày </div>
                 </div>
                 <div className='px-4 py-6 shadow-md min-w-[70px] lg:min-w-[130px] text-center rounded-lg'>
-                  <div className='text-xl lg:text-4xl text-cyan-700 font-bold'>{timeLeft.hours}</div>
+                  <div
+                    style={{ color: hexToRGBA(competition?.themeColor, 1) }}
+                    className='text-xl lg:text-4xl text-cyan-700 font-bold'
+                  >
+                    {timeLeft.hours}
+                  </div>
                   <div className='lg:text-xl mt-2 text-[#686868]'> Giờ </div>
                 </div>
                 <div className='px-4 py-6 shadow-md min-w-[70px] lg:min-w-[130px] text-center rounded-lg'>
-                  <div className='text-xl lg:text-4xl text-cyan-700 font-bold'>{timeLeft.minutes}</div>
+                  <div
+                    style={{ color: hexToRGBA(competition?.themeColor, 1) }}
+                    className='text-xl lg:text-4xl text-cyan-700 font-bold'
+                  >
+                    {timeLeft.minutes}
+                  </div>
                   <div className='lg:text-xl mt-2 text-[#686868]'> Phút </div>
                 </div>
                 <div className='px-4 py-6 shadow-md min-w-[70px] lg:min-w-[130px] text-center rounded-lg'>
-                  <div className='text-xl lg:text-4xl text-cyan-700 font-bold'>{timeLeft.seconds}</div>
+                  <div
+                    style={{ color: hexToRGBA(competition?.themeColor, 1) }}
+                    className='text-xl lg:text-4xl text-cyan-700 font-bold'
+                  >
+                    {timeLeft.seconds}
+                  </div>
                   <div className='lg:text-xl mt-2 text-[#686868]'> Giây </div>
                 </div>
               </div>
@@ -155,6 +182,7 @@ const IntroPage = () => {
                 <button
                   type='button'
                   className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-cyan-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
+                  style={{ backgroundColor: hexToRGBA(competition?.themeColor, 1) }}
                   onClick={handleOpenModal}
                 >
                   Tham gia
@@ -162,6 +190,7 @@ const IntroPage = () => {
               ) : (
                 <button
                   type='button'
+                  style={{ backgroundColor: hexToRGBA(competition?.themeColor, 1) }}
                   className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-cyan-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
                   onClick={() => navigate('/auth/sign-in')}
                 >
@@ -171,6 +200,7 @@ const IntroPage = () => {
               <Popover content={popoverContent} title='Thể lệ' trigger='click' placement='bottom'>
                 <button
                   type='button'
+                  style={{ backgroundColor: hexToRGBA(competition?.themeColor, 1) }}
                   className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-cyan-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
                 >
                   Thể lệ
@@ -183,10 +213,21 @@ const IntroPage = () => {
         <section id='leaderboard'>
           <div className='container mx-auto px-2 lg:px-4 mt-6 lg:mt-16'>
             <div className='lg:hidden'>
-              <div className='text-2xl lg:text-4xl text-cyan-700 font-bold grow mb-2 md:mb-0'> THỐNG KÊ </div>
+              <div
+                className='text-2xl lg:text-4xl text-cyan-700 font-bold grow mb-2 md:mb-0'
+                style={{ color: hexToRGBA(competition?.themeColor, 1) }}
+              >
+                THỐNG KÊ
+              </div>
               <div className='flex justify-center'>
                 <div className='bg-white rounded-2xl w-full text-center py-2 mb-6'>
-                  <div className='text-cyan-700 font-semibold text-3xl'>{competition?.participant}</div> lượt thi
+                  <div
+                    style={{ color: hexToRGBA(competition?.themeColor, 1) }}
+                    className='text-cyan-700 font-semibold text-3xl'
+                  >
+                    {competition?.participant}
+                  </div>
+                  lượt thi
                 </div>
               </div>
             </div>
@@ -195,14 +236,25 @@ const IntroPage = () => {
                 <div className='flex justify-center items-end h-full bg-no-repeat bg-cover bg-center rounded-2xl bg-[url("https://myaloha.vn/image/contest/leaderboard.png")]'>
                   <div className='grow mx-4'>
                     <div className='bg-white rounded-2xl w-full text-center py-2 mb-6'>
-                      <div className='text-cyan-700 font-semibold text-3xl'>{competition?.participant}</div> lượt thi
+                      <div
+                        style={{ color: hexToRGBA(competition?.themeColor, 1) }}
+                        className='text-cyan-700 font-semibold text-3xl'
+                      >
+                        {competition?.participant}
+                      </div>
+                      lượt thi
                     </div>
                   </div>
                 </div>
               </div>
               <div className='block grow'>
                 <div className='block md:flex items-center mb-6'>
-                  <div className='text-2xl lg:text-4xl text-cyan-700 font-bold grow mb-2 md:mb-0'>BẢNG XẾP HẠNG</div>
+                  <div
+                    style={{ color: hexToRGBA(competition?.themeColor, 1) }}
+                    className='text-2xl lg:text-4xl text-cyan-700 font-bold grow mb-2 md:mb-0'
+                  >
+                    BẢNG XẾP HẠNG
+                  </div>
                 </div>
                 <div>
                   <div className='max-h-[550px] overflow-auto shadow-sm'>

@@ -10,7 +10,7 @@ type Props = {
   question?: IQuestion;
 };
 
-export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props) => {
+export const QuizMComponent = ({ questionNumber, onAddQuestion, question }: Props) => {
   const [title, setTitle] = useState('');
   const [showAnswerInput, setShowAnswerInput] = useState(false);
   const [answers, setAnswers] = useState<{ id?: number; text: string; checked: boolean }[]>(
@@ -107,46 +107,40 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
                   value={title}
                   onChange={handleTitleChange}
                 />
-                {question?.type === 'MC' && (
-                  <div className='mt-2'>
-                    <div className='flex border rounded-lg p-1'>
-                      <Flex wrap>
-                        <Tooltip title='Thêm câu trả lời'>
-                          <Button onClick={addAnswer} type='text' icon={<Plus size={16} />} />
-                        </Tooltip>
-                        <Tooltip title='Thêm lời giải'>
-                          <Button type='text' icon={<MessageCircle size={16} />} />
-                        </Tooltip>
-                      </Flex>
-                    </div>
+                <div className='mt-2'>
+                  <div className='flex border rounded-lg p-1'>
+                    <Flex wrap>
+                      <Tooltip title='Thêm câu trả lời'>
+                        <Button onClick={addAnswer} type='text' icon={<Plus size={16} />} />
+                      </Tooltip>
+                      <Tooltip title='Thêm lời giải'>
+                        <Button type='text' icon={<MessageCircle size={16} />} />
+                      </Tooltip>
+                    </Flex>
                   </div>
-                )}
+                </div>
               </div>
             </div>
 
             <div>
               <div className='answer-list'>
-                {question?.type === 'MC' && (
-                  <>
-                    {answers.map((answer, index) => (
-                      <div key={index} className='flex items-center gap-3 mb-2'>
-                        <Radio
-                          checked={answer.checked}
-                          onChange={() => handleRadioChange(index)}
-                          className='cursor-pointer'
-                        />
-                        <Input
-                          size='large'
-                          value={answer?.text}
-                          onChange={(e) => updateAnswerText(index, e.target.value)}
-                          placeholder='Nội dung câu trả lời'
-                          className='grow rounded-[4px]'
-                        />
-                        <Button icon={<X size={16} />} onClick={() => removeAnswer(index)} />
-                      </div>
-                    ))}
-                  </>
-                )}
+                {answers.map((answer, index) => (
+                  <div key={index} className='flex items-center gap-3 mb-2'>
+                    <Radio
+                      checked={answer.checked}
+                      onChange={() => handleRadioChange(index)}
+                      className='cursor-pointer'
+                    />
+                    <Input
+                      size='large'
+                      value={answer?.text}
+                      onChange={(e) => updateAnswerText(index, e.target.value)}
+                      placeholder='Nội dung câu trả lời'
+                      className='grow rounded-[4px]'
+                    />
+                    <Button icon={<X size={16} />} onClick={() => removeAnswer(index)} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
