@@ -35,6 +35,12 @@ router.post(
   ExamController.updateQuestions
 );
 
+router.delete(
+  "/delete-question/:questionIds",
+  AuthMiddleware,
+  ExamController.deleteQuestions
+);
+
 router.get(
   "/get-exam-detail/:id",
   AuthMiddleware,

@@ -147,6 +147,32 @@ const updateQuestions = async (req, res, next) => {
   }
 };
 
+const deleteQuestions = async (req, res, next) => {
+  try {
+    const { questionIds } = req.params;
+
+    // Delete questions
+    await QuestionBanking.destroy({
+      where: {
+        id: questionIds,
+      },
+    });
+
+    // Delete answers if any
+    await AnswerBanking.destroy({
+      where: {
+        idQuestionBanking: questionIds,
+      },
+    });
+
+    res
+      .status(StatusCodes.OK)
+      .json(ApiResponse(true, 0, StatusCodes.OK, "Questions deleted."));
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getExamsByCurrentUser = async (req, res, next) => {
   try {
     const { pageIndex = 1, pageSize = 50, keyword } = req.query;
@@ -349,6 +375,7 @@ const deleteExam = async (req, res, next) => {
 module.exports = {
   getExamsByCurrentUser,
   updateQuestions,
+  deleteQuestions,
   createExam,
   updateExam,
   getExamById,

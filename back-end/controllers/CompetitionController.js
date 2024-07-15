@@ -662,24 +662,28 @@ const saveResultCompetition = async (req, res, next) => {
           typeQuestion,
           participantId: newParticipant.id,
           answerText,
-          isCorrect: false,
+          isCorrect: null,
         });
       } else {
-        const correctAnswer = answers.find(
-          (item) => item.idQuestionBanking === questionId && item.isCorrect
-        );
-        const chosenAnswer = answers.find((item) => item.id === chosenAnswerId);
+        const correctAnswer =
+          answers.find(
+            (item) => item.idQuestionBanking === questionId && item.isCorrect
+          ) ?? {};
+        const chosenAnswer =
+          answers.find((item) => item.id === chosenAnswerId) ?? {};
         if (chosenAnswer.isCorrect) {
           totalCorrectAnswers++;
         }
-
         userAnswers.push({
           questionId,
-          chosenOption: chosenAnswerId,
+          chosenOption: chosenAnswerId ?? null,
           correctOption: correctAnswer.id,
           typeQuestion: typeQuestion,
           participantId: newParticipant.id,
-          isCorrect: correctAnswer.id === chosenAnswerId,
+          isCorrect:
+            chosenAnswerId == null
+              ? false
+              : correctAnswer.id === chosenAnswerId,
         });
       }
     }
