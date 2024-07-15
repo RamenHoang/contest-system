@@ -71,5 +71,14 @@ export const ExamApi = {
     } catch (error) {
       console.log(error);
     }
+  },
+
+  async deleteQuestion(id: string) {
+    try {
+      const { data } = await axiosClient.delete(`/exam/delete-question/${id}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

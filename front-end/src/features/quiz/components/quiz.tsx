@@ -1,6 +1,7 @@
-import { Button, Flex, Input, Radio, Tooltip } from 'antd';
-import { ChevronDown, ChevronUp, MessageCircle, Plus, X } from 'lucide-react';
+import { Button, Flex, Input, Radio, Tooltip, Modal } from 'antd';
+import { ChevronDown, ChevronUp, MessageCircle, Plus, X, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useDeleteQuestion } from '~/features/quiz/hooks/use-delete-question';
 import { IQuestion } from '~/types';
 const { TextArea } = Input;
 
@@ -16,6 +17,9 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
   const [answers, setAnswers] = useState<{ id?: number; text: string; checked: boolean }[]>(
     question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect })) || []
   );
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const { mutate: deleteQuestion, isPending: isLoading } = useDeleteQuestion();
 
   useEffect(() => {
     if (question) {
@@ -67,7 +71,6 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
 
   const addQuestion = () => {
     const isUpdate = Boolean(question?.answers?.length ?? 0 > 0);
-    console.log(isUpdate);
     onAddQuestion(eachQuestionData, isUpdate);
     if (!isUpdate) {
       // Reset state if necessary to allow for new question creation
@@ -75,6 +78,21 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
       setAnswers([{ text: '', checked: false }]);
       setShowAnswerInput(false);
     }
+  };
+
+  const showDeleteModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleDelete = () => {
+    if (question?.id) {
+      deleteQuestion(String(question.id));
+    }
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -94,6 +112,11 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
           {/* Icons */}
           <div className='flex items-center gap-4'>
             {showAnswerInput ? <ChevronDown size={18} /> : <ChevronUp size={18} />}
+            {question && (
+              <Tooltip title='Delete Question'>
+                <Button type='text' icon={<Trash2 size={18} />} onClick={showDeleteModal} />
+              </Tooltip>
+            )}
           </div>
         </div>
         {showAnswerInput && (
@@ -142,7 +165,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
                           placeholder='Nội dung câu trả lời'
                           className='grow rounded-[4px]'
                         />
-                        <Button icon={<X size={16} />} onClick={() => removeAnswer(index)} />
+                        <Button disabled={isLoading} icon={<X size={16} />} onClick={() => removeAnswer(index)} />
                       </div>
                     ))}
                   </>
@@ -157,6 +180,16 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
           {question ? 'Cập nhật' : 'Thêm câu hỏi'}
         </Button>
       </div>
+      <Modal
+        title='Xóa câu hỏi'
+        open={isModalVisible}
+        okText='Xác nhận'
+        cancelText='Hủy'
+        onOk={handleDelete}
+        onCancel={handleCancel}
+      >
+        <p>Bạn có chắc chắn xóa câu hỏi này không?</p>
+      </Modal>
     </div>
   );
 };

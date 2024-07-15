@@ -49,7 +49,7 @@ export const Header = ({ data }: { data: IStartRequired }) => {
                   onOk={handleOk}
                   okText='Đã hiểu'
                   onCancel={handleOk}
-                  cancelText='Hủy'
+                  cancelText='Đóng'
                 >
                   <span className='text-lg'>{data?.rules}</span>
                 </Modal>
