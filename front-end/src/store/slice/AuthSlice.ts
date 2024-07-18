@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-type LoadingState = 'idle' | 'loading' | 'succeeded' | 'failed';
+type LoadingState = "idle" | "loading" | "succeeded" | "failed";
 
 export type AuthData = {
   id?: string;
@@ -20,7 +20,7 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-  loadingState: 'idle',
+  loadingState: "idle",
   isSignedIn: false,
   isLoaded: false,
   data: {
@@ -30,54 +30,60 @@ const initialState: AuthState = {
     avatar: undefined,
     id: undefined,
     role: undefined,
-    refreshToken: undefined
-  }
+    refreshToken: undefined,
+  },
 };
 
 const AuthSlice = createSlice({
-  name: 'Auth',
+  name: "Auth",
   initialState,
   reducers: {
     loginStart: (state) => {
-      state.loadingState = 'loading';
+      state.loadingState = "loading";
       state.isLoaded = false;
       state.isSignedIn = false;
       state.data = {};
     },
     loginSuccess: (state, action) => {
-      console.log(action);
-      state.loadingState = 'succeeded';
+      state.loadingState = "succeeded";
       state.isSignedIn = true;
       state.isLoaded = true;
       state.data = {
-        ...action.payload
+        ...action.payload,
       };
     },
     loginFailed: (state) => {
-      state.loadingState = 'failed';
+      state.loadingState = "failed";
       state.isSignedIn = false;
       state.isLoaded = true;
       state.data = {};
     },
     logoutStart: (state) => {
-      state.loadingState = 'loading';
+      state.loadingState = "loading";
       state.isLoaded = false;
     },
     logoutSuccess: (state) => {
-      state.loadingState = 'succeeded';
+      state.loadingState = "succeeded";
       state.isSignedIn = false;
       state.isLoaded = true;
       state.data = {};
     },
     logoutFailed: (state) => {
-      state.loadingState = 'failed';
+      state.loadingState = "failed";
       state.isSignedIn = false;
       state.isLoaded = true;
       state.data = {};
-    }
-  }
+    },
+  },
 });
 
-export const { loginStart, loginSuccess, loginFailed, logoutStart, logoutSuccess, logoutFailed } = AuthSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailed,
+  logoutStart,
+  logoutSuccess,
+  logoutFailed,
+} = AuthSlice.actions;
 
 export default AuthSlice.reducer;

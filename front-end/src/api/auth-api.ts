@@ -1,12 +1,11 @@
-import axiosClient from './axios-client';
+import axiosClient from "./axios-client";
 
 export const AuthApi = {
   async loginGoogle(accessToken: string) {
     try {
-      const { data } = await axiosClient.post('/auth/login-google', {
-        token: accessToken
+      const { data } = await axiosClient.post("/auth/login-google", {
+        token: accessToken,
       });
-      console.log(data);
       return data;
     } catch (error) {
       console.log(error);
@@ -15,9 +14,9 @@ export const AuthApi = {
 
   async loginAdmin(username: string, password: string) {
     try {
-      const { data } = await axiosClient.post('/auth/login', {
+      const { data } = await axiosClient.post("/auth/login", {
         username,
-        password
+        password,
       });
       return data;
     } catch (error) {
@@ -27,12 +26,12 @@ export const AuthApi = {
 
   async logoutAccount(rftoken: string) {
     try {
-      const { data } = await axiosClient.post('/auth/logout', {
-        refreshToken: rftoken
+      const { data } = await axiosClient.post("/auth/logout", {
+        refreshToken: rftoken,
       });
       return data;
     } catch (error) {
       console.log(error);
     }
-  }
+  },
 };

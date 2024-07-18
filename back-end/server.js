@@ -45,7 +45,7 @@ const HTTP_PORT = process.env.HTTP_PORT || 80;
 server application configurations
 ==============================*/
 //DBConnect();
-sequelize;
+// sequelize;
 console.log(process.env.IS_SYNC);
 if (process.env.IS_SYNC == "true") {
   SyncDatabase();
@@ -58,7 +58,7 @@ app.use(logger(ENVIRONMENT === "development" ? "dev" : "common")); // log everyt
 app.use(logger("combined", ErrorLogger)); // only log 4XX and 5XX in file
 app.use(helmet());
 app.use(xss());
-app.use(rateLimiter);
+// app.use(rateLimiter);
 app.use(cors());
 app.use(cookieParser());
 

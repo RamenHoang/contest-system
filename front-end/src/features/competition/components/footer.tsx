@@ -24,7 +24,7 @@ export const Footer = () => {
         </div>
       </div>
       <div className='bg-[#515151] text-white text-sm lg:text-base py-6 text-center'>
-        Copyright © Ekosmith 2024. Designed and developed by ĐTN
+        Copyright © ĐTN 2024. Designed and developed by ĐTN
       </div>
     </footer>
   );

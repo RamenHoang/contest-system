@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { getState } from '~/store/store';
+import axios from "axios";
+import { getState } from "~/store/store";
 // import { getState } from '~/store/store';
 
 const BASE_URL = `${import.meta.env.VITE_DOMAIN_URL}/api/v1`;
 
 const axiosClient = axios.create({
-  baseURL: BASE_URL
+  baseURL: BASE_URL,
 });
 
 // Add a request interceptor
@@ -23,7 +23,7 @@ axiosClient.interceptors.request.use(
   function (error) {
     // Do something with request error
     return Promise.reject(error);
-  }
+  },
 );
 
 // Add a response interceptor
@@ -37,7 +37,7 @@ axiosClient.interceptors.response.use(
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosClient;

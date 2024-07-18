@@ -1,12 +1,26 @@
+require('dotenv').config();
 const mysql = require("mysql2");
 const { Sequelize } = require("sequelize");
 
+// const DBConnect = () => {
+//   const connection = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "Gp5k@bKpP72*",
+//     database: "quiz",
+//   });
+//   connection.connect(function (err) {
+//     if (err) throw err.message;
+//     console.log("Connected!");
+//   });
+// };
+
 const DBConnect = () => {
   const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Gp5k@bKpP72*",
-    database: "quiz",
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
   });
   connection.connect(function (err) {
     if (err) throw err.message;
@@ -16,7 +30,7 @@ const DBConnect = () => {
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
-  process.env.USER,
+  process.env.DB_USER,
   process.env.DB_PASSWORD,
   {
     host: process.env.HOST,
