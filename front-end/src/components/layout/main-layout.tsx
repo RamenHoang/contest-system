@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { FullPageFallback } from '~/components/fallbacks';
 import AntHeader from '~/components/ui/header';
 import { AntMenu } from '~/components/ui/menu';
+import { useInfo } from '~/hooks/useInfo';
 
 const { Sider, Content } = Layout;
 
@@ -24,6 +25,8 @@ export const MainLayout = () => {
     };
   }, []);
 
+  const user = useInfo();
+
   return (
     <Layout>
       <AntHeader />
@@ -31,7 +34,7 @@ export const MainLayout = () => {
         className='min-h-(calc(100vh - 70px)) min-h-screen text-[#757575] pt-[70px]'
         style={{ position: 'relative' }}
       >
-        {!isMobile && (
+        {!isMobile && user.role === 'admin' && (
           <Sider
             style={{
               backgroundColor: 'white',
@@ -50,7 +53,7 @@ export const MainLayout = () => {
         )}
         <Content
           style={{
-            marginLeft: !isMobile ? (collapsed ? '80px' : '240px') : '0',
+            marginLeft: !isMobile && user.role === 'admin' ? (collapsed ? '80px' : '240px') : '0',
             minHeight: 'calc(100vh - 70px)',
             background: '#ffffff'
           }}

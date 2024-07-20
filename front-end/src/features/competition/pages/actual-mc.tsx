@@ -136,12 +136,12 @@ const Quiz = () => {
 
     callSubmitAnswer(finalData, {
       onSuccess: (res) => {
-        const { userName, totalCorrectAnswers, correctAnswersRate } =
+        const { userName, totalCorrectAnswers, correctAnswersRate, duration } =
           res && res.data;
         // Navigate back to the intro page with the results data
         localStorage.setItem(
           "quizResult",
-          JSON.stringify({ userName, totalCorrectAnswers, correctAnswersRate }),
+          JSON.stringify({ userName, totalCorrectAnswers, correctAnswersRate, duration }),
         );
 
         navigate(`/competition/cuoc-thi/intro/${id}/${slug}`);

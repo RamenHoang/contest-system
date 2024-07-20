@@ -17,6 +17,7 @@ type IResult = {
   userName: string;
   totalCorrectAnswers: number;
   correctAnswersRate: number;
+  duration: string;
 };
 
 const IntroPage = () => {
@@ -71,7 +72,8 @@ const IntroPage = () => {
         content: (
           <div>
             <p>Số câu đúng: {results.totalCorrectAnswers}</p>
-            <p>Tỉ lệ trả lời đúng: {results.correctAnswersRate}%</p>
+            {/* <p>Tỉ lệ trả lời đúng: {results.correctAnswersRate}%</p> */}
+            <p>Thời gian làm bài: {results.duration}</p>
           </div>
         ),
         onOk() {

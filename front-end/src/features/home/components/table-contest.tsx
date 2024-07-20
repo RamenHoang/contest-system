@@ -67,6 +67,13 @@ export const TableContest = () => {
       )
     },
     {
+      title: 'Tổng số lượt thi',
+      dataIndex: 'numberOfParticipants',
+      key: 'numberOfParticipants',
+      width: 150,
+      ellipsis: { showTitle: true }
+    },
+    {
       title: 'Trạng thái',
       key: 'timeEnd',
       dataIndex: 'timeEnd',

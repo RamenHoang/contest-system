@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../config/db");
 const User = require("./User");
+const Participant = require("./Participant");
 
 class Competitions extends Model {}
 
@@ -83,6 +84,11 @@ Competitions.init(
 Competitions.belongsTo(User, {
   foreignKey: "creatorId",
   as: "Creator",
+});
+
+Competitions.hasMany(Participant, {
+  foreignKey: "idCompetition",
+  as: "Participants",
 });
 
 module.exports = Competitions;

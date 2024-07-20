@@ -25,9 +25,9 @@ const HomePage = () => {
         </div>
       )}
 
-      <div className='mt-5'>
+      {/* <div className='mt-5'>
         <div className='text-[#707070] uppercase text-xl leading-7 font-base mb-4'>BẠN LÀ THÍ SINH DỰ THI</div>
-      </div>
+      </div> */}
       <div className='mt-5'>
         <div className='text-[#707070] uppercase text-xl leading-7 font-base mb-4'>Những cuộc thi đang diễn ra</div>
         <div className='relative w-full'>

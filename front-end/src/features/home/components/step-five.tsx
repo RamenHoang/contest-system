@@ -29,13 +29,13 @@ const StepFive = () => {
 
   return (
     <div className='step-five'>
-      <div className='flex items-center gap-8'>
+      {/* <div className='flex items-center gap-8'>
         <DashboardCard
           imgSrc='https://myaloha.vn/image/dashboard/human.png'
           title='Tổng lượt thi'
           text={infoStep2?.data?.testAttempts}
         />
-      </div>
+      </div> */}
       <div className='mt-8'>
         <div className='text-[#757575] uppercase text-[23px] leading-[29px] font-semibold mb-4'> Kết quả thi </div>
         <div className='relative shadow-md sm:rounded-lg px-2 pb-4 flex items-center justify-end gap-4'>

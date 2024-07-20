@@ -54,7 +54,7 @@ const getListCompetition = async (req, res, next) => {
         "unitGroupName",
         "timeEnd",
       ],
-      order: [["timeStart", "ASC"]],
+      order: [["createdAt", "DESC"]],
       limit: +pageSize,
       offset: offset,
     });
@@ -93,10 +93,14 @@ const getCompetitionsByUser = async (req, res, next) => {
         "unitGroupName",
         "timeEnd",
         "isPublic",
+        "createdAt",
       ],
-      order: [["timeStart", "ASC"]],
+      order: [["createdAt", "DESC"]],
       limit: +pageSize,
       offset: offset,
+      include: [
+        { model: Participant, as: "Participants", attributes: ["id"] },
+      ],
     });
 
     const resData = competitions.map((item) => {
@@ -111,6 +115,7 @@ const getCompetitionsByUser = async (req, res, next) => {
         unitGroupName: item.unitGroupName,
         isPublic: item.isPublic ? "Xuất bản" : "Chỉnh sửa",
         numberOfExams: 0, //hard code
+        numberOfParticipants: item.Participants.length,
       };
     });
 
@@ -691,6 +696,8 @@ const saveResultCompetition = async (req, res, next) => {
     correctAnswersRate = (totalCorrectAnswers / questionBankings.length) * 100;
     newParticipant.totalCorrectAnswers = totalCorrectAnswers;
     newParticipant.correctAnswersRate = correctAnswersRate;
+    const timeDistance = moment(newParticipant.finishTime).diff(moment(newParticipant.startTime));
+    const duration = moment.duration(timeDistance);
 
     await newParticipant.save();
     await UserAnswers.bulkCreate(userAnswers);
@@ -699,6 +706,7 @@ const saveResultCompetition = async (req, res, next) => {
       userName: newParticipant.fullName,
       totalCorrectAnswers,
       correctAnswersRate,
+      duration: `${duration.minutes()}:${duration.seconds()}`,
     };
 
     res.status(StatusCodes.OK).json(ApiResponse(resData));
