@@ -1,4 +1,4 @@
-import { Button, Flex, Input, Radio, Tooltip, Modal } from 'antd';
+import { Button, Flex, Input, Radio, Tooltip, Modal, Checkbox } from 'antd';
 import { ChevronDown, ChevronUp, MessageCircle, Plus, X, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDeleteQuestion } from '~/features/quiz/hooks/use-delete-question';
@@ -14,8 +14,8 @@ type Props = {
 export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props) => {
   const [title, setTitle] = useState('');
   const [showAnswerInput, setShowAnswerInput] = useState(false);
-  const [answers, setAnswers] = useState<{ id?: number; text: string; checked: boolean }[]>(
-    question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect })) || []
+  const [answers, setAnswers] = useState<{ id?: number; text: string; checked: boolean; isFixed: boolean }[]>(
+    question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect, isFixed: a.isFixed })) || []
   );
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -24,7 +24,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
   useEffect(() => {
     if (question) {
       setTitle(question?.title);
-      setAnswers(question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect })) || []);
+      setAnswers(question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect, isFixed: a.isFixed })) || []);
     }
   }, [question]);
 
@@ -35,7 +35,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
   const handleToggleAnswerInput = () => setShowAnswerInput(!showAnswerInput);
 
   const addAnswer = () => {
-    setAnswers([...answers, { text: '', checked: false }]);
+    setAnswers([...answers, { text: '', checked: false, isFixed: false }]);
   };
 
   const updateAnswerText = (index: number, text: string) => {
@@ -57,6 +57,14 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
     setAnswers(newAnswers);
   };
 
+  const handleFixedAnswer = (index: number, isFixed: boolean) => {
+    const newAnswers = answers.map((answer, i) => ({
+      ...answer,
+      isFixed: i === index ? isFixed : answer.isFixed
+    }));
+    setAnswers(newAnswers);
+  };
+
   const eachQuestionData: IQuestion = {
     id: question?.id,
     title,
@@ -65,7 +73,8 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
     answers: answers.map((a) => ({
       id: a.id,
       answerText: a.text,
-      isCorrect: a.checked
+      isCorrect: a.checked,
+      isFixed: a.isFixed
     }))
   };
 
@@ -75,7 +84,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
     if (!isUpdate) {
       // Reset state if necessary to allow for new question creation
       setTitle('');
-      setAnswers([{ text: '', checked: false }]);
+      setAnswers([{ text: '', checked: false, isFixed: false }]);
       setShowAnswerInput(false);
     }
   };
@@ -165,6 +174,9 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
                           placeholder='Nội dung câu trả lời'
                           className='grow rounded-[4px]'
                         />
+                        <Checkbox checked={answer?.isFixed} onChange={(e) => handleFixedAnswer(index, e.target.checked)}>
+                          Không đảo
+                        </Checkbox>
                         <Button disabled={isLoading} icon={<X size={16} />} onClick={() => removeAnswer(index)} />
                       </div>
                     ))}

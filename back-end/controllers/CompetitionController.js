@@ -584,16 +584,28 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
       where: {
         idQuestionBanking: questionBankings.map((item) => item.id),
       },
-      attributes: ["id", "answer", "isCorrect", "idQuestionBanking"],
+      attributes: ["id", "answer", "isCorrect", "idQuestionBanking", "isFixed"],
     });
 
     const resData = {
       isMix: competition.isMix,
       testDuration: competition.testDuration ?? 0,
       questions: questionBankings.map((question) => {
-        const answer = answers.filter(
+        let answer = answers.filter(
           (item) => item.idQuestionBanking === question.id
         );
+
+        // Suffle answer but isFixed answer is not shuffe
+        if (competition.isMix) {
+          const notFixedAnswers = answer.filter((item) => !item.isFixed).sort(() => Math.random() - 0.5);
+
+          for (let i = 0; i < answer.length; i++) {
+            if (!answer[i].isFixed) {
+              answer[i] = notFixedAnswers.shift();
+            }
+          }
+        }
+
         return {
           id: question.id,
           title: question.title,
@@ -992,14 +1004,14 @@ const getParticipantHightestScore = async (id, next) => {
     return data != null
       ? data
       : {
-          id: "",
-          fullName: "",
-          createdAt: "",
-          totalCorrectAnswers: "",
-          correctAnswersRate: "",
-          startTime: null,
-          finishTime: null,
-        };
+        id: "",
+        fullName: "",
+        createdAt: "",
+        totalCorrectAnswers: "",
+        correctAnswersRate: "",
+        startTime: null,
+        finishTime: null,
+      };
   } catch (error) {
     next(error);
   }

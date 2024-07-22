@@ -39,6 +39,7 @@ export interface IAnswer {
   id?: number;
   answerText: string;
   isCorrect: boolean;
+  isFixed: boolean;
 }
 
 export interface ICompetition {

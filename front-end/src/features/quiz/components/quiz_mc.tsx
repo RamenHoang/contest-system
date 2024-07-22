@@ -1,4 +1,4 @@
-import { Button, Flex, Input, Radio, Tooltip } from "antd";
+import { Button, Checkbox, Flex, Input, Radio, Tooltip } from "antd";
 import { ChevronDown, ChevronUp, MessageCircle, Plus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { IQuestion } from "~/types";
@@ -18,12 +18,13 @@ export const QuizMComponent = ({
   const [title, setTitle] = useState("");
   const [showAnswerInput, setShowAnswerInput] = useState(false);
   const [answers, setAnswers] = useState<
-    { id?: number; text: string; checked: boolean }[]
+    { id?: number; text: string; checked: boolean, isFixed: boolean }[]
   >(
     question?.answers?.map((a) => ({
       id: a.id,
       text: a.answerText,
       checked: a.isCorrect,
+      isFixed: a.isFixed,
     })) || [],
   );
 
@@ -35,6 +36,7 @@ export const QuizMComponent = ({
           id: a.id,
           text: a.answerText,
           checked: a.isCorrect,
+          isFixed: a.isFixed,
         })) || [],
       );
     }
@@ -49,7 +51,7 @@ export const QuizMComponent = ({
   const handleToggleAnswerInput = () => setShowAnswerInput(!showAnswerInput);
 
   const addAnswer = () => {
-    setAnswers([...answers, { text: "", checked: false }]);
+    setAnswers([...answers, { text: "", checked: false, isFixed: false }]);
   };
 
   const updateAnswerText = (index: number, text: string) => {
@@ -71,6 +73,14 @@ export const QuizMComponent = ({
     setAnswers(newAnswers);
   };
 
+  const handleFixedAnswer = (index: number, isFixed: boolean) => {
+    const newAnswers = answers.map((answer, i) => ({
+      ...answer,
+      isFixed: i === index ? isFixed : answer.isFixed,
+    }));
+    setAnswers(newAnswers);
+  };
+
   const eachQuestionData: IQuestion = {
     id: question?.id,
     title,
@@ -80,6 +90,7 @@ export const QuizMComponent = ({
       id: a.id,
       answerText: a.text,
       isCorrect: a.checked,
+      isFixed: a.isFixed,
     })),
   };
 
@@ -90,7 +101,7 @@ export const QuizMComponent = ({
     if (!isUpdate) {
       // Reset state if necessary to allow for new question creation
       setTitle("");
-      setAnswers([{ text: "", checked: false }]);
+      setAnswers([{ text: "", checked: false, isFixed: false }]);
       setShowAnswerInput(false);
     }
   };
@@ -167,6 +178,9 @@ export const QuizMComponent = ({
                       placeholder="Nội dung câu trả lời"
                       className="grow rounded-[4px]"
                     />
+                    <Checkbox checked={answer?.isFixed} onChange={(e) => handleFixedAnswer(index, e.target.checked)}>
+                      Không đảo
+                    </Checkbox>
                     <Button
                       icon={<X size={16} />}
                       onClick={() => removeAnswer(index)}

@@ -102,12 +102,12 @@ const updateQuestions = async (req, res, next) => {
 
       // Process answers
       for (const answer of answers) {
-        const { id: answerId, answerText, isCorrect } = answer;
+        const { id: answerId, answerText, isCorrect, isFixed } = answer;
 
         if (answerId) {
           // Update existing answer
           await AnswerBanking.update(
-            { answer: answerText, isCorrect },
+            { answer: answerText, isCorrect, isFixed },
             { where: { id: answerId }, transaction }
           );
         } else {
@@ -117,6 +117,7 @@ const updateQuestions = async (req, res, next) => {
               idQuestionBanking: questionBanking.id,
               answer: answerText,
               isCorrect,
+              isFixed,
             },
             { transaction }
           );
@@ -257,7 +258,7 @@ const getExamById = async (req, res, next) => {
           where: {
             idQuestionBanking: question.id,
           },
-          attributes: ["id", "answer", "isCorrect", "createdAt"],
+          attributes: ["id", "answer", "isCorrect", "isFixed", "createdAt"],
         });
 
         return {
@@ -268,6 +269,7 @@ const getExamById = async (req, res, next) => {
               id: data.id,
               answerText: data.answer,
               isCorrect: data.isCorrect,
+              isFixed: data.isFixed,
               createdAt: data.createdAt,
             };
           }),

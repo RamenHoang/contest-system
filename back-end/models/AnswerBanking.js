@@ -23,6 +23,10 @@ AnswerBanking.init(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    isFixed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     sequelize,

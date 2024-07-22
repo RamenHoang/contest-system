@@ -52,31 +52,28 @@ export const FormSetup = () => {
 
     const { testDuration, testAttempts, isMix, examOfCompetitions } = infoStep2;
 
+    const selectedExamIds = examOfCompetitions?.map((exam) => exam.examBankingId) || [];
+    setExamIds(selectedExamIds);
+
     form.setFieldsValue({
       testDuration,
       testAttempts,
       // @ts-expect-error null
       isMix: isMix === null ? "null" : isMix,
+      selectedExamIds
     });
-
-    const selectedExamIds =
-      examOfCompetitions?.map((exam) => exam.examBankingId) || [];
-    setExamIds(selectedExamIds);
   }, [infoStep2, form]);
 
   return (
     <div className="-mt-10">
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
-        <Form.Item label="Trộn nhiều đề thi">
+        <Form.Item label="Trộn nhiều đề thi" name="selectedExamIds">
           <Select
             mode="multiple"
             onChange={(selectedItems) => {
-              const selectedIds = selectedItems.map((item: number) =>
-                Number(item),
-              );
+              const selectedIds = selectedItems.map((item: number) => Number(item));
               setExamIds(selectedIds);
             }}
-            defaultValue={[9, 19]}
             style={{ width: "100%" }}
             options={options}
           />
