@@ -10,7 +10,7 @@ const QuizRoutes = () => {
     <Routes>
       <Route path='/dashboard/quiz' element={<ExamPage />} />
       <Route path='/dashboard/quiz/create' element={<CreateExam />} />
-      <Route path='/dashboard/quiz/edit' element={<EditExam />} />
+      {/* <Route path='/dashboard/quiz/edit' element={<EditExam />} /> */}
       <Route path='/dashboard/quiz/edit/:id' element={<EditExam />} />
 
       <Route path='*' element={<Navigate to='/not-found' />} />

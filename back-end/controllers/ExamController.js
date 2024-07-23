@@ -319,7 +319,17 @@ const importExamFromDocx = async (req, res, next) => {
     if (questions) {
       questions.forEach((questionHtml) => {
         const questionMatch = questionHtml.match(/<h3>(.*?)<\/h3>/);
-        const title = questionMatch ? questionMatch[1] : "";
+        let title = questionMatch ? questionMatch[1] : "";
+
+        // Title is <a id="_e5szjnx0fule"></a>What is 2 + 2?
+        // Remove the <a> tag
+        const titleMatch = title.match(/<\/a>(.*?)\?/);
+        title = titleMatch ? titleMatch[1] : title;
+
+        // Title will in format: Câu {number}: What is 2 + 2?
+        // Remove the "Câu {number}}: " prefix
+        title = title.replace(/Câu \d+:/, "");
+        title = title.trim();
 
         const answers = [];
         let match;

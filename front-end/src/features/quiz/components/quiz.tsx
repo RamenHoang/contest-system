@@ -7,13 +7,13 @@ const { TextArea } = Input;
 
 type Props = {
   questionNumber: number;
-  onAddQuestion: (questionData: IQuestion, isUpdate: boolean) => void;
+  onAddQuestion: (questionData: IQuestion, isUpdate: boolean, questionNumber: number) => void;
   question?: IQuestion;
 };
 
 export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props) => {
   const [title, setTitle] = useState('');
-  const [showAnswerInput, setShowAnswerInput] = useState(false);
+  const [showAnswerInput, setShowAnswerInput] = useState(true);
   const [answers, setAnswers] = useState<{ id?: number; text: string; checked: boolean; isFixed: boolean }[]>(
     question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect, isFixed: a.isFixed })) || []
   );
@@ -68,7 +68,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
   const eachQuestionData: IQuestion = {
     id: question?.id,
     title,
-    type: answers?.length > 1 ? 'MC' : 'Essay',
+    type: answers?.length > 0 ? 'MC' : 'Essay',
     lengthLimit: 2000,
     answers: answers.map((a) => ({
       id: a.id,
@@ -79,13 +79,18 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
   };
 
   const addQuestion = () => {
-    const isUpdate = Boolean(question?.answers?.length ?? 0 > 0);
-    onAddQuestion(eachQuestionData, isUpdate);
+    let isUpdate = false;
+
+    if (question) {
+      isUpdate = true;
+    }
+
+    onAddQuestion(eachQuestionData, isUpdate, questionNumber);
     if (!isUpdate) {
       // Reset state if necessary to allow for new question creation
       setTitle('');
       setAnswers([{ text: '', checked: false, isFixed: false }]);
-      setShowAnswerInput(false);
+      setShowAnswerInput(true);
     }
   };
 
@@ -139,49 +144,40 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
                   value={title}
                   onChange={handleTitleChange}
                 />
-                {question?.type === 'MC' && (
-                  <div className='mt-2'>
-                    <div className='flex border rounded-lg p-1'>
-                      <Flex wrap>
-                        <Tooltip title='Thêm câu trả lời'>
-                          <Button onClick={addAnswer} type='text' icon={<Plus size={16} />} />
-                        </Tooltip>
-                        <Tooltip title='Thêm lời giải'>
-                          <Button type='text' icon={<MessageCircle size={16} />} />
-                        </Tooltip>
-                      </Flex>
-                    </div>
+                <div className='mt-2'>
+                  <div className='flex border rounded-lg p-1'>
+                    <Flex wrap>
+                      <Tooltip title='Thêm câu trả lời'>
+                        <Button onClick={addAnswer} type='text' icon={<Plus size={16} />} />
+                      </Tooltip>
+                    </Flex>
                   </div>
-                )}
+                </div>
               </div>
             </div>
 
             <div>
               <div className='answer-list'>
-                {question?.type === 'MC' && (
-                  <>
-                    {answers.map((answer, index) => (
-                      <div key={index} className='flex items-center gap-3 mb-2'>
-                        <Radio
-                          checked={answer.checked}
-                          onChange={() => handleRadioChange(index)}
-                          className='cursor-pointer'
-                        />
-                        <Input
-                          size='large'
-                          value={answer?.text}
-                          onChange={(e) => updateAnswerText(index, e.target.value)}
-                          placeholder='Nội dung câu trả lời'
-                          className='grow rounded-[4px]'
-                        />
-                        <Checkbox checked={answer?.isFixed} onChange={(e) => handleFixedAnswer(index, e.target.checked)}>
-                          Không đảo
-                        </Checkbox>
-                        <Button disabled={isLoading} icon={<X size={16} />} onClick={() => removeAnswer(index)} />
-                      </div>
-                    ))}
-                  </>
-                )}
+                {answers.map((answer, index) => (
+                  <div key={index} className='flex items-center gap-3 mb-2'>
+                    <Radio
+                      checked={answer.checked}
+                      onChange={() => handleRadioChange(index)}
+                      className='cursor-pointer'
+                    />
+                    <Input
+                      size='large'
+                      value={answer?.text}
+                      onChange={(e) => updateAnswerText(index, e.target.value)}
+                      placeholder='Nội dung câu trả lời'
+                      className='grow rounded-[4px]'
+                    />
+                    <Checkbox checked={answer?.isFixed} onChange={(e) => handleFixedAnswer(index, e.target.checked)}>
+                      Không đảo
+                    </Checkbox>
+                    <Button disabled={isLoading} icon={<X size={16} />} onClick={() => removeAnswer(index)} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
