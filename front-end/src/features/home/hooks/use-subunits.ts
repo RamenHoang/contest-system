@@ -12,6 +12,13 @@ export const useSubUnits = () => {
   });
 };
 
+export const useUnits = () => {
+  return useQuery({
+    queryKey: ['units'],
+    queryFn: () => UnitApi.getUnits()
+  });
+};
+
 export const useInvalidateSubUnits = () => {
   const { id } = useParams();
   return () => {

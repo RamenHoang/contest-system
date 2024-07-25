@@ -60,6 +60,7 @@ export interface ISetupCompetition {
   testAttempts: number;
   isMix: 'null' | 'question' | 'question-answer';
   examOfCompetitions: IExamBanking[];
+  numberOfQuestion: number;
 }
 
 export interface IInfoStep2 {
@@ -67,6 +68,7 @@ export interface IInfoStep2 {
   testDuration: number;
   testAttempts: number;
   examOfCompetitions: IExamsStep2[];
+  numberOfQuestion: number;
 }
 
 export interface IExamsStep2 {
@@ -95,6 +97,7 @@ export interface ICreateSubUnits {
 export interface ISubUnit {
   id: number;
   name: string;
+  createdAt: string;
 }
 
 export interface IOrganizer {
@@ -167,4 +170,13 @@ export interface IStatistic {
   correctAnswersRate: number;
   duration: string;
   createdAt: string;
+}
+
+export interface ICreateUnitData {
+  name: string;
+}
+
+export interface IEditUnitData {
+  id: number;
+  name: string;
 }

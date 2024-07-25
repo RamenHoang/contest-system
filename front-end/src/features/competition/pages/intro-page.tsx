@@ -9,7 +9,7 @@ import { useCompetition } from "~/features/competition/hooks/use-competition";
 import { IStartRequired, IStatistic } from "~/types";
 import RankingList from "~/features/competition/components/ranking";
 import { useStatistics } from "~/features/competition/hooks/use-statistic";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useLogin } from "~/hooks/useLogin";
 import { hexToRGBA } from "~/utils/helpers";
 
@@ -22,6 +22,7 @@ type IResult = {
 
 const IntroPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isLoggedIn = useLogin();
 
@@ -198,7 +199,7 @@ const IntroPage = () => {
                     backgroundColor: hexToRGBA(competition?.themeColor, 1),
                   }}
                   className="inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-cyan-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]"
-                  onClick={() => navigate("/auth/sign-in")}
+                  onClick={() => navigate("/auth/sign-in", { state: { from: location } })}
                 >
                   Đăng nhập
                 </button>

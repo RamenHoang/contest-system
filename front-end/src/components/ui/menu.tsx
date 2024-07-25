@@ -1,5 +1,5 @@
 import { Menu, MenuProps } from 'antd';
-import { BookIcon, DoorOpen, Paperclip, Puzzle } from 'lucide-react';
+import { BookIcon, DoorOpen, Paperclip, Puzzle, Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -23,7 +23,10 @@ const items: MenuItem[] = [
   getItem('Cổng trực tuyến', 'sub1', <DoorOpen />, [
     getItem('Cuộc thi', '1', <Puzzle />, undefined, '/dashboard/contest')
   ]),
-  getItem('Kho nội dung', 'sub2', <BookIcon />, [getItem('Đề thi', '3', <Paperclip />, undefined, '/dashboard/quiz')])
+  getItem('Kho nội dung', 'sub2', <BookIcon />, [
+    getItem('Đề thi', '3', <Paperclip />, undefined, '/dashboard/quiz'),
+    getItem('Đơn vị', '4', <Terminal />, undefined, '/dashboard/unit')
+  ])
 ];
 
 export const AntMenu = () => {

@@ -35,20 +35,18 @@ const ManageContest = () => {
         <div className="text-[#757575] uppercase text-[27px] leading-[34px] font-normal mb-4">
           Tổ chức cuộc thi trực tuyến
         </div>
-        <div
-          className="flex items-center gap-10 cursor-pointer"
-          onClick={handleCreateCompetition}
-        >
-          <div>
-            <div className="flex items-center justify-center rounded-xl p-3 w-[80px] h-[80px] bg-orange-500/90">
-              <img
-                src="https://myaloha.vn/image/dashboard/create_new_ic.png"
-                alt="createBtn"
-                className="h-[50px] hover:scale-[1.1] transition-all duration-300"
-              />
-            </div>
-            <div className="mt-2">Tạo mới</div>
+        <div className="flex items-center gap-10">
+          <div
+            className='flex items-center justify-center rounded-xl p-3 w-[80px] h-[80px] bg-orange-500/90 cursor-pointer'
+            onClick={handleCreateCompetition}
+          >
+            <img
+              src="https://myaloha.vn/image/dashboard/create_new_ic.png"
+              alt="createBtn"
+              className="h-[50px] hover:scale-[1.1] transition-all duration-300"
+            />
           </div>
+          <div className="mt-2">Tạo mới</div>
         </div>
       </div>
       <div className="mb-4">

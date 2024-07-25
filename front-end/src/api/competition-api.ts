@@ -150,5 +150,41 @@ export const CompetitionApi = {
     } catch (error) {
       console.log(error);
     }
+  },
+
+  async copyCompetition(id: string) {
+    try {
+      const { data } = await axiosClient.post(`/competitions/copy/${id}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async deleteUnit(id: number, unitId: number) {
+    try {
+      const { data } = await axiosClient.delete(`/competitions/${id}/units/${unitId}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async getAvailableUnits(id: number) {
+    try {
+      const { data } = await axiosClient.get(`/competitions/${id}/available-units`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async addUnits(id: number, unitIds: number[]) {
+    try {
+      const { data } = await axiosClient.post(`/competitions/${id}/units`, { unitIds });
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

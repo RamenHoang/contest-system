@@ -16,10 +16,6 @@ Participant.init(
     idCompetition: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: Competition,
-        key: "id",
-      },
     },
     idUser: {
       type: DataTypes.INTEGER,
@@ -31,10 +27,6 @@ Participant.init(
     idSubUnit: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: Unit,
-        key: "id",
-      },
     },
     fullName: {
       type: DataTypes.STRING(100),
@@ -89,8 +81,7 @@ Participant.init(
 
 // Define associations with unit
 Participant.belongsTo(Unit, {
-  foreignKey: "idSubUnit",
-  onDelete: "CASCADE",
+  foreignKey: "idSubUnit"
 });
 
 module.exports = Participant;

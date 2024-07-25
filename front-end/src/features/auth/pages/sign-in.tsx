@@ -12,7 +12,7 @@ import {
 import { LockIcon, User2Icon } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AuthApi } from "~/api/auth-api";
 import { loginFailed, loginStart, loginSuccess } from "~/store/slice/AuthSlice";
 
@@ -28,6 +28,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm<AuthType>();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const location = useLocation();
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -37,7 +38,8 @@ const SignIn = () => {
         if (res?.statusCode === 200) {
           dispatch(loginSuccess(res.data));
           message.success("Đăng nhập thành công");
-          navigate("/");
+          const from = location.state?.from?.pathname || '/';
+          navigate(from, { replace: true });
         }
       } catch (error) {
         dispatch(loginFailed());
@@ -48,6 +50,7 @@ const SignIn = () => {
   });
 
   const onFinish: FormType["onFinish"] = async (value) => {
+    console.log(1);
     try {
       setIsSubmitting(true);
       dispatch(loginStart());
@@ -55,7 +58,8 @@ const SignIn = () => {
       if (res?.statusCode === 200) {
         dispatch(loginSuccess(res?.data));
         message.success("Đăng nhập thành công");
-        navigate("/");
+        const from = location.state?.from?.pathname || '/';
+        navigate(from, { replace: true });
         setIsSubmitting(false);
       }
     } catch (error) {

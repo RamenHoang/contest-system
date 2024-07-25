@@ -6,7 +6,6 @@ import { NotFound } from './components/errors';
 import { ProtectedRoute } from './features/auth/components';
 import { MainLayout } from '~/components/layout/main-layout';
 import { AuthLayout } from '~/components/layout/auth-layout';
-import AuthRedirect from '~/components/layout/auth-redirect';
 
 const AuthRoutes = lazy(() => import('./features/auth'));
 const HomeRoutes = lazy(() => import('./features/home'));
@@ -26,14 +25,7 @@ export const AppRoutes = () => {
       </Route>
       <Route path='/competition/*' element={<CompetitionRoutes />} />
       <Route element={<AuthLayout />}>
-        <Route
-          path='/auth/*'
-          element={
-            <AuthRedirect>
-              <AuthRoutes />
-            </AuthRedirect>
-          }
-        />
+        <Route path='/auth/*' element={<AuthRoutes />} />
       </Route>
       <Route path='*' element={<NotFound />} />
     </Routes>

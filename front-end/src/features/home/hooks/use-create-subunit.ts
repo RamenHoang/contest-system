@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { message } from 'antd';
 import { useParams } from 'react-router-dom';
-import { UnitApi } from '~/api/unit-api';
+import { CompetitionApi } from '~/api/competition-api';
 import { useInvalidateSubUnits } from '~/features/home/hooks/use-subunits';
 import { ICreateSubUnits } from '~/types';
 
@@ -10,7 +10,7 @@ export const useCreateSubUnit = () => {
   const { id } = useParams();
 
   return useMutation({
-    mutationFn: (data: ICreateSubUnits) => UnitApi.createSubUnits(data, id as string),
+    mutationFn: (data: number[]) => CompetitionApi.addUnits(Number(id), data),
 
     onSuccess: () => {
       invalidateSubUnits();

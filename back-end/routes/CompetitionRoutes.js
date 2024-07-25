@@ -136,4 +136,29 @@ router.delete(
   CompetitionController.deleteCompetition
 );
 
+// Copy competition
+router.post(
+  "/copy/:id",
+  AuthMiddleware,
+  CompetitionController.copyCompetition
+);
+
+router.delete(
+  "/:id/units/:unitId",
+  AuthMiddleware,
+  CompetitionController.deleteUnit
+);
+
+router.get(
+  "/:id/available-units",
+  AuthMiddleware,
+  CompetitionController.getAvailableUnits
+);
+
+router.post(
+  "/:id/units",
+  AuthMiddleware,
+  CompetitionController.addUnits
+);
+
 module.exports = router;

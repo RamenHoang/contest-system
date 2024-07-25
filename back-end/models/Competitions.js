@@ -2,6 +2,8 @@ const { DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../config/db");
 const User = require("./User");
 const Participant = require("./Participant");
+const Unit = require("./Unit");
+const ExamsCompetitions = require("./ExamsCompetitions");
 
 class Competitions extends Model {}
 
@@ -66,11 +68,12 @@ Competitions.init(
     },
     creatorId: {
       type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    numberOfQuestion: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: User,
-        key: "id",
-      },
+      defaultValue: 0
     },
   },
   {
@@ -89,6 +92,12 @@ Competitions.belongsTo(User, {
 Competitions.hasMany(Participant, {
   foreignKey: "idCompetition",
   as: "Participants",
+});
+
+Competitions.belongsToMany(Unit, {
+  through: ExamsCompetitions,
+  foreignKey: "competitionId",
+  as: "Units",
 });
 
 module.exports = Competitions;

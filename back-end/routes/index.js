@@ -8,11 +8,13 @@ const { StatusCodes } = require("http-status-codes");
 const AuthRoutes = require("./AuthRoutes");
 const ExamRoutes = require("./ExamRoutes");
 const CompetitionRoutes = require("./CompetitionRoutes");
+const UnitRoutes = require("./UnitRoutes");
 
 // assign prefix - to routes
 router.use("/auth", AuthRoutes);
 router.use("/exam", ExamRoutes);
 router.use("/competitions", CompetitionRoutes);
+router.use("/units", UnitRoutes);
 router.use(
   "/",
   AsyncHandler(async (req, res) => {

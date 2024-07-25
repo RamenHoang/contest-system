@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useInfoStep2 } from "~/features/competition/hooks/use-info-step2";
 import { useSetupCompetition } from "~/features/home/hooks/use-setup-competition";
 import { useExams } from "~/features/quiz/hooks/use-exams";
-import { IExam, IInfoStep2, ISetupCompetition } from "~/types";
+import { IExam, IInfoStep2, ISetupCompetition } from '~/types';
 
 export const FormSetup = () => {
   const navigate = useNavigate();
@@ -17,6 +17,12 @@ export const FormSetup = () => {
 
   const { data: infoStep2Data } = useInfoStep2();
   const infoStep2: IInfoStep2 = infoStep2Data?.data;
+
+  console.log(infoStep2);
+  const totalQuestion = infoStep2?.examOfCompetitions?.reduce(
+    (acc, curr) => acc + curr.totalEssayQuestion + curr.totalMCQuestion,
+    0
+  );
 
   const [form] = Form.useForm<ISetupCompetition>();
 
@@ -33,8 +39,9 @@ export const FormSetup = () => {
       id: parseInt(id as string),
       testDuration: Number(data.testDuration),
       testAttempts: Number(data.testAttempts),
-      isMix: data.isMix === "null" ? null : data.isMix,
+      isMix: data.isMix === 'null' ? null : data.isMix,
       examOfCompetitions: examIds.map((id) => ({ examBankingId: id })),
+      numberOfQuestion: Number(data.numberOfQuestion)
     };
 
     // @ts-expect-error null
@@ -50,7 +57,7 @@ export const FormSetup = () => {
       return;
     }
 
-    const { testDuration, testAttempts, isMix, examOfCompetitions } = infoStep2;
+    const { testDuration, testAttempts, isMix, examOfCompetitions, numberOfQuestion } = infoStep2;
 
     const selectedExamIds = examOfCompetitions?.map((exam) => exam.examBankingId) || [];
     setExamIds(selectedExamIds);
@@ -60,14 +67,15 @@ export const FormSetup = () => {
       testAttempts,
       // @ts-expect-error null
       isMix: isMix === null ? "null" : isMix,
-      selectedExamIds
+      selectedExamIds,
+      numberOfQuestion
     });
   }, [infoStep2, form]);
 
   return (
     <div className="-mt-10">
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
-        <Form.Item label="Trộn nhiều đề thi" name="selectedExamIds">
+        <Form.Item label='Trộn nhiều đề thi' name='selectedExamIds'>
           <Select
             mode="multiple"
             onChange={(selectedItems) => {
@@ -108,8 +116,11 @@ export const FormSetup = () => {
             ]}
           />
         </Form.Item>
-        <div className="mt-5 mb-2 flex justify-end gap-3">
-          <Button size="middle" htmlType="submit" type="primary">
+        <Form.Item label={`Số câu hỏi / ${totalQuestion} câu`} name='numberOfQuestion' required>
+          <Input placeholder='Số câu hỏi' type='number' min={0} max={totalQuestion} defaultValue={0} required />
+        </Form.Item>
+        <div className='mt-5 mb-2 flex justify-end gap-3'>
+          <Button size='middle' htmlType='submit' type='primary'>
             Xác nhận
           </Button>
         </div>

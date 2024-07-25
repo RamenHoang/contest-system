@@ -1,8 +1,9 @@
 import { Button, Modal, Space, Table, Tag, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { format } from 'date-fns';
-import { Download, PencilIcon, TrashIcon } from 'lucide-react';
+import { CopyIcon, Download, PencilIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useCopyCompetition } from '~/features/competition/hooks/use-copy-competition';
 import { useDeleteCompetition } from '~/features/competition/hooks/use-delete-competition';
 import { useExportExcelRow } from '~/features/competition/hooks/use-export-excel_row';
 import { useUserCompetitions } from '~/features/competition/hooks/use-user-competitions';
@@ -19,6 +20,7 @@ export const TableContest = () => {
 
   const { data: userCompetitions, isPending: isLoading } = useUserCompetitions();
   const { mutate: deleteCompetition } = useDeleteCompetition();
+  const { mutate: copyCompetition } = useCopyCompetition();
   const { exportExcel, loading } = useExportExcelRow();
 
   const showDeleteConfirm = (id: string) => {
@@ -29,6 +31,20 @@ export const TableContest = () => {
       cancelText: 'Hủy',
       onOk() {
         deleteCompetition(id);
+        window.location.reload();
+      }
+    });
+  };
+
+  const showCopyConfirm = (id: string) => {
+    Modal.confirm({
+      title: 'Bạn có chắc chắn nhân đôi cuộc thi này?',
+      okText: 'Xác nhận',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      onOk() {
+        copyCompetition(id);
+        window.location.reload();
       }
     });
   };
@@ -124,6 +140,15 @@ export const TableContest = () => {
               onClick={() => {
                 navigate(`/dashboard/contest/${item.id}/edit?step=1`);
               }}
+            />
+          </Tooltip>
+          <Tooltip title='Nhân đôi'>
+            <Button
+              type='text'
+              htmlType='button'
+              className='inline-flex items-center justify-center'
+              icon={<CopyIcon className='h-4 w-4' />}
+              onClick={() => showCopyConfirm(String(item.id))}
             />
           </Tooltip>
           <Tooltip title='Xóa'>

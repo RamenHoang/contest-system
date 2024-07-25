@@ -15,6 +15,7 @@ const AnswerBanking = require("../models/AnswerBanking");
 const Participant = require("../models/Participant");
 const UserAnswers = require("../models/UserAnswers");
 const sequelize = require("sequelize");
+const UnitsCompetitions = require("../models/ExamsCompetitions");
 
 const uploadImage = async (req, res) => {
   const filename = req.file.filename;
@@ -280,6 +281,7 @@ const getExamsOfCompetition = async (req, res, next) => {
           totalEssayQuestion: item.total_essay_questions,
         };
       }),
+      numberOfQuestion: competition.numberOfQuestion,
     };
 
     res.status(StatusCodes.OK).json(ApiResponse(resData));
@@ -296,6 +298,7 @@ const chooseExamForCompetition = async (req, res, next) => {
       testDuration = 0,
       testAttempts = 0,
       examOfCompetitions,
+      numberOfQuestion = 0
     } = req.body;
 
     const competition = await Competitions.findByPk(id);
@@ -308,6 +311,7 @@ const chooseExamForCompetition = async (req, res, next) => {
     competition.testDuration = testDuration;
     competition.testAttempts = testAttempts;
     competition.isMix = isMix;
+    competition.numberOfQuestion = numberOfQuestion;
 
     const examsCompetition = [];
     for (const examOfCompetition of examOfCompetitions) {
@@ -330,6 +334,14 @@ const chooseExamForCompetition = async (req, res, next) => {
 
     //save changes competition and exams of competition
     await competition.save();
+
+    // Delete all exams of competition
+    await ExamsOfCompetition.destroy({
+      where: {
+        competitionId: id
+      },
+    });
+
     const createdExams = await ExamsOfCompetition.bulkCreate(examsCompetition);
     const resData = createdExams.map((item) => item.id);
     res.status(StatusCodes.OK).json(ApiResponse(resData, 1));
@@ -394,14 +406,28 @@ const getUnitsOfCompetition = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const units = await Unit.findAll({
-      where: {
-        competitionId: id,
-      },
-      attributes: ["id", "name"],
-    });
+    const competition = await Competitions.findByPk(
+      id,
+      {
+        include: [
+          {
+            model: Unit,
+            attributes: ["id", "name"],
+            as: "Units",
+          },
+        ],
+      }
+    );
 
-    res.status(StatusCodes.OK).json(ApiResponse(units, units.length));
+    if (!competition) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Competition not found")
+      );
+    }
+
+    res.status(StatusCodes.OK).json(ApiResponse(competition.Units, competition.Units.length));
+
+    // res.status(StatusCodes.OK).json(ApiResponse(units, units.length));
   } catch (error) {
     next(error);
   }
@@ -537,7 +563,7 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
         isPublic: true,
         isDeleted: false,
       },
-      attributes: ["isMix", "testDuration"],
+      attributes: ["isMix", "testDuration", 'numberOfQuestion'],
     });
 
     if (!competition) {
@@ -547,7 +573,7 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
     }
 
     if (competition.testAttempts > 0) {
-      const totald = await d.count({
+      const totald = await Participant.count({
         where: {
           idCompetition: id,
         },
@@ -573,12 +599,24 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
     });
 
     //get all question and answer of examBankingId
-    const questionBankings = await QuestionBanking.findAll({
+    let questionBankings = await QuestionBanking.findAll({
       where: {
         idExamBanking: examBankings.map((item) => item.examBankingId),
       },
       attributes: ["id", "title", "type"],
     });
+
+    if (competition.numberOfQuestion > 0 && competition.numberOfQuestion <= questionBankings.length) {
+      if (competition.isMix != null) {
+        questionBankings = questionBankings.sort(() => Math.random() - 0.5).slice(0, competition.numberOfQuestion);
+      } else {
+        questionBankings = questionBankings.slice(0, competition.numberOfQuestion);
+      }
+    } else {
+      if (competition.isMix != null) {
+        questionBankings = questionBankings.sort(() => Math.random() - 0.5);
+      }
+    }
 
     const answers = await AnswerBanking.findAll({
       where: {
@@ -596,7 +634,7 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
         );
 
         // Suffle answer but isFixed answer is not shuffe
-        if (competition.isMix) {
+        if (competition.isMix === 'question-answer') {
           const notFixedAnswers = answer.filter((item) => !item.isFixed).sort(() => Math.random() - 0.5);
 
           for (let i = 0; i < answer.length; i++) {
@@ -649,6 +687,7 @@ const saveResultCompetition = async (req, res, next) => {
     const questionBankings = await QuestionBanking.findAll({
       where: {
         idExamBanking: examBankings.map((item) => item.examBankingId),
+        id: results.map((item) => item.questionId),
       },
       attributes: ["id", "title", "type"],
     });
@@ -1029,7 +1068,7 @@ const deleteCompetition = async (req, res, next) => {
     }
 
     //delete all reference
-    await Unit.destroy({
+    await UnitsCompetitions.destroy({
       where: {
         competitionId: id,
       },
@@ -1055,6 +1094,175 @@ const deleteCompetition = async (req, res, next) => {
   }
 };
 
+const copyCompetition = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const competition = await Competitions.findByPk(id);
+    if (!competition) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Competition not found")
+      );
+    }
+
+    // Create a new competition
+    const newCompetition = await Competitions.create({
+      bannerUrl: competition.bannerUrl,
+      name: 'Bản sao - ' + competition.name,
+      rules: 'Bản sao - ' + competition.rules,
+      password: competition.password,
+      themeColor: competition.themeColor,
+      timeStart: competition.timeStart,
+      timeEnd: competition.timeEnd,
+      infoRequire: competition.infoRequire,
+      creatorId: req.user.id,
+      isPublic: false,
+      isMix: competition.isMix,
+    });
+
+    // Copy exams of competition
+    const examsOfCompetition = await ExamsOfCompetition.findAll({
+      where: {
+        competitionId: id,
+      },
+    });
+
+    const newExamsOfCompetition = examsOfCompetition.map((exam) => {
+      return {
+        competitionId: newCompetition.id,
+        examBankingId: exam.examBankingId,
+      };
+    });
+
+    await ExamsOfCompetition.bulkCreate(newExamsOfCompetition);
+
+    // Copy Units
+    const units = await Unit.findAll({
+      where: {
+        competitionId: id,
+      },
+    });
+
+    const newUnits = units.map((unit) => {
+      return {
+        competitionId: newCompetition.id,
+        name: unit.name,
+      };
+    });
+
+    if (newUnits.length > 0) {
+      await Unit.bulkCreate(newUnits);
+    }
+
+    // Copy Organizer
+    const organizer = await Organizer.findOne({
+      where: {
+        competitionId: id,
+      }
+    });
+
+    if (organizer) {
+      await Organizer.create({
+        name: organizer.name,
+        address: organizer.address,
+        email: organizer.email,
+        phone: organizer.phone,
+        competitionId: newCompetition.id,
+      });
+    }
+    
+
+    res.status(StatusCodes.OK).json(ApiResponse(true, 1));
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteUnit = async (req, res, next) => {
+  try {
+    const { id, unitId } = req.params;
+
+    await UnitsCompetitions.destroy({
+      where: {
+        competitionId: id,
+        unitId
+      },
+    });
+
+    res.status(StatusCodes.OK).json(ApiResponse(true, 1));
+  } catch (error) {
+    next(error);
+  }
+}
+
+const getAvailableUnits = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const competition = await Competitions.findByPk(
+      id,
+      {
+        include: [
+          {
+            model: Unit,
+            attributes: ["id", "name"],
+            as: "Units",
+          },
+        ],
+      }
+    );
+
+    if (!competition) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Competition not found")
+      );
+    }
+
+    // Get list units where id is not in competition units
+    const availableUnits = await Unit.findAll({
+      where: {
+        id: {
+          [Op.not]: competition.Units.map((unit) => unit.id),
+        }
+      },
+      attributes: ["id", "name"],
+    });
+
+    res.status(StatusCodes.OK).json(ApiResponse(availableUnits, availableUnits.length));
+  } catch (error) {
+    next(error);
+  }
+}
+
+const addUnits = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { unitIds } = req.body;
+
+    const competition = await Competitions.findByPk(id);
+    if (!competition) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Competition not found")
+      );
+    }
+
+    const unitsCompetition = [];
+
+    for (const unitId of unitIds) {
+      unitsCompetition.push({
+        competitionId: id,
+        UnitId: unitId,
+      });
+    }
+
+    await UnitsCompetitions.bulkCreate(unitsCompetition);
+
+    res.status(StatusCodes.OK).json(ApiResponse(true, 1));
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   createCompetition,
   getCompetitionsByUser,
@@ -1077,4 +1285,8 @@ module.exports = {
   statisticParticipant,
   exportExcel,
   deleteCompetition,
+  copyCompetition,
+  deleteUnit,
+  getAvailableUnits,
+  addUnits,
 };

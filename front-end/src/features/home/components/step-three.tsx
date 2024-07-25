@@ -1,11 +1,20 @@
-import { Button, Input, Modal } from 'antd';
+import { Button, Modal, Select } from 'antd';
 import { useState } from 'react';
+import { useListAvailableCompetitionUnits } from '~/features/competition/hooks/use-list-available-competition-units';
 import { TableSubUnit } from '~/features/home/components/table-subunit';
 import { useCreateSubUnit } from '~/features/home/hooks/use-create-subunit';
+import { ISubUnit } from '~/types';
 
 const StepThree = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [subUnitName, setSubUnitName] = useState('');
+  const [selectedUnitIds, setSelectedUnitIds] = useState([]);
+
+  const { data: availableUnits } = useListAvailableCompetitionUnits();
+
+  const options = availableUnits?.data.map((data: ISubUnit) => ({
+    value: data?.id,
+    label: data?.name
+  }));
 
   const { mutate: createSubUnit, isPending } = useCreateSubUnit();
 
@@ -14,10 +23,11 @@ const StepThree = () => {
   };
 
   const handleOk = () => {
-    if (subUnitName) {
-      createSubUnit({ unitGroupName: 'Đơn vị mới', subUnits: [subUnitName] });
+    if (selectedUnitIds.length > 0) {
+      createSubUnit(selectedUnitIds);
       setIsModalOpen(false);
-      setSubUnitName('');
+      setSelectedUnitIds([]);
+      window.location.reload();
     }
   };
 
@@ -36,7 +46,7 @@ const StepThree = () => {
         <TableSubUnit />
       </div>
       <Modal
-        title='Thêm nhóm đơn vị con'
+        title='Thêm đơn vị'
         open={isModalOpen}
         okText='Xác nhận'
         cancelText='Hủy'
@@ -44,12 +54,14 @@ const StepThree = () => {
         onCancel={handleCancel}
         confirmLoading={isPending}
       >
-        <Input
-          size='large'
-          value={subUnitName}
-          onChange={(e) => setSubUnitName(e.target.value)}
-          placeholder='Nhập tên đơn vị'
-          onPressEnter={handleOk}
+        <Select
+          mode='multiple'
+          onChange={(selectedItems) => {
+            const selectedIds = selectedItems.map((item: number) => Number(item));
+            setSelectedUnitIds(selectedIds);
+          }}
+          style={{ width: '100%' }}
+          options={options}
         />
       </Modal>
     </>

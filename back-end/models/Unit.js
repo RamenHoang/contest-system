@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../config/db");
 const Competitions = require("./Competitions");
+const ExamsCompetitions = require("./ExamsCompetitions");
 
 class Unit extends Model {}
 
@@ -15,14 +16,6 @@ Unit.init(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    competitionId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Competitions,
-        key: "id",
-      },
-    },
     isDeleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -36,6 +29,10 @@ Unit.init(
 );
 
 Unit.associate = (models) => {
-  Unit.hasMany(models.Participant, { foreignKey: "idSubUnit" });
+  Unit.belongsToMany(models.Competitions, {
+    through: models.ExamsCompetitions,
+    foreignKey: "unitId",
+    as: "Competitions",
+  });
 };
 module.exports = Unit;
