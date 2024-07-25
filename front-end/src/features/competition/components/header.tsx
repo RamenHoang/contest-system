@@ -36,7 +36,7 @@ export const Header = ({ data }: { data: IStartRequired }) => {
               <ul className="flex items-center gap-x-10 text-lg">
                 <Link to="/" className="hover:text-white/70">
                   Trang chủ
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 border-t-2 border-solid w-14"></div>
+                  {/* <div className="absolute bottom-0 left-1/2 -translate-x-1/2 border-t-2 border-solid w-14"></div> */}
                 </Link>
                 <div
                   className="hover:text-white/70"

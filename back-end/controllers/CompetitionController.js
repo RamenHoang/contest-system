@@ -236,6 +236,7 @@ const getCompetitionById = async (req, res, next) => {
       participant: participant,
       infoRequire: competition.infoRequire.split(",").map((item) => +item),
       organizer: organizer,
+      units: competition.Units,
     };
 
     res.status(StatusCodes.OK).json(ApiResponse(resData, 1));
