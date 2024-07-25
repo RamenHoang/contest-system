@@ -3,3 +3,4 @@ logs
 *.pem
 .env
 .vscode/*
+ecosystem.config.js
