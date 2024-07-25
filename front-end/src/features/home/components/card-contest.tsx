@@ -64,7 +64,7 @@ export const CardContest = ({ competition }: { competition: ICompetition }) => {
               </div>
             </div>
             <div className="hidden sm:flex flex-col sm:w-[20%] text-gray-500 font-light">
-              <div className="text-base">{competition?.unitGroupName}</div>
+              <div className="text-base">{competition?.Units.map(unit => unit.name).join(' / ')}</div>
             </div>
           </div>
         </div>

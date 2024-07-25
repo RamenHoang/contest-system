@@ -48,11 +48,11 @@ export interface ICompetition {
   rules: string;
   timeStart: string;
   timeEnd: string;
-  unitGroupName: string;
   bannerUrl: string;
   password: string;
   themeColor: string;
   infoRequire: string;
+  Units: object;
 }
 
 export interface ISetupCompetition {
@@ -125,6 +125,8 @@ export interface IStartRequired {
   testAttempts: number;
   participant: number;
   infoRequire: number[];
+  units: ISubUnit[];
+  outOfAttempts: boolean;
 }
 
 export interface IParticipant {

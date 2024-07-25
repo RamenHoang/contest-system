@@ -1,4 +1,4 @@
-import { Modal, Popover, Input, message } from "antd";
+import { Modal, Popover, Input, message, Select } from "antd";
 import { useEffect, useState } from "react";
 import { isEmpty } from "lodash";
 
@@ -35,11 +35,17 @@ const IntroPage = () => {
     seconds: 0,
   });
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isUnitModalOpen, setIsUnitModalOpen] = useState(false);
   const [enteredPassword, setEnteredPassword] = useState("");
+  const [selectedUnit, setSelectedUnit] = useState(null);
 
   const { data: competitionData } = useCompetition();
   const { data: statisticsData } = useStatistics();
   const competition: IStartRequired = competitionData?.data;
+  const options = competition?.units.map((unit) => ({
+    value: unit.id,
+    label: unit.name
+  }));
   const statistics: IStatistic[] = statisticsData?.data;
   const timeEnd = competition?.timeEnd;
 
@@ -110,6 +116,8 @@ const IntroPage = () => {
   const handleOpenModal = () => {
     if (competition?.password) {
       setIsPasswordModalOpen(true);
+    } else if (competition.units.length > 0) {
+      setIsUnitModalOpen(true);
     } else {
       setIsModalOpen(true);
     }
@@ -117,12 +125,26 @@ const IntroPage = () => {
 
   const handlePasswordSubmit = () => {
     if (enteredPassword === competition?.password) {
-      message.success("Password correct");
+      message.success('Mật khẩu chính xác!');
       setIsPasswordModalOpen(false);
-      setIsModalOpen(true);
+      if (competition.units.length > 0) {
+        setIsUnitModalOpen(true);
+      } else {
+        setIsModalOpen(true);
+      }
     } else {
-      message.error("Password incorrect");
+      message.error('Mật khẩu không chính xác!');
     }
+  };
+
+  const handleUnitSubmit = () => {
+    if (!selectedUnit) {
+      message.error('Vui lòng chọn ít nhất một đơn vị');
+      return;
+    }
+
+    setIsUnitModalOpen(false);
+    setIsModalOpen(true);
   };
 
   return (
@@ -283,11 +305,7 @@ const IntroPage = () => {
         <div className="container mx-auto px-2 lg:px-4 mt-6 lg:mt-16"></div>
         <Footer />
       </main>
-      <AntModal
-        data={competition}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-      />
+      <AntModal data={competition} unit={selectedUnit} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <Modal
         title="Nhập mật khẩu cuộc thi"
         open={isPasswordModalOpen}
@@ -300,6 +318,22 @@ const IntroPage = () => {
           value={enteredPassword}
           onChange={(e) => setEnteredPassword(e.target.value)}
           placeholder="Nhập mật khẩu cuộc thi"
+        />
+      </Modal>
+      <Modal
+        title="Chọn đơn vị"
+        open={isUnitModalOpen}
+        onOk={handleUnitSubmit}
+        okText="Xác nhận"
+        onCancel={() => setIsUnitModalOpen(false)}
+        cancelText='Huỷ'
+      >
+        <Select
+          onChange={(unitId) => {
+            setSelectedUnit(unitId);
+          }}
+          style={{ width: '100%' }}
+          options={options}
         />
       </Modal>
     </div>

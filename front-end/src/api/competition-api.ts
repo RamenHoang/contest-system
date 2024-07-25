@@ -52,7 +52,7 @@ export const CompetitionApi = {
       const { data } = await axiosClient.get(`/competitions/start-competition/${id}`);
       return data;
     } catch (error) {
-      console.log(error);
+      return error.response.data;
     }
   },
 

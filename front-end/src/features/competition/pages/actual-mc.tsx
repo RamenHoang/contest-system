@@ -23,6 +23,11 @@ const Quiz = () => {
   const { id, slug } = useParams();
 
   const { data: questionsData, isFetching } = useStartCompetition();
+
+  if (questionsData && questionsData?.statusCode == 400) {
+    navigate(`/competition/cuoc-thi/intro/${id}/${slug}`);
+  }
+
   const { mutate: callSubmitAnswer } = useSubmitAnswer();
   const { state } = useLocation(); // Retrieve state from location
 
@@ -124,7 +129,7 @@ const Quiz = () => {
 
     const participant = {
       ...state?.participant,
-      idSubUnit: 4,
+      idSubUnit: state?.participant.unit,
       startTime: startTime,
       finishTime: finishTime,
     };
@@ -136,8 +141,7 @@ const Quiz = () => {
 
     callSubmitAnswer(finalData, {
       onSuccess: (res) => {
-        const { userName, totalCorrectAnswers, correctAnswersRate, duration } =
-          res && res.data;
+        const { userName, totalCorrectAnswers, correctAnswersRate, duration } = res && res.data;
         // Navigate back to the intro page with the results data
         localStorage.setItem(
           "quizResult",

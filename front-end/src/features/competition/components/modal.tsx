@@ -1,17 +1,20 @@
 import { Form, Input, Modal, DatePicker, Select } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { IStartRequired } from "~/types";
 
 const AntModal = ({
   isModalOpen,
   setIsModalOpen,
   data,
+  unit = null
 }: {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
   data: IStartRequired;
+  unit: number | null;
 }) => {
   const [form] = Form.useForm();
+  const location = useLocation();
 
   const navigate = useNavigate();
 
@@ -21,10 +24,10 @@ const AntModal = ({
     form
       .validateFields()
       .then((values) => {
-        const participant = { ...values };
+        const participant = { ...values, unit };
         setIsModalOpen(false);
         const newPath = `/competition/cuoc-thi/start/${id}/${slug}`;
-        navigate(newPath, { state: { participant } });
+        navigate(newPath, { state: { participant, from: location } });
       })
       .catch((info) => {
         console.log("Validate Failed:", info);

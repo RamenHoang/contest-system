@@ -52,12 +52,19 @@ const getListCompetition = async (req, res, next) => {
         "bannerUrl",
         "name",
         "timeStart",
-        "unitGroupName",
         "timeEnd",
+        'createdAt'
       ],
       order: [["createdAt", "DESC"]],
       limit: +pageSize,
       offset: offset,
+      include: [
+        {
+          model: Unit,
+          attributes: ["name"],
+          as: "Units",
+        }
+      ]
     });
 
     // Respond with paginated data
@@ -186,7 +193,18 @@ const getCompetitionById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const competition = await Competitions.findByPk(id);
+    const competition = await Competitions.findByPk(
+      id,
+      {
+        include: [
+          {
+            model: Unit,
+            attributes: ["id", "name"],
+            as: "Units",
+          },
+        ],
+      }
+    );
     if (!competition) {
       throw new ApiError(
         ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Competition not found")
@@ -579,13 +597,13 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
         },
       });
 
-      if (totald >= competition.testAttempts) {
+      if (totald > competition.testAttempts) {
         throw new ApiError(
           ApiResponse(
             false,
             0,
             StatusCodes.BAD_REQUEST,
-            "Competition has reached the maximum number of d"
+            'Đã hết số lần tham gia cuộc thi'
           )
         );
       }
@@ -670,6 +688,9 @@ const saveResultCompetition = async (req, res, next) => {
   const { participant, results } = req.body;
 
   try {
+    if (participant.idSubUnit == null) {
+      participant.idSubUnit = 0;
+    }
     // save
     const newParticipant = await Participant.create({
       idCompetition: id,
