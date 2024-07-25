@@ -39,10 +39,10 @@ const AppProviders = ({ children }: PropsWithChildren) => {
                       <RefreshProvider>
                         <App>
                           <Router>{children}</Router>
-                          <ReactQueryDevtools
+                          {/* <ReactQueryDevtools
                             initialIsOpen={false}
                             position="left"
-                          />
+                          /> */}
                         </App>
                       </RefreshProvider>
                     </ConfigProvider>
