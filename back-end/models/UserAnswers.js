@@ -58,4 +58,8 @@ UserAnswers.init(
   }
 );
 
+UserAnswers.belongsTo(QuestionBanking, {
+  foreignKey: "questionId",
+});
+
 module.exports = UserAnswers;

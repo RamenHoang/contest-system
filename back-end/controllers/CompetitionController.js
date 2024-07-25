@@ -842,9 +842,10 @@ const exportExcel = async (req, res, next) => {
 
     // Initialize a new workbook and add a worksheet
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Kết quả");
+    const worksheet = workbook.addWorksheet("Kết quả trắc nghiệm");
     const worksheet2 = workbook.addWorksheet("Thống kê lượt đăng ký");
     const worksheet3 = workbook.addWorksheet("Kết quả cao nhất");
+    const worksheet4 = workbook.addWorksheet("Kết quả tự luận");
 
     // Set up worksheet 1
     worksheet.columns = [
@@ -920,6 +921,30 @@ const exportExcel = async (req, res, next) => {
         duration === "" ? "" : `${duration.minutes()}:${duration.seconds()}`,
     });
 
+    worksheet4.columns = [
+      { header: "Họ tên", key: "fullName", width: 20 },
+      { header: "Câu hỏi", key: "question", width: 20 },
+      { header: "Câu trả lời", key: "answer", width: 20 },
+    ];
+
+    data.forEach((d) => {
+      d.userAnswers.forEach((answer, index) => {
+        if (index == 0) {
+          worksheet4.addRow({
+            fullName: d.fullName ?? "",
+            question: answer.question ?? "",
+            answer: answer.answer ?? "",
+          });
+        } else {
+          worksheet4.addRow({
+            fullName: "",
+            question: answer.question ?? "",
+            answer: answer.answer ?? "",
+          });
+        }
+      });
+    });
+
     // Set the response headers
     res.setHeader(
       "Content-Type",
@@ -951,9 +976,9 @@ const getResultParticipant = async (
   try {
     const whereClause = {
       idCompetition: id,
-      fullName: {
-        [Op.like]: `%${keyword}%`,
-      },
+      // fullName: {
+      //   [Op.like]: `%${keyword}%`,
+      // },
       createdAt: {
         [Op.gte]: fromDate,
         [Op.lte]: toDate,
@@ -976,8 +1001,19 @@ const getResultParticipant = async (
         "finishTime",
       ],
       order: [["createdAt", "DESC"]],
-      limit: +pageSize,
-      offset: offset,
+      // limit: +pageSize,
+      // offset: offset,
+      include: [
+        {
+          model: UserAnswers,
+          include: [
+            {
+              model: QuestionBanking,
+              attributes: ["title"],
+            },
+          ]
+        }
+      ]
     });
 
     if (participant.length === 0) {
@@ -997,6 +1033,12 @@ const getResultParticipant = async (
         correctAnswersRate: item.correctAnswersRate,
         duration: `${duration.minutes()}:${duration.seconds()}`,
         createdAt: item.createdAt,
+        userAnswers: item.UserAnswers.filter(answer => answer.answerText).map((answer) => {
+          return {
+            question: answer.QuestionBanking.title,
+            answer: answer.answerText,
+          };
+        })
       };
     });
 
@@ -1029,7 +1071,7 @@ const getStatisticUnitOfCompetition = async (id, next) => {
 
     if (data.length === 0) return [];
 
-    const resData = data.map((item) => {
+    const resData = data.filter((item) => item.Unit).map((item) => {
       return {
         unitName: item.Unit.name,
         total: item.get("total"),

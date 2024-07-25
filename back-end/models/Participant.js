@@ -3,6 +3,7 @@ const { sequelize } = require("../config/db");
 const Competition = require("./Competitions");
 const User = require("./User");
 const Unit = require("./Unit");
+const UserAnswers = require("./UserAnswers");
 
 class Participant extends Model {}
 
@@ -82,6 +83,10 @@ Participant.init(
 // Define associations with unit
 Participant.belongsTo(Unit, {
   foreignKey: "idSubUnit"
+});
+
+Participant.hasMany(UserAnswers, {
+  foreignKey: "participantId"
 });
 
 module.exports = Participant;
