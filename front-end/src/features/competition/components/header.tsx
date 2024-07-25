@@ -62,7 +62,7 @@ export const Header = ({ data }: { data: IStartRequired }) => {
       </nav>
 
       <div className="px-4 lg-px-6">
-        <div className="max-w-screen-xl mx-auto mt-4 lg:mt-8">
+        <div className="max-w-screen-xl mx-auto mt-4 lg:mt-8" style={{display: 'table'}}>
           <Image
             loading="lazy"
             crossOrigin="anonymous"
