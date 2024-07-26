@@ -72,6 +72,8 @@ const CreateExam = () => {
       totalEssayQuestion: 0
     };
     updateExam(examHeaderData);
+
+    handleSubmitQuestion();
   };
 
   return (
@@ -86,7 +88,7 @@ const CreateExam = () => {
           placeholder='Nhập tên bài thi trong trang create-exam'
         />
         <Button type='primary' className='font-normal text-[15px] px-4 py-2' onClick={handleUpdateExamHeader}>
-          Cập nhật tên đề thi
+          Cập nhật đề thi
         </Button>
       </div>
       <div className='grid grid-cols-12 items-center w-full mx-auto border border-gray-300 border-dashed rounded-xl bg-gray-100 mb-5'>
@@ -113,9 +115,9 @@ const CreateExam = () => {
         <QuizComponent key={index} questionNumber={index + 1} onAddQuestion={handleAddQuestion} question={question} />
       ))}
       <QuizMComponent questionNumber={questions.length + 1} onAddQuestion={handleAddQuestion} />
-      <Button type='primary' className='font-medium text-[15px] mt-5 p-4' onClick={handleSubmitQuestion}>
+      {/* <Button type='primary' className='font-medium text-[15px] mt-5 p-4' onClick={handleSubmitQuestion}>
         Lưu bộ câu hỏi
-      </Button>
+      </Button> */}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { Button, Flex, Input, Radio, Tooltip, Modal, Checkbox } from 'antd';
-import { ChevronDown, ChevronUp, MessageCircle, Plus, X, Trash2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, Plus, X, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDeleteQuestion } from '~/features/quiz/hooks/use-delete-question';
 import { IQuestion } from '~/types';
@@ -12,7 +12,8 @@ type Props = {
 };
 
 export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props) => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(question?.title);
+  const [isChange, setIsChange] = useState(false);
   const [showAnswerInput, setShowAnswerInput] = useState(true);
   const [answers, setAnswers] = useState<{ id?: number; text: string; checked: boolean; isFixed: boolean }[]>(
     question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect, isFixed: a.isFixed })) || []
@@ -24,29 +25,40 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
   useEffect(() => {
     if (question) {
       setTitle(question?.title);
-      setAnswers(question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect, isFixed: a.isFixed })) || []);
+      setAnswers(
+        question?.answers?.map((a) => ({ id: a.id, text: a.answerText, checked: a.isCorrect, isFixed: a.isFixed })) ||
+          []
+      );
     }
-  }, [question]);
+  }, []);
+
+  useEffect(() => {
+    addQuestion();
+  }, [isChange]);
 
   const handleTitleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setTitle(e.target.value);
+    setIsChange(true);
   };
 
   const handleToggleAnswerInput = () => setShowAnswerInput(!showAnswerInput);
 
   const addAnswer = () => {
     setAnswers([...answers, { text: '', checked: false, isFixed: false }]);
+    setIsChange(true);
   };
 
   const updateAnswerText = (index: number, text: string) => {
     const newAnswers = [...answers];
     newAnswers[index].text = text;
     setAnswers(newAnswers);
+    setIsChange(true);
   };
 
   const removeAnswer = (index: number) => {
     const newAnswers = answers.filter((_, i) => i !== index);
     setAnswers(newAnswers);
+    setIsChange(true);
   };
 
   const handleRadioChange = (index: number) => {
@@ -55,6 +67,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
       checked: i === index
     }));
     setAnswers(newAnswers);
+    setIsChange(true);
   };
 
   const handleFixedAnswer = (index: number, isFixed: boolean) => {
@@ -63,6 +76,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
       isFixed: i === index ? isFixed : answer.isFixed
     }));
     setAnswers(newAnswers);
+    setIsChange(true);
   };
 
   const eachQuestionData: IQuestion = {
@@ -79,6 +93,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
   };
 
   const addQuestion = () => {
+    console.log('addQuestion');
     let isUpdate = false;
 
     if (question) {
@@ -92,6 +107,8 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
       setAnswers([{ text: '', checked: false, isFixed: false }]);
       setShowAnswerInput(true);
     }
+
+    setIsChange(false);
   };
 
   const showDeleteModal = () => {
@@ -184,9 +201,11 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
         )}
       </div>
       <div className={`flex justify-${question ? 'start' : 'start'}`}>
-        <Button type='default' onClick={addQuestion}>
-          {question ? 'Cập nhật' : 'Thêm câu hỏi'}
-        </Button>
+        {!question && (
+          <Button type='default' onClick={addQuestion}>
+            Thêm câu hỏi
+          </Button>
+        )}
       </div>
       <Modal
         title='Xóa câu hỏi'
