@@ -182,3 +182,8 @@ export interface IEditUnitData {
   id: number;
   name: string;
 }
+
+export interface ICheckTestAttempts {
+  participant: IParticipant;
+  callback: CallableFunction;
+}

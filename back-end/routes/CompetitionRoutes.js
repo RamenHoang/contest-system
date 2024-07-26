@@ -85,7 +85,6 @@ router.delete(
 //#region Step 4
 router.get(
   "/get-info-organizer/:competitionId",
-  AuthMiddleware,
   CompetitionController.getOrganizerByCompetition
 );
 
@@ -118,7 +117,6 @@ router.post("/submit-answer/:id", CompetitionController.saveResultCompetition);
 
 router.get(
   "/statistic-participant/:id",
-  AuthMiddleware,
   CompetitionController.statisticParticipant
 );
 
@@ -159,6 +157,11 @@ router.post(
   "/:id/units",
   AuthMiddleware,
   CompetitionController.addUnits
+);
+
+router.post(
+  "/:id/check-test-attempts",
+  CompetitionController.checkTestAttempts
 );
 
 module.exports = router;

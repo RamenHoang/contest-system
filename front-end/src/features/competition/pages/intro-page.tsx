@@ -203,41 +203,23 @@ const IntroPage = () => {
               </div>
             </div>
             <div className="mt-4 lg:mt-8 flex items-center justify-center gap-4 lg:gap-8">
-              {isLoggedIn ? (
-                <button
-                  type="button"
-                  className="inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-cyan-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]"
-                  style={{
-                    backgroundColor: hexToRGBA(competition?.themeColor, 1),
-                  }}
-                  onClick={handleOpenModal}
-                >
-                  Tham gia
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  style={{
-                    backgroundColor: hexToRGBA(competition?.themeColor, 1),
-                  }}
-                  className="inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-cyan-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]"
-                  onClick={() => navigate("/auth/sign-in", { state: { from: location } })}
-                >
-                  Đăng nhập
-                </button>
-              )}
-              <Popover
-                content={popoverContent}
-                title="Thể lệ"
-                trigger="click"
-                placement="bottom"
+              <button
+                type="button"
+                className="inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-cyan-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]"
+                style={{
+                  backgroundColor: hexToRGBA(competition?.themeColor, 1),
+                }}
+                onClick={handleOpenModal}
               >
+                Tham gia
+              </button>
+              <Popover content={popoverContent} title='Thể lệ' trigger='click' placement='bottom'>
                 <button
-                  type="button"
+                  type='button'
                   style={{
                     backgroundColor: hexToRGBA(competition?.themeColor, 1),
                   }}
-                  className="inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-cyan-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]"
+                  className='inline-flex justify-center items-center px-4 py-2 border shadow-sm transition ease-in-out duration-150 gap-2 cursor-pointer min-h-[40px] disabled:cursor-not-allowed font-sans rounded-full bg-cyan-700 border-theme-color text-white hover:shadow-sm text-lg lg:text-2xl min-w-[150px] lg:min-w-[200px]'
                 >
                   Thể lệ
                 </button>

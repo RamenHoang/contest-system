@@ -1234,7 +1234,7 @@ const copyCompetition = async (req, res, next) => {
         competitionId: newCompetition.id,
       });
     }
-    
+
 
     res.status(StatusCodes.OK).json(ApiResponse(true, 1));
   } catch (error) {
@@ -1327,6 +1327,88 @@ const addUnits = async (req, res, next) => {
   }
 }
 
+const checkTestAttempts = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const {
+      fullName = null,
+      email = null,
+      birthday = null,
+      phone = null,
+      CCCD = null,
+      job = null,
+      sex = null,
+      other = null
+    } = req.body;
+
+    const competition = await Competitions.findByPk(id);
+    if (!competition) {
+      throw new ApiError(
+        ApiResponse(false, 0, StatusCodes.NOT_FOUND, "Competition not found")
+      );
+    }
+
+    // Build where clause, only query if value is not null
+    const whereClause = {
+      idCompetition: id,
+    };
+
+    let countInforHaveValue = 0;
+
+    if (fullName) {
+      whereClause.fullName = fullName;
+      countInforHaveValue++;
+    }
+
+    if (email) {
+      whereClause.email = email;
+      countInforHaveValue++;
+    }
+
+    if (birthday) {
+      whereClause.birthday = birthday;
+      countInforHaveValue++;
+    }
+
+    if (phone) {
+      whereClause.phone = phone;
+      countInforHaveValue++;
+    }
+    
+    if (CCCD) {
+      whereClause.CCCD = CCCD;
+      countInforHaveValue++;
+    }
+
+    if (job) {
+      whereClause.job = job;
+      countInforHaveValue++;
+    }
+
+    if (other) {
+      whereClause.other = other;
+      countInforHaveValue++;
+    }
+
+    if (sex) {
+      whereClause.sex = sex;
+      countInforHaveValue++;
+    }
+
+    if (countInforHaveValue == 0) {
+      return res.status(StatusCodes.OK).json(ApiResponse({ isAttempt: true }));
+    }
+
+    const countPatricipant = await Participant.count({
+      where: whereClause,
+    });
+
+    return res.status(StatusCodes.OK).json(ApiResponse({ isAttempt: countPatricipant < competition.testAttempts }));
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   createCompetition,
   getCompetitionsByUser,
@@ -1353,4 +1435,5 @@ module.exports = {
   deleteUnit,
   getAvailableUnits,
   addUnits,
+  checkTestAttempts
 };

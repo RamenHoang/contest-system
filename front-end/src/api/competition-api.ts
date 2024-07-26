@@ -186,5 +186,14 @@ export const CompetitionApi = {
     } catch (error) {
       console.log(error);
     }
+  },
+
+  async checkTestAttempts(id: number, participant: any) {
+    try {
+      const { data } = await axiosClient.post(`/competitions/${id}/check-test-attempts`, participant);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
