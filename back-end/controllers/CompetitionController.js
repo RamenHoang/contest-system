@@ -591,25 +591,6 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
       );
     }
 
-    if (competition.testAttempts > 0) {
-      const totald = await Participant.count({
-        where: {
-          idCompetition: id,
-        },
-      });
-
-      if (totald > competition.testAttempts) {
-        throw new ApiError(
-          ApiResponse(
-            false,
-            0,
-            StatusCodes.BAD_REQUEST,
-            'Đã hết số lần tham gia cuộc thi'
-          )
-        );
-      }
-    }
-
     const examBankings = await ExamsOfCompetition.findAll({
       where: {
         competitionId: id,
@@ -628,12 +609,18 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
     if (competition.numberOfQuestion > 0 && competition.numberOfQuestion <= questionBankings.length) {
       if (competition.isMix != null) {
         questionBankings = questionBankings.sort(() => Math.random() - 0.5).slice(0, competition.numberOfQuestion);
+        const essayQuestions = questionBankings.filter((item) => item.type === 'ESSAY');
+        const mcQuestions = questionBankings.filter((item) => item.type === 'MC');
+        questionBankings = mcQuestions.concat(essayQuestions);
       } else {
         questionBankings = questionBankings.slice(0, competition.numberOfQuestion);
       }
     } else {
       if (competition.isMix != null) {
         questionBankings = questionBankings.sort(() => Math.random() - 0.5);
+        const essayQuestions = questionBankings.filter((item) => item.type === 'ESSAY');
+        const mcQuestions = questionBankings.filter((item) => item.type === 'MC');
+        questionBankings = mcQuestions.concat(essayQuestions);
       }
     }
 
@@ -852,6 +839,11 @@ const exportExcel = async (req, res, next) => {
       { header: "Họ tên", key: "fullName", width: 20 },
       { header: "Số điện thoại", key: "phone", width: 20 },
       { header: "Email", key: "email", width: 20 },
+      { header: "Ngày sinh", key: "birthday", width: 20 },
+      { header: "CCCD", key: "CCCD", width: 20 },
+      { header: "Nghề nghiệp", key: "job", width: 20 },
+      { header: "Giới tính", key: "sex", width: 20 },
+      { header: "Thông tin khác", key: "other", width: 20 },
       { header: "Ngày dự thi", key: "createdAt", width: 20 },
       { header: "Kết quả", key: "totalCorrectAnswers", width: 20 },
       { header: "Độ chính xác", key: "correctAnswersRate", width: 20 },
@@ -864,6 +856,11 @@ const exportExcel = async (req, res, next) => {
         fullName: d.fullName ?? "",
         phone: d.phone ?? "",
         email: d.email ?? "",
+        birthday: d.birthday ?? "",
+        CCCD: d.CCCD ?? "",
+        job: d.job ?? "",
+        sex: d.sex ?? "",
+        other: d.other ?? "",
         createdAt: d.createdAt ?? "",
         totalCorrectAnswers: d.totalCorrectAnswers ?? "",
         correctAnswersRate: d.correctAnswersRate ?? "",
@@ -893,6 +890,11 @@ const exportExcel = async (req, res, next) => {
       { header: "Họ tên", key: "fullName", width: 20 },
       { header: "Số điện thoại", key: "phone", width: 20 },
       { header: "Email", key: "email", width: 20 },
+      { header: "Ngày sinh", key: "birthday", width: 20 },
+      { header: "CCCD", key: "CCCD", width: 20 },
+      { header: "Nghề nghiệp", key: "job", width: 20 },
+      { header: "Giới tính", key: "sex", width: 20 },
+      { header: "Thông tin khác", key: "other", width: 20 },
       { header: "Ngày dự thi", key: "createdAt", width: 20 },
       { header: "Kết quả", key: "totalCorrectAnswers", width: 20 },
       { header: "Độ chính xác", key: "correctAnswersRate", width: 20 },
@@ -914,6 +916,11 @@ const exportExcel = async (req, res, next) => {
       fullName: pHightestScore.fullName ?? "",
       phone: pHightestScore.phone ?? "",
       email: pHightestScore.email ?? "",
+      birthday: pHightestScore.birthday ?? "",
+      CCCD: pHightestScore.CCCD ?? "",
+      job: pHightestScore.job ?? "",
+      sex: pHightestScore.sex ?? "",
+      other: pHightestScore.other ?? "",
       createdAt: pHightestScore.createdAt ?? "",
       totalCorrectAnswers: pHightestScore.totalCorrectAnswers ?? "",
       correctAnswersRate: pHightestScore.correctAnswersRate ?? "",
@@ -923,6 +930,14 @@ const exportExcel = async (req, res, next) => {
 
     worksheet4.columns = [
       { header: "Họ tên", key: "fullName", width: 20 },
+      { header: "Số điện thoại", key: "phone", width: 20 },
+      { header: "Email", key: "email", width: 20 },
+      { header: "Ngày sinh", key: "birthday", width: 20 },
+      { header: "CCCD", key: "CCCD", width: 20 },
+      { header: "Nghề nghiệp", key: "job", width: 20 },
+      { header: "Giới tính", key: "sex", width: 20 },
+      { header: "Thông tin khác", key: "other", width: 20 },
+      { header: "Ngày dự thi", key: "createdAt", width: 20 },
       { header: "Câu hỏi", key: "question", width: 20 },
       { header: "Câu trả lời", key: "answer", width: 20 },
     ];
@@ -932,12 +947,28 @@ const exportExcel = async (req, res, next) => {
         if (index == 0) {
           worksheet4.addRow({
             fullName: d.fullName ?? "",
+            phone: d.phone ?? "",
+            email: d.email ?? "",
+            birthday: d.birthday ?? "",
+            CCCD: d.CCCD ?? "",
+            job: d.job ?? "",
+            sex: d.sex ?? "",
+            other: d.other ?? "",
+            createdAt: d.createdAt ?? "",
             question: answer.question ?? "",
             answer: answer.answer ?? "",
           });
         } else {
           worksheet4.addRow({
             fullName: "",
+            phone: "",
+            email: "",
+            birthday: "",
+            CCCD: "",
+            job: "",
+            sex: "",
+            other: "",
+            createdAt: "",
             question: answer.question ?? "",
             answer: answer.answer ?? "",
           });
@@ -987,13 +1018,18 @@ const getResultParticipant = async (
 
     const offset = (+pageIndex - 1) * +pageSize;
 
-    const { count, rows: participant } = await Participant.findAndCountAll({
+    const query = {
       where: whereClause,
       attributes: [
         "id",
         "fullName",
         "phone",
         "email",
+        "birthday",
+        "CCCD",
+        "job",
+        "sex",
+        "other",
         "createdAt",
         "totalCorrectAnswers",
         "correctAnswersRate",
@@ -1014,7 +1050,9 @@ const getResultParticipant = async (
           ]
         }
       ]
-    });
+    };
+
+    const { count, rows: participant } = await Participant.findAndCountAll(query);
 
     if (participant.length === 0) {
       return {
@@ -1029,6 +1067,13 @@ const getResultParticipant = async (
       return {
         id: item.id,
         fullName: item.fullName,
+        phone: item.phone,
+        email: item.email,
+        birthday: item.birthday,
+        CCCD: item.CCCD,
+        job: item.job,
+        sex: item.sex,
+        other: item.other,
         totalCorrectAnswers: item.totalCorrectAnswers,
         correctAnswersRate: item.correctAnswersRate,
         duration: `${duration.minutes()}:${duration.seconds()}`,
@@ -1395,7 +1440,7 @@ const checkTestAttempts = async (req, res, next) => {
       countInforHaveValue++;
     }
 
-    if (countInforHaveValue == 0) {
+    if (countInforHaveValue == 0 || competition.testAttempts == 0) {
       return res.status(StatusCodes.OK).json(ApiResponse({ isAttempt: true }));
     }
 
