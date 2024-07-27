@@ -30,7 +30,7 @@ export const QuizComponent = ({ questionNumber, onAddQuestion, question }: Props
           []
       );
     }
-  }, []);
+  }, [question]);
 
   useEffect(() => {
     addQuestion();

@@ -46,17 +46,13 @@ export const ExamApi = {
   async importExam(file: File) {
     try {
       const formData = new FormData();
-      formData.append("docx", file); // Use the correct key as in your Postman setup
+      formData.append('docx', file); // Use the correct key as in your Postman setup
 
-      const { data } = await axiosClient.post(
-        "/exam/import-exam-from-docx",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      );
+      const { data } = await axiosClient.post('/exam/import-exam-from-docx', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       return data;
     } catch (error) {
       console.error("Failed to upload file:", error);

@@ -29,7 +29,7 @@ export interface IExam {
 
 export interface IQuestion {
   id?: number;
-  title: string;
+  title?: string;
   lengthLimit?: number | null;
   type: 'MC' | 'Essay'; // Assuming "MC" for multiple choice, "Essay" for essay type questions
   answers?: IAnswer[]; // Optional since essay questions might not have predefined answers
