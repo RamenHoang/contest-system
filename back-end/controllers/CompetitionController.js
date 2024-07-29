@@ -755,7 +755,13 @@ const saveResultCompetition = async (req, res, next) => {
       }
     }
 
-    correctAnswersRate = (totalCorrectAnswers / questionBankings.length) * 100;
+    const numberOfMcQuestion = questionBankings.filter((question) => question.type === "MC").length;
+
+    if (numberOfMcQuestion > 0) {
+      correctAnswersRate = (totalCorrectAnswers / numberOfMcQuestion) * 100;
+    } else {
+      correctAnswersRate = 0;
+    }
     newParticipant.totalCorrectAnswers = totalCorrectAnswers;
     newParticipant.correctAnswersRate = correctAnswersRate;
     const timeDistance = moment(newParticipant.finishTime).diff(moment(newParticipant.startTime));
