@@ -49,6 +49,16 @@ const Quiz = () => {
   const [finishTime, setFinishTime] = useState<string | null>(null);
 
   useEffect(() => {
+    const difference = +new Date(competition.timeStart) - +new Date();
+    if (difference <= 0) {
+      // message.error(`Cuộc thi ${competition.name} đã kết thúc!`);
+      setInterval(() => {
+        navigate('/');
+      }, 1000);
+    }
+  }, []);
+
+  useEffect(() => {
     if (questions.length > 0 && !startTime) {
       setSelectedOptions(Array(questions?.length).fill(null));
       setEssayAnswers(Array(questions?.length).fill(''));

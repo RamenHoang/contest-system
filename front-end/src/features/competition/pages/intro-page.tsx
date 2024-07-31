@@ -65,7 +65,7 @@ const IntroPage = () => {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
       };
     }
     return timeLeft;
@@ -107,7 +107,17 @@ const IntroPage = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
+      const _timeLeft = calculateTimeLeft();
+      setTimeLeft(_timeLeft);
+
+      if (_timeLeft.days === 0 && _timeLeft.hours === 0 && _timeLeft.minutes === 0 && _timeLeft.seconds === 0) {
+        clearInterval(timer);
+
+        setTimeout(() => {
+          message.info(`Cuộc thi ${competition.name} đã kết thúc!`);
+          navigate('/', { state: { from: location.pathname } });
+        }, 1000);
+      }
     }, 1000);
 
     return () => clearInterval(timer);
