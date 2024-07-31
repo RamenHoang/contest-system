@@ -245,7 +245,8 @@ const ManageUnit = () => {
           pagination={{
             defaultPageSize: 10,
             showTotal: (total) => `Tổng ${total} kết quả`,
-            position: ['bottomCenter']
+            position: ['bottomCenter'],
+            total: units?.data?.length
           }}
         />
       </div>

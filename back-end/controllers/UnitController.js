@@ -29,8 +29,8 @@ const getUnits = async (req, res, next) => {
         'createdAt',
       ],
       order: [['createdAt', 'DESC']],
-      limit: +pageSize,
-      offset: offset,
+      // limit: +pageSize,
+      // offset: offset,
     });
 
     return res.status(StatusCodes.OK).json(ApiResponse(units, count));
