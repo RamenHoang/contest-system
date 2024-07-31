@@ -49,7 +49,7 @@ const Quiz = () => {
   const [finishTime, setFinishTime] = useState<string | null>(null);
 
   useEffect(() => {
-    const difference = +new Date(competition.timeStart) - +new Date();
+    const difference = +new Date(competition.timeEnd) - +new Date();
     if (difference <= 0) {
       // message.error(`Cuộc thi ${competition.name} đã kết thúc!`);
       setInterval(() => {
