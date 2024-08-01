@@ -158,7 +158,7 @@ const Quiz = () => {
   const showConfirmSubmitModal = () => {
     Modal.confirm({
       title: 'Thông báo',
-      content: `Bạn đã hoàn thành ${selectedOptions.filter((option) => option !== null).length} / ${questions.length} câu hỏi. Bạn có muốn nộp bài thi này?`,
+      content: `Bạn đã hoàn thành ${selectedOptions.filter((option) => option !== null).length + essayAnswers.filter((answer) => answer !== '').length} / ${questions.length} câu hỏi. Bạn có muốn nộp bài thi này?`,
       okText: 'Đồng ý',
       cancelText: 'Hủy',
       onOk: handleSubmit

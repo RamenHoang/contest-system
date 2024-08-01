@@ -610,19 +610,22 @@ const getAllQuestionOfCompetition = async (req, res, next) => {
 
     if (competition.numberOfQuestion > 0 && competition.numberOfQuestion <= questionBankings.length) {
       if (competition.isMix != null) {
-        questionBankings = questionBankings.sort(() => Math.random() - 0.5).slice(0, competition.numberOfQuestion);
         const essayQuestions = questionBankings.filter((item) => item.type === 'ESSAY');
         const mcQuestions = questionBankings.filter((item) => item.type === 'MC');
-        questionBankings = mcQuestions.concat(essayQuestions);
+        questionBankings = mcQuestions.sort(() => Math.random() - 0.5).slice(0, competition.numberOfQuestion);
+        questionBankings = questionBankings.concat(essayQuestions);
       } else {
-        questionBankings = questionBankings.slice(0, competition.numberOfQuestion);
+        const essayQuestions = questionBankings.filter((item) => item.type === 'ESSAY');
+        const mcQuestions = questionBankings.filter((item) => item.type === 'MC');
+        questionBankings = mcQuestions.slice(0, competition.numberOfQuestion);
+        questionBankings = questionBankings.concat(essayQuestions);
       }
     } else {
       if (competition.isMix != null) {
-        questionBankings = questionBankings.sort(() => Math.random() - 0.5);
         const essayQuestions = questionBankings.filter((item) => item.type === 'ESSAY');
         const mcQuestions = questionBankings.filter((item) => item.type === 'MC');
-        questionBankings = mcQuestions.concat(essayQuestions);
+        questionBankings = mcQuestions.sort(() => Math.random() - 0.5);
+        questionBankings = questionBankings.concat(essayQuestions);
       }
     }
 
